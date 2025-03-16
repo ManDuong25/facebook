@@ -6,10 +6,16 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            '~': path.resolve(__dirname, './src'), // Đổi '~' thành '@' nếu cần
+            '~': path.resolve(__dirname, './src'), // Hoặc '@' nếu  bạn cần.
+            'bootstrap-icons': path.resolve(__dirname, '../node_modules/bootstrap-icons')
         },
     },
     css: {
         postcss: './postcss.config.js',
     },
+    server: {
+        fs: {
+            allow: ['..'] 
+        }
+    }
 });
