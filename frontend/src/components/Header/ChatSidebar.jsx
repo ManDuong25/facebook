@@ -1,13 +1,13 @@
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import images from "../../assets/images";  // Import ảnh từ thư mục assets
+import images from "../../assets/images";  
 
-const ChatSidebar = () => {
+const ChatSidebar = ({right}) => {
   const chats = [
     {
       id: 1,
-      name: "2-1[Lunimimon] Nhóm VIP",
-      message: "Đức: Tôi rút vẫn chưa về",
+      name: "2-1[Luni] Nhóm VIP",
+      message: "Đức: Tôi ",
       time: "39 phút",
       avatar: images.group1,
       online: true,
@@ -23,7 +23,7 @@ const ChatSidebar = () => {
     {
       id: 3,
       name: "Thế Minh",
-      message: "diễn nhon nhạc",
+      message: "diễn ",
       time: "23 giờ",
       avatar: images.group1,
       online: false,
@@ -31,7 +31,7 @@ const ChatSidebar = () => {
     {
       id: 4,
       name: "Nguyễn Lý",
-      message: "chó mẫn toàn nhăn ng...",
+      message: " toàn nhăn ng...",
       time: "1 ngày",
       avatar: images.group1,
       online: false,
@@ -54,7 +54,7 @@ const ChatSidebar = () => {
     },
     {
       id: 7,
-      name: "Aimee Brady",
+      name: "Autumn",
       message: "Đã bày tỏ cảm xúc ❤️ về tin nh...",
       time: "2 tuần",
       avatar: images.group1,
@@ -63,7 +63,8 @@ const ChatSidebar = () => {
   ];
 
   return (
-    <div className="fixed top-14 right-[25px] w-[360px] h-[90vh] bg-white shadow-lg border-l border-gray-300 z-50 flex flex-col">
+    <div className="fixed top-14 w-[360px] h-[90vh] bg-white shadow-lg border-l border-r border-gray-300 z-50 flex flex-col"
+    style={{ right: `${right}px` }}>
       <div className="flex items-center justify-between px-3 py-2 border-b">
         <h2 className="text-lg font-semibold">Đoạn chat</h2>
         <div className="flex items-center gap-4">

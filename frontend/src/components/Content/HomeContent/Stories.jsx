@@ -1,7 +1,5 @@
 import React, { useRef, useState } from "react";
-// Import ảnh từ thư mục assets
-import group1Img from "../../../assets/images/group1.jpg";
-import avatarImg from "../../../assets/images/avatar.jpg";
+import images from "../../../assets/images"; 
 
 const Stories = () => {
   const stories = [
@@ -53,7 +51,7 @@ const Stories = () => {
               <div className="w-full h-full flex flex-col">
                 <div className="h-[120px] w-full overflow-hidden">
                   <img
-                    src={group1Img}
+                    src={images.group1} // Sử dụng ảnh từ index.js
                     alt="Background"
                     className="w-full h-full object-cover"
                   />
@@ -70,13 +68,13 @@ const Stories = () => {
             ) : (
               <>
                 <img
-                  src={group1Img}
+                  src={images.group1} // Sử dụng ảnh từ index.js
                   alt={story.name}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-2 left-2 w-8 h-8 rounded-full overflow-hidden border-2 border-[#1877f2]">
                   <img
-                    src={avatarImg}
+                    src={images.avatarJpg} // Sử dụng ảnh từ index.js
                     alt="Avatar"
                     className="w-full h-full object-cover"
                   />

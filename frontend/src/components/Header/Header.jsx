@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ChatSidebar from "./ChatSidebar"; 
-import logo from "../../assets/images/logo.svg";
-import avatar from "../../assets/images/avatar.jpg";
+import images from "../../assets/images"; 
 
 function Header() {
   const [activeTab, setActiveTab] = useState("home");
   const [showChatSidebar, setShowChatSidebar] = useState(false);
   const [activeRightIcon, setActiveRightIcon] = useState("");
+  const avatarRef = useRef(null);
+  const [chatPosition, setChatPosition] = useState(0);
 
   const rightIcons = ["bi-grid-3x3-gap", "bi-messenger", "bi-bell"];
 
+  // Hàm xử lý click vào icon phải
   const handleRightIconClick = (icon) => {
     if (icon === "bi-messenger") {
       if (activeRightIcon === "bi-messenger") {
-        // Nếu Messenger đang active, tắt active và ẩn ChatSidebar
         setActiveRightIcon("");
         setShowChatSidebar(false);
       } else {
@@ -21,9 +22,7 @@ function Header() {
         setShowChatSidebar(true);
       }
     } else {
-      // Với các icon khác, luôn ẩn ChatSidebar
       setShowChatSidebar(false);
-      // Toggle active state cho icon đó
       if (activeRightIcon === icon) {
         setActiveRightIcon("");
       } else {
@@ -32,17 +31,21 @@ function Header() {
     }
   };
 
+  // Lấy vị trí của avatar thay vì Messenger
+  useEffect(() => {
+    if (avatarRef.current) {
+      const rect = avatarRef.current.getBoundingClientRect();
+      setChatPosition(window.innerWidth - rect.right); 
+    }
+  }, [showChatSidebar]);
+
   return (
     <div>
       <nav className="sticky top-0 z-50 bg-white shadow-md">
         <div className="flex items-center h-14 w-full">
           {/* CỘT TRÁI */}
           <div className="hidden lg:flex lg:w-1/4 px-4 items-center gap-3">
-            <img
-              src={logo}                // <-- Sử dụng biến logo
-              alt="Facebook Logo"
-              className="w-11 h-18"
-            />
+            <img src={images.logo} alt="Facebook Logo" className="w-11 h-18" />
             <div className="flex items-center h-10 px-3 rounded-full bg-[#f0f2f5] hover:bg-[#e4e6eb] transition">
               <i className="bi bi-search text-gray-500 text-[18px]"></i>
               <input
@@ -95,19 +98,14 @@ function Header() {
               </div>
             ))}
             {/* Avatar */}
-            <div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer">
-              <img
-                src={avatar}           // <-- Sử dụng biến avatar
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
+            <div ref={avatarRef} className="w-10 h-10 rounded-full overflow-hidden cursor-pointer">
+              <img src={images.avatarJpg} alt="Profile" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
       </nav>
-
-      {/* Hiển thị ChatSidebar khi nhấn vào icon Messenger */}
-      {showChatSidebar && <ChatSidebar />}
+      {/* Hiển thị ChatSidebar tại vị trí của avatar */}
+      {showChatSidebar && <ChatSidebar right={chatPosition} />}
     </div>
   );
 }

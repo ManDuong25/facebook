@@ -1,12 +1,12 @@
 import React from "react";
-// Import ảnh từ thư mục assets
-import avatarImg from "../../../assets/images/avatar.jpg";
+import images from "../../../assets/images"; 
+
 const post = {
-  avatar: avatarImg,
+  avatar: images.avatarJpg, 
   name: "VKR News",
   time: "8 phút trước",
   content: "🔥 Tiết lộ thêm ảnh thời hẹn hò...",
-  image: avatarImg,
+  image: images.avatarJpg, 
 };
 
 const actions = [

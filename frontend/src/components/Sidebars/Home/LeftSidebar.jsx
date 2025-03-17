@@ -1,11 +1,6 @@
 import React from "react";
+import images from "../../../assets/images"; // Import ảnh từ index.js
 
-// 1. Import ảnh từ thư mục assets
-import avatarImg from "../../../assets/images/avatar.jpg";
-import group1Img from "../../../assets/images/group1.jpg";
-import group2Img from "../../../assets/images/group2.jpg";
-
-// 2. Thay vì dùng đường dẫn tuyệt đối, ta gán vào object
 const menuItems = [
   { icon: "bi-people-fill", text: "Bạn bè" },
   { icon: "bi-clock-history", text: "Kỷ niệm" },
@@ -17,9 +12,9 @@ const menuItems = [
 ];
 
 const shortcuts = [
-  { image: group1Img, name: "Cộng đồng Sinh viên SGU" },
-  { image: group2Img, name: "SGU_Mobile Nâng cao" },
-  { image: group1Img, name: "ĐH Sài Gòn (SGU)" },
+  { image: images.group1, name: "Cộng đồng Sinh viên SGU" },
+  { image: images.group2, name: "SGU_Mobile Nâng cao" },
+  { image: images.group1, name: "ĐH Sài Gòn (SGU)" },
 ];
 
 const LeftSidebar = () => {
@@ -28,7 +23,7 @@ const LeftSidebar = () => {
       {/* Avatar + Tên */}
       <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-300 rounded-lg py-2">
         <img
-          src={avatarImg}          // <-- Sử dụng biến avatarImg
+          src={images.avatarJpg} // Sử dụng ảnh từ index.js
           alt="Avatar"
           className="w-9 h-9 rounded-full"
         />
@@ -64,7 +59,7 @@ const LeftSidebar = () => {
               className="flex items-center gap-3 py-2 rounded-lg cursor-pointer hover:bg-[#f0f2f5]"
             >
               <img
-                src={shortcut.image}  // <-- Dùng biến image đã import
+                src={shortcut.image} // Dùng ảnh từ index.js
                 alt="Group"
                 className="w-9 h-9 rounded-[5px]"
               />

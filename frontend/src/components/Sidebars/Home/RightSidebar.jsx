@@ -1,21 +1,18 @@
 import React from "react";
-
-// Import ảnh từ thư mục src/assets/images (điều chỉnh đường dẫn nếu cần)
-import group1Img from "../../../assets/images/group1.jpg";
-import avatarImg from "../../../assets/images/avatar.jpg";
+import images from "../../../assets/images"; 
 
 const ads = [
   {
     id: 1,
     title: "VnShop",
     description: "app.vnpay.vn",
-    image: group1Img,
+    image: images.group1,
   },
   {
     id: 2,
     title: "Khớp lệnh nhanh hơn? Hãy đến với Exness.",
     description: "exness.com",
-    image: group1Img,
+    image: images.group1,
   },
 ];
 
@@ -46,7 +43,7 @@ const AdItem = ({ title, description, image }) => (
 const OnlineFriend = ({ name }) => (
   <div className="flex items-center relative cursor-pointer hover:bg-gray-200 transition-colors">
     <img
-      src={avatarImg}
+      src={images.avatarJpg}
       alt={name}
       className="w-10 h-10 rounded-full mr-3 object-cover"
     />

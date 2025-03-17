@@ -1,5 +1,5 @@
 import React from "react";
-import avatarImg from "../../../assets/images/avatar.jpg";
+import images from "../../../assets/images"; 
 
 const actions = [
   { icon: "bi-camera-video", color: "text-red-500", label: "Video trực tiếp" },
@@ -23,7 +23,7 @@ const CreatePost = () => {
       {/* Phần nhập bài viết */}
       <div className="flex items-center mb-3">
         <img
-          src={avatarImg}
+          src={images.avatarJpg}
           alt="avatar"
           className="w-10 h-10 rounded-full mr-3 object-cover"
         />
