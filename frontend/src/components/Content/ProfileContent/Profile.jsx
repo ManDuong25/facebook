@@ -1,0 +1,246 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+// Import các sub-components
+import CoverPhoto from './CoverPhoto';
+import ProfileHeader from './ProfileHeader'; // Import ProfileHeader
+import ProfileNavigation from './ProfileNavigation';
+import CreatePost from '../HomeContent/CreatePost';
+import PostItem from '../HomeContent/PostItem';
+import SharedPostItem from '../HomeContent/SharedPostItem'; // Import component mới
+import ProfileInfo from './ProfileInfo';
+import AboutSection from './AboutSection';
+import FriendsSection from './FriendsSection';
+import PhotosSection from './PhotosSection';
+import { uploadCoverPhoto } from '../../../services/profileService';
+import { getSharedPostsByUser } from '../../../services/api'; // Import API mới
+
+const Profile = ({
+  userProfile,
+  posts = [],
+  friends = [],
+  photos = [],
+  isOwnProfile = false,
+  onAvatarUpdate = null, // Nhận callback để cập nhật avatar từ component cha
+  onCoverUpdate = null, // Nhận callback để cập nhật ảnh bìa từ component cha
+  isLoading = false, // Thêm prop isLoading
+}) => {
+  const [activeTab, setActiveTab] = useState('posts');
+  const [viewMode, setViewMode] = useState('list');
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
+  const [sharedPosts, setSharedPosts] = useState([]);
+  const [isLoadingSharedPosts, setIsLoadingSharedPosts] = useState(false);
+
+  // Debug userProfile data
+  useEffect(() => {
+    console.log('Profile Component:');
+    console.log('- userProfile:', userProfile);
+    console.log('- Cover Photo URL:', userProfile?.coverPhotoUrl);
+    console.log('- Posts:', posts);
+    console.log('- isLoading:', isLoading);
+  }, [userProfile, posts, isLoading]);
+  
+  // Fetch bài viết đã chia sẻ
+  useEffect(() => {
+    const fetchSharedPosts = async () => {
+      if (!userProfile?.id) return;
+      
+      try {
+        setIsLoadingSharedPosts(true);
+        const data = await getSharedPostsByUser(userProfile.id);
+        console.log('Shared posts:', data);
+        setSharedPosts(data);
+      } catch (error) {
+        console.error('Error fetching shared posts:', error);
+      } finally {
+        setIsLoadingSharedPosts(false);
+      }
+    };
+    
+    fetchSharedPosts();
+  }, [userProfile?.id]);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+  };
+
+  const handleViewModeChange = (mode) => {
+    setViewMode(mode);
+  };
+
+  const handleEditProfile = () => {
+    console.log('Edit profile');
+  };
+
+  // Hàm wrapper để xử lý cập nhật avatar
+  const handleAvatarUpdate = (newAvatarUrl) => {
+    console.log('Avatar đã được cập nhật:', newAvatarUrl);
+    // Gọi callback từ component cha nếu có
+    if (onAvatarUpdate) {
+      onAvatarUpdate(newAvatarUrl);
+    }
+  };
+
+  // Hàm xử lý cập nhật ảnh bìa
+  const handleCoverPhotoUpdate = async (coverFile) => {
+    if (!coverFile || !userProfile?.id) return;
+    
+    console.log('Cập nhật ảnh bìa:', coverFile);
+    console.log('User ID:', userProfile.id);
+    setIsUploadingCover(true);
+    
+    try {
+      const newCoverUrl = await uploadCoverPhoto(userProfile.id, coverFile);
+      console.log('Cover photo uploaded successfully, new URL:', newCoverUrl);
+      
+      // Cập nhật state qua callback
+      if (onCoverUpdate) {
+        onCoverUpdate(newCoverUrl);
+      }
+    } catch (error) {
+      console.error('Error uploading cover photo:', error);
+      alert('Không thể tải lên ảnh bìa: ' + (error.message || 'Lỗi không xác định'));
+    } finally {
+      setIsUploadingCover(false);
+    }
+  };
+
+  return (
+    <div className="w-full min-h-screen bg-gray-100">
+      <div className="bg-white shadow">
+        <div className="w-[72%] mx-auto relative">
+          {/* Ảnh bìa */}
+          <CoverPhoto
+            coverPhotoUrl={userProfile?.coverPhotoUrl}
+            isOwnProfile={isOwnProfile}
+            onEditCover={handleCoverPhotoUpdate}
+          />
+
+          {/* Sử dụng ProfileHeader */}
+          <ProfileHeader
+            userProfile={userProfile}
+            isOwnProfile={isOwnProfile}
+            onAvatarUpdate={handleAvatarUpdate}
+          />
+
+          {/* Thanh điều hướng */}
+          <div className="border-t">
+            <div className="pl-8">
+              <ProfileNavigation
+                activeTab={activeTab}
+                onTabChange={handleTabChange}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Nội dung chính */}
+      <div className="w-[72%] mx-auto mt-4 flex gap-4 pl-8">
+        <div className="w-[360px] space-y-4">
+          <ProfileInfo
+            userId={userProfile?.id || "1"}
+            isOwnProfile={isOwnProfile}
+            onEditDetails={handleEditProfile}
+          />
+          <PhotosSection />
+          <FriendsSection />
+        </div>
+
+        <div className="flex-1">
+          {activeTab === 'posts' && (
+            <>
+              <CreatePost userAvatar={userProfile?.avatarUrl} className="pl-8" />
+              <div className="bg-white rounded-lg shadow mb-4 mt-4">
+                <div className="flex justify-between items-center px-8 py-2 border-b">
+                  <h2 className="text-xl font-bold">Bài viết</h2>
+                  <div className="flex gap-1.5">
+                    <button className="flex items-center px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded-md text-[13px]">
+                      <i className="bi bi-funnel mr-1.5"></i>
+                      Bộ lọc
+                    </button>
+                    <button className="flex items-center px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded-md text-[13px]">
+                      <i className="bi bi-gear mr-1.5"></i>
+                      Quản lý bài viết
+                    </button>
+                  </div>
+                </div>
+                <div className="flex items-center px-8">
+                  <button
+                    onClick={() => handleViewModeChange('list')}
+                    className={`flex-1 flex items-center justify-center px-4 py-3 border-b-2 ${
+                      viewMode === 'list'
+                        ? 'border-blue-500 text-blue-500'
+                        : 'border-transparent hover:bg-gray-100'
+                    }`}
+                  >
+                    <i className="bi bi-list-ul mr-2"></i>
+                    Chế độ xem danh sách
+                  </button>
+                  <button
+                    onClick={() => handleViewModeChange('grid')}
+                    className={`flex-1 flex items-center justify-center px-4 py-3 border-b-2 ${
+                      viewMode === 'grid'
+                        ? 'border-blue-500 text-blue-500'
+                        : 'border-transparent hover:bg-gray-100'
+                    }`}
+                  >
+                    <i className="bi bi-grid-3x3-gap mr-2"></i>
+                    Chế độ xem lưới
+                  </button>
+                </div>
+              </div>
+              <div className={`space-y-4 ${viewMode === 'grid' ? 'grid grid-cols-3 gap-4 space-y-0' : ''}`}>
+                {/* Hiển thị bài viết đã chia sẻ */}
+                {isLoadingSharedPosts ? (
+                  <div className="text-center py-4">Đang tải bài viết đã chia sẻ...</div>
+                ) : sharedPosts && sharedPosts.length > 0 ? (
+                  sharedPosts.map((post) => (
+                    <SharedPostItem 
+                      key={`shared-${post.id}`} 
+                      share={{
+                        post: post,
+                        user: userProfile,
+                        sharedAt: post.createdAt // Dùng tạm createdAt vì API chưa trả về sharedAt
+                      }} 
+                    />
+                  ))
+                ) : null}
+                
+                {/* Hiển thị bài viết gốc */}
+                {isLoading ? (
+                  <div className="text-center py-4">Đang tải bài viết của bạn...</div>
+                ) : posts && posts.length > 0 ? (
+                  posts.map((post) => {
+                    // Kiểm tra bài viết có hợp lệ và có nội dung không
+                    if (!post || (!post.content && !post.imageUrl && !post.videoUrl)) {
+                      console.log("Skipping invalid post:", post);
+                      return null;
+                    }
+                    return (
+                      <PostItem key={`post-${post.id}`} post={post} />
+                    );
+                  })
+                ) : null}
+                
+                {!isLoading && !isLoadingSharedPosts && 
+                 ((!posts || posts.length === 0) && (!sharedPosts || sharedPosts.length === 0)) && (
+                  <div className="text-center py-8 text-gray-500">
+                    <i className="bi bi-file-earmark-post text-5xl mb-2 block"></i>
+                    <p>Chưa có bài viết nào</p>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+          {activeTab === 'about' && <AboutSection userId={userProfile?.id || "1"} />}
+          {activeTab === 'friends' && <FriendsSection />}
+          {activeTab === 'photos' && <PhotosSection />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+export default Profile;

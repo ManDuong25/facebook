@@ -5,12 +5,16 @@ import { publicRoutes } from "./routes/publicRoutes";
 import DefaultLayout from "./layouts/DefaultLayout";
 import RouteWrapper from "./routes/RouteWrapper";
 import RouteAuthenticated from "./routes/RouteAuthenticated";
+import RouteProtected from "./routes/RouteProtected";
 import { privateRoutes } from "./routes/privateRoutes";
 import HomeLayout from "./layouts/HomeLayout"; 
 import Content from "./components/Content/HomeContent/HomeContent"; 
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import './App.css';
 
 function App() {
-  return (
+  return ( 
     <>
       <BrowserRouter>
         <Routes>
@@ -18,14 +22,20 @@ function App() {
           <Route
             path="/"
             element={
-              <HomeLayout>
-                <Content/>
-              </HomeLayout>
+              <RouteAuthenticated layout={HomeLayout} component={Content} />
             }
           />
-
+          {/* Route đăng nhập và đăng ký */}
+          <Route
+            path="/login"
+            element={<RouteProtected layout={null} component={LoginPage} />}
+          />
+          <Route
+            path="/register"
+            element={<RouteProtected layout={null} component={RegisterPage} />}
+          />
           {/* initial public routes */}
-          {publicRoutes.map((route, i) => {
+          {/* {publicRoutes.map((route, i) => {
             const Page = route.component;
             let Layout = DefaultLayout;
             if (route.layout) {
@@ -40,8 +50,7 @@ function App() {
                 element={<RouteWrapper layout={Layout} component={Page} />}
               />
             );
-          })}
-
+          })} */}
           {/* initial private routes */}
           {privateRoutes.map((route, i) => {
             const Page = route.component;
@@ -60,8 +69,7 @@ function App() {
             );
           })}
         </Routes>
-      </BrowserRouter>
-      
+      </BrowserRouter>    
       {/* Thông báo */}
       <ToastContainer
         position="top-right"

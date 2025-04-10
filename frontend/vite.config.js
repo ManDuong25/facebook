@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            '~': path.resolve(__dirname, './src'), // Hoặc '@' nếu  bạn cần.
+            '~': path.resolve(__dirname, './src'), 
             'bootstrap-icons': path.resolve(__dirname, '../node_modules/bootstrap-icons')
         },
     },

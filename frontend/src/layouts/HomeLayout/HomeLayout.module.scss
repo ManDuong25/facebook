@@ -1,15 +1,18 @@
 html, body {
     margin: 0;
-    overflow: hidden; /* Bỏ cuộn toàn bộ trang */
+    overflow-x: hidden; /* Ngăn cuộn ngang */
+    overflow-y: auto; /* Cho phép cuộn dọc */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Thêm cấu hình để ngăn chặn swipe gây chuyển trang */
+    touch-action: pan-y; /* Chỉ cho phép vuốt theo chiều dọc */
   }
   
   /* Đặt chiều cao sidebar cố định để tránh thanh cuộn dài vô tận */
   .sidebar {
-    max-height: calc(100vh - 60px); /* Trừ đi chiều cao Header (nếu có) */
+    max-height: calc(100vh - 56px); /* Trừ đi chiều cao Header */
     overflow-y: auto;
   }
   
@@ -36,6 +39,8 @@ html, body {
   .feed-scrollbar {
     scrollbar-width: none;    // Ẩn trên Firefox
     -ms-overflow-style: none; // Ẩn trên IE, Edge
+    max-height: calc(100vh - 56px); // Chiều cao tối đa
+    overscroll-behavior-x: none; // Ngăn chặn hiệu ứng overscroll làm chuyển trang
   
     &::-webkit-scrollbar {
         display: none;       // Ẩn trên Chrome, Safari

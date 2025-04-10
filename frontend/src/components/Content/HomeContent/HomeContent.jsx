@@ -2,6 +2,8 @@ import React from "react";
 import CreatePost from "./CreatePost";
 import Stories from "./Stories";
 import PostItem from "./PostItem";
+import Post from "./PostList";
+import PostList from "./PostList";
 
 const Feed = () => {
   return (
@@ -10,7 +12,7 @@ const Feed = () => {
       <div className="max-w-[520px] w-full space-y-4">
         <CreatePost />
         <Stories />
-        <PostItem />
+        <PostList/>
       </div>
     </div>
   );

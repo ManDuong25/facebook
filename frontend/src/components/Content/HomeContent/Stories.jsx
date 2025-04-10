@@ -1,9 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import images from "../../../assets/images"; 
+import { getAvatarUrl, getImageUrl, handleImageError as globalHandleImageError } from "../../../utils/avatarUtils";
 
 const Stories = () => {
+  const currentUser = useSelector((state) => state.auth.user);
+  const userAvatar = currentUser?.avatar;
+  
   const stories = [
-    { id: 1, name: "Tạo tin", isCreate: true },
+    { id: 1, name: "Tạo tin", isCreate: true, user: currentUser },
     { id: 2, name: "Sành Lounge Số 1 Thái Hà" },
     { id: 3, name: "Hoàng Văn" },
     { id: 4, name: "Hoàng Tuan Tech" },
@@ -17,8 +22,13 @@ const Stories = () => {
 
   const containerRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (containerRef.current) {
       const newScrollPosition = scrollPosition + 110;
       containerRef.current.scrollTo({ left: newScrollPosition, behavior: "smooth" });
@@ -26,12 +36,54 @@ const Stories = () => {
     }
   };
 
-  const handlePrev = () => {
+  const handlePrev = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (containerRef.current) {
       const newScrollPosition = Math.max(0, scrollPosition - 110);
       containerRef.current.scrollTo({ left: newScrollPosition, behavior: "smooth" });
       setScrollPosition(newScrollPosition);
     }
+  };
+
+  // Xử lý sự kiện cuộn để ngăn chặn chuyển trang
+  useEffect(() => {
+    const handleTouchStart = (e) => {
+      setIsSwiping(true);
+    };
+
+    const handleTouchEnd = () => {
+      setIsSwiping(false);
+    };
+
+    const handleWheel = (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        e.preventDefault();
+      }
+    };
+
+    const storiesContainer = containerRef.current;
+    if (storiesContainer) {
+      storiesContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+      storiesContainer.addEventListener('touchend', handleTouchEnd);
+      storiesContainer.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      if (storiesContainer) {
+        storiesContainer.removeEventListener('touchstart', handleTouchStart);
+        storiesContainer.removeEventListener('touchend', handleTouchEnd);
+        storiesContainer.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, []);
+
+  // Hàm tạo tên hiển thị cho người dùng
+  const getUserDisplayName = (user) => {
+    if (!user) return "Tạo tin";
+    return user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : user.username || "Tạo tin";
   };
 
   return (
@@ -40,43 +92,55 @@ const Stories = () => {
       <div
         ref={containerRef}
         className="flex w-full gap-2 py-2 overflow-x-auto scroll-smooth no-scrollbar"
-        style={{ scrollBehavior: "smooth", scrollbarWidth: "none" }}
+        style={{ scrollBehavior: "smooth", scrollbarWidth: "none", touchAction: "pan-x" }}
+        onClick={(e) => isSwiping && e.stopPropagation()}
       >
         {stories.map((story) => (
           <div
             key={story.id}
             className="relative w-[98px] h-[160px] flex-shrink-0 cursor-pointer overflow-hidden border border-gray-300 rounded-lg"
+            onClick={(e) => isSwiping && e.stopPropagation()}
           >
             {story.isCreate ? (
               <div className="w-full h-full flex flex-col">
-                <div className="h-[120px] w-full overflow-hidden">
+                <div className="h-[120px] w-full overflow-hidden relative">
+                  {/* Ảnh nền cho phần tạo tin */}
                   <img
-                    src={images.group1} // Sử dụng ảnh từ index.js
+                    src={currentUser ? getAvatarUrl(currentUser.avatar, images.group1) : images.group1}
                     alt="Background"
                     className="w-full h-full object-cover"
+                    onError={(e) => globalHandleImageError(e, images.group1)}
                   />
                 </div>
                 <div className="h-[40px] bg-white relative flex flex-col items-center justify-center">
-                  <button className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-9 h-9 rounded-full bg-[#1877f2] text-white text-xl font-bold flex items-center justify-center border-4 border-white focus:outline-none">
+                  <button 
+                    className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-9 h-9 rounded-full bg-[#1877f2] text-white text-xl font-bold flex items-center justify-center border-4 border-white focus:outline-none"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
                     +
                   </button>
                   <span className="mt-4 text-sm font-medium text-black">
-                    {story.name}
+                    {currentUser ? getUserDisplayName(currentUser) : "Tạo tin"}
                   </span>
                 </div>
               </div>
             ) : (
               <>
                 <img
-                  src={images.group1} // Sử dụng ảnh từ index.js
+                  src={getImageUrl(story.imageUrl || '', images.group1)} // Sử dụng getImageUrl
                   alt={story.name}
                   className="w-full h-full object-cover"
+                  onError={(e) => globalHandleImageError(e, images.group1)}
                 />
                 <div className="absolute top-2 left-2 w-8 h-8 rounded-full overflow-hidden border-2 border-[#1877f2]">
                   <img
-                    src={images.avatarJpg} // Sử dụng ảnh từ index.js
+                    src={getAvatarUrl(story.avatar, images.avatarJpg)} // Sử dụng getAvatarUrl
                     alt="Avatar"
                     className="w-full h-full object-cover"
+                    onError={(e) => globalHandleImageError(e, images.avatarJpg)}
                   />
                 </div>
                 <div className="absolute bottom-0 w-full h-[50px] bg-gradient-to-t from-black/50 to-transparent flex items-end p-1">

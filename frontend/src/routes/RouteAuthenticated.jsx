@@ -1,28 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const RouteAuthenticated = ({ component: Component, layout: Layout }) => {
-    const [loading, setLoading] = useState(true);
-    const params = useParams();
-
-    useEffect(() => {
-        setLoading(true);
-        const timer = setTimeout(() => setLoading(false), 800);
-        return () => clearTimeout(timer);
-    }, [params]);
-
-    if (loading) {
-        // logic loading
-        return <div></div>;
-    }
-
-    return Layout ? (
-        <Layout>
-            <Component />
-        </Layout>
-    ) : (
-        <Component />
-    );
+  const { isAuthenticated } = useSelector(state => state.auth);
+  // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  // Nếu đã đăng nhập, hiển thị component với layout
+  return Layout ? (
+    <Layout>
+      <Component />
+    </Layout>
+  ) : (
+    <Component />
+  );
 };
 
 export default RouteAuthenticated;

@@ -1,0 +1,29 @@
+/* Toàn bộ trang */
+html, body {
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Áp dụng cho tất cả các phần tử */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tắt kéo-quét mặc định trên trình duyệt di động */
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Vô hiệu hóa hiệu ứng kéo để làm mới trang trên thiết bị di động */
+body {
+  touch-action: manipulation;
+}
+
+/* Ngăn chặn hiệu ứng kéo và thả trên iOS */
+@supports (-webkit-touch-callout: none) {
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+} 

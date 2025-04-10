@@ -1,0 +1,894 @@
+2025-04-10T00:57:45.794-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 21.0.1 with PID 24312 (C:\facebook\backend\target\classes started by HOME in C:\facebook\backend)
+2025-04-10T00:57:45.806-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-04-10T00:57:45.910-07:00  INFO 24312 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-04-10T00:57:45.911-07:00  INFO 24312 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-04-10T00:57:47.109-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-10T00:57:47.235-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 112 ms. Found 9 JPA repository interfaces.
+2025-04-10T00:57:47.886-07:00  INFO 24312 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-04-10T00:57:48.234-07:00  INFO 24312 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-04-10T00:57:48.276-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-10T00:57:48.281-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-04-10T00:57:48.427-07:00  INFO 24312 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-10T00:57:48.432-07:00  INFO 24312 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2519 ms
+2025-04-10T00:57:48.697-07:00 DEBUG 24312 --- [restartedMain] o.springframework.web.filter.CorsFilter  : Filter 'corsFilter' configured for use
+2025-04-10T00:57:48.846-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-10T00:57:49.227-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@75ea4d44
+2025-04-10T00:57:49.233-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-10T00:57:50.081-07:00  INFO 24312 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-10T00:57:50.237-07:00  INFO 24312 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-04-10T00:57:50.351-07:00  INFO 24312 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-04-10T00:57:51.493-07:00  INFO 24312 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-10T00:57:51.662-07:00  WARN 24312 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-04-10T00:57:51.674-07:00  WARN 24312 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-10T00:57:51.719-07:00  INFO 24312 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-04-10T00:57:53.965-07:00  INFO 24312 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-10T00:57:54.681-07:00  INFO 24312 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-10T00:57:55.162-07:00  INFO 24312 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-04-10T00:58:01.205-07:00  WARN 24312 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-10T00:58:01.268-07:00  WARN 24312 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: d795c9d7-babe-49e8-856d-d9cad82c8ae6
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-04-10T00:58:01.301-07:00  INFO 24312 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-04-10T00:58:01.773-07:00 DEBUG 24312 --- [restartedMain] o.s.w.s.s.s.WebSocketHandlerMapping      : Patterns [/ws/**] in 'stompWebSocketHandlerMapping'
+2025-04-10T00:58:01.936-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.AdminController:
+	{DELETE [/api/admin/avatars/unused]}: deleteUnusedAvatars()
+	{GET [/api/admin/avatars]}: listAvatars()
+	{DELETE [/api/admin/avatars/{filename}]}: deleteAvatar(String)
+2025-04-10T00:58:01.958-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.AuthController:
+	{POST [/api/auth/register]}: register(Map)
+	{POST [/api/auth/login]}: login(Map)
+2025-04-10T00:58:01.970-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.CommentController:
+	{DELETE [/api/comments/{id}]}: deleteComment(Long)
+	{PUT [/api/comments/{id}]}: updateComment(Long,Comment)
+	{GET [/api/comments/{id}]}: getCommentById(Long)
+	{GET [/api/comments]}: getCommentsByPost(Long)
+	{POST [/api/comments]}: addComment(Long,Long,String)
+2025-04-10T00:58:01.981-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.FriendController:
+	{POST [/api/friends/status-batch]}: checkFriendshipStatusBatch(Map)
+	{GET [/api/friends/{userId}/suggestions]}: getFriendSuggestions(Long)
+	{DELETE [/api/friends/{user1Id}/{user2Id}]}: removeFriendship(Long,Long)
+	{GET [/api/friends/check]}: checkFriendship(Long,Long)
+	{GET [/api/friends/{userId}]}: getFriends(Long)
+2025-04-10T00:58:01.992-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.FriendRequestController:
+	{GET [/api/friend-requests/received/{userId}]}: getRequestsReceived(Long)
+	{POST [/api/friend-requests/{requestId}/accept]}: acceptFriendRequest(Long)
+	{POST [/api/friend-requests/{requestId}/reject]}: rejectFriendRequest(Long)
+	{DELETE [/api/friend-requests/{requestId}]}: deleteFriendRequest(Long)
+	{GET [/api/friend-requests/status]}: checkFriendshipStatus(Long,Long)
+	{GET [/api/friend-requests/sent/{userId}]}: getRequestsSent(Long)
+	{POST [/api/friend-requests]}: sendFriendRequest(Long,Long)
+2025-04-10T00:58:02.001-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.MessageController:
+	{GET [/api/messages/{user1Id}/{user2Id}]}: getMessagesBetweenUsers(Long,Long)
+	{POST [/api/messages/send]}: sendMessage(MessageRequest)
+	{GET [/api/messages/conversations/{userId}]}: getConversations(Long)
+2025-04-10T00:58:02.012-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.NotificationController:
+	{GET [/api/notifications/user/{userId}]}: getNotificationsByUser(Long)
+	{GET [/api/notifications/user/{userId}/unread-count]}: countUnreadNotifications(Long)
+	{DELETE [/api/notifications/{notificationId}]}: deleteNotification(Long)
+	{POST [/api/notifications]}: createNotification(Long,NotificationType,Long,String)
+	{PUT [/api/notifications/user/{userId}/read-all]}: markAllAsRead(Long)
+	{PUT [/api/notifications/{notificationId}/read]}: markAsRead(Long)
+2025-04-10T00:58:02.021-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.PostController:
+	{GET [/api/posts/user/{userId}/shares]}: getSharedPostsByUser(Long)
+	{GET [/api/posts/user/{userId}]}: getPostsByUser(Long)
+	{GET [/api/posts/{id}]}: getPostById(Long)
+	{GET [/api/posts]}: getAllPosts()
+	{POST [/api/posts]}: createPost(String,MultipartFile)
+	{DELETE [/api/posts/{id}]}: deletePost(Long)
+	{PUT [/api/posts/{id}]}: updatePost(Long,Post)
+2025-04-10T00:58:02.032-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.PostLikeController:
+	{GET [/api/likes]}: getLikesByPost(Long)
+	{POST [/api/likes]}: likePost(Long,Long)
+	{DELETE [/api/likes]}: unlikePost(Long,Long)
+2025-04-10T00:58:02.040-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.ShareController:
+	{GET [/api/shares/post/{postId}]}: getSharesByPost(Long)
+	{POST [/api/shares]}: addShare(Share)
+2025-04-10T00:58:02.064-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.UserController:
+	{GET [/api/users/search]}: searchUsers(String,boolean)
+	{GET [/api/users/getAll]}: getAllUsers()
+	{GET [/api/users/{id}]}: getUserById(Long)
+	{PUT [/api/users/{id}]}: updateUser(Long,User)
+	{DELETE [/api/users/{id}]}: deleteUser(Long)
+	{POST [/api/users/cover]}: uploadCoverPhoto(Long,MultipartFile)
+	{POST [/api/users/avatar]}: uploadAvatar(Long,MultipartFile)
+2025-04-10T00:58:02.101-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	{ [/error]}: error(HttpServletRequest)
+	{ [/error], produces [text/html]}: errorHtml(HttpServletRequest,HttpServletResponse)
+2025-04-10T00:58:02.119-07:00 DEBUG 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 52 mappings in 'requestMappingHandlerMapping'
+2025-04-10T00:58:02.263-07:00 DEBUG 24312 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /uploads/**] in 'resourceHandlerMapping'
+2025-04-10T00:58:02.557-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.AdminController:
+	
+2025-04-10T00:58:02.559-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.AuthController:
+	
+2025-04-10T00:58:02.561-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.CommentController:
+	
+2025-04-10T00:58:02.562-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.FriendController:
+	
+2025-04-10T00:58:02.564-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.FriendRequestController:
+	
+2025-04-10T00:58:02.579-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.MessageController:
+	{[MESSAGE],[/chat]}: handleChatMessage(ChatMessage)
+2025-04-10T00:58:02.582-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.NotificationController:
+	
+2025-04-10T00:58:02.584-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.PostController:
+	
+2025-04-10T00:58:02.588-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.PostLikeController:
+	
+2025-04-10T00:58:02.590-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.ShareController:
+	
+2025-04-10T00:58:02.592-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.UserController:
+	
+2025-04-10T00:58:02.597-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	
+2025-04-10T00:58:02.789-07:00 DEBUG 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-10T00:58:02.971-07:00 DEBUG 24312 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-10T00:58:03.280-07:00  INFO 24312 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-10T00:58:03.333-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2025-04-10T00:58:03.336-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2025-04-10T00:58:03.339-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-04-10T00:58:03.341-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1b7980f9]
+2025-04-10T00:58:03.343-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : brokerChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1b7980f9]
+2025-04-10T00:58:03.347-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1b7980f9]]
+2025-04-10T00:58:03.351-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-04-10T00:58:03.355-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T00:58:03.358-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T00:58:03.435-07:00  INFO 24312 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-04-10T00:58:03.455-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 18.317 seconds (process running for 18.92)
+2025-04-10T00:58:22.249-07:00  INFO 24312 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 62 class path changes (0 additions, 62 deletions, 0 modifications)
+2025-04-10T00:58:22.275-07:00  INFO 24312 --- [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-04-10T00:58:22.311-07:00  INFO 24312 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-04-10T00:58:22.344-07:00 DEBUG 24312 --- [Thread-5] org.springframework.web.SimpLogging      : clientOutboundChannel removed SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2025-04-10T00:58:22.351-07:00 DEBUG 24312 --- [Thread-5] org.springframework.web.SimpLogging      : clientInboundChannel removed WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2025-04-10T00:58:22.354-07:00  INFO 24312 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-04-10T00:58:22.356-07:00  INFO 24312 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1b7980f9]]
+2025-04-10T00:58:22.360-07:00 DEBUG 24312 --- [Thread-5] org.springframework.web.SimpLogging      : clientInboundChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1b7980f9]
+2025-04-10T00:58:22.366-07:00 DEBUG 24312 --- [Thread-5] org.springframework.web.SimpLogging      : brokerChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1b7980f9]
+2025-04-10T00:58:22.373-07:00  INFO 24312 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-04-10T00:58:22.382-07:00 DEBUG 24312 --- [Thread-5] org.springframework.web.SimpLogging      : clientInboundChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T00:58:22.389-07:00 DEBUG 24312 --- [Thread-5] org.springframework.web.SimpLogging      : brokerChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T00:58:22.416-07:00  INFO 24312 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-10T00:58:22.433-07:00  INFO 24312 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-10T00:58:22.502-07:00  INFO 24312 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-10T00:58:36.416-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 21.0.1 with PID 24312 (C:\facebook\backend\target\classes started by HOME in C:\facebook\backend)
+2025-04-10T00:58:36.418-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-04-10T00:58:37.732-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-10T00:58:37.916-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 178 ms. Found 9 JPA repository interfaces.
+2025-04-10T00:58:38.423-07:00  INFO 24312 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-04-10T00:58:38.490-07:00  INFO 24312 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-04-10T00:58:38.494-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-10T00:58:38.496-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-04-10T00:58:38.533-07:00  INFO 24312 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2025-04-10T00:58:38.535-07:00  INFO 24312 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2111 ms
+2025-04-10T00:58:38.581-07:00 DEBUG 24312 --- [restartedMain] o.springframework.web.filter.CorsFilter  : Filter 'corsFilter' configured for use
+2025-04-10T00:58:38.635-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-04-10T00:58:38.642-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6c6bcdb1
+2025-04-10T00:58:38.645-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-04-10T00:58:39.686-07:00  INFO 24312 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-10T00:58:39.695-07:00  INFO 24312 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-04-10T00:58:39.736-07:00  INFO 24312 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-10T00:58:39.746-07:00  WARN 24312 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-04-10T00:58:39.749-07:00  WARN 24312 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-10T00:58:39.751-07:00  INFO 24312 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-04-10T00:58:40.344-07:00  INFO 24312 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-10T00:58:41.395-07:00  INFO 24312 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-10T00:58:42.276-07:00  WARN 24312 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-10T00:58:42.302-07:00  WARN 24312 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 8c401796-a461-48b8-a024-29f23199e137
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-04-10T00:58:42.309-07:00  INFO 24312 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-04-10T00:58:42.341-07:00 DEBUG 24312 --- [restartedMain] o.s.w.s.s.s.WebSocketHandlerMapping      : Patterns [/ws/**] in 'stompWebSocketHandlerMapping'
+2025-04-10T00:58:42.379-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.AdminController:
+	{DELETE [/api/admin/avatars/unused]}: deleteUnusedAvatars()
+	{GET [/api/admin/avatars]}: listAvatars()
+	{DELETE [/api/admin/avatars/{filename}]}: deleteAvatar(String)
+2025-04-10T00:58:42.385-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.AuthController:
+	{POST [/api/auth/register]}: register(Map)
+	{POST [/api/auth/login]}: login(Map)
+2025-04-10T00:58:42.391-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.CommentController:
+	{DELETE [/api/comments/{id}]}: deleteComment(Long)
+	{PUT [/api/comments/{id}]}: updateComment(Long,Comment)
+	{GET [/api/comments/{id}]}: getCommentById(Long)
+	{GET [/api/comments]}: getCommentsByPost(Long)
+	{POST [/api/comments]}: addComment(Long,Long,String)
+2025-04-10T00:58:42.401-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.FriendController:
+	{POST [/api/friends/status-batch]}: checkFriendshipStatusBatch(Map)
+	{GET [/api/friends/{userId}/suggestions]}: getFriendSuggestions(Long)
+	{DELETE [/api/friends/{user1Id}/{user2Id}]}: removeFriendship(Long,Long)
+	{GET [/api/friends/check]}: checkFriendship(Long,Long)
+	{GET [/api/friends/{userId}]}: getFriends(Long)
+2025-04-10T00:58:42.410-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.FriendRequestController:
+	{GET [/api/friend-requests/received/{userId}]}: getRequestsReceived(Long)
+	{POST [/api/friend-requests/{requestId}/accept]}: acceptFriendRequest(Long)
+	{POST [/api/friend-requests/{requestId}/reject]}: rejectFriendRequest(Long)
+	{DELETE [/api/friend-requests/{requestId}]}: deleteFriendRequest(Long)
+	{GET [/api/friend-requests/status]}: checkFriendshipStatus(Long,Long)
+	{GET [/api/friend-requests/sent/{userId}]}: getRequestsSent(Long)
+	{POST [/api/friend-requests]}: sendFriendRequest(Long,Long)
+2025-04-10T00:58:42.412-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.MessageController:
+	{GET [/api/messages/{user1Id}/{user2Id}]}: getMessagesBetweenUsers(Long,Long)
+	{POST [/api/messages/send]}: sendMessage(MessageRequest)
+	{GET [/api/messages/conversations/{userId}]}: getConversations(Long)
+2025-04-10T00:58:42.427-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.NotificationController:
+	{GET [/api/notifications/user/{userId}]}: getNotificationsByUser(Long)
+	{GET [/api/notifications/user/{userId}/unread-count]}: countUnreadNotifications(Long)
+	{DELETE [/api/notifications/{notificationId}]}: deleteNotification(Long)
+	{POST [/api/notifications]}: createNotification(Long,NotificationType,Long,String)
+	{PUT [/api/notifications/user/{userId}/read-all]}: markAllAsRead(Long)
+	{PUT [/api/notifications/{notificationId}/read]}: markAsRead(Long)
+2025-04-10T00:58:42.433-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.PostController:
+	{GET [/api/posts/user/{userId}/shares]}: getSharedPostsByUser(Long)
+	{GET [/api/posts/user/{userId}]}: getPostsByUser(Long)
+	{GET [/api/posts/{id}]}: getPostById(Long)
+	{GET [/api/posts]}: getAllPosts()
+	{POST [/api/posts]}: createPost(String,MultipartFile)
+	{DELETE [/api/posts/{id}]}: deletePost(Long)
+	{PUT [/api/posts/{id}]}: updatePost(Long,Post)
+2025-04-10T00:58:42.440-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.PostLikeController:
+	{GET [/api/likes]}: getLikesByPost(Long)
+	{POST [/api/likes]}: likePost(Long,Long)
+	{DELETE [/api/likes]}: unlikePost(Long,Long)
+2025-04-10T00:58:42.444-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.ShareController:
+	{GET [/api/shares/post/{postId}]}: getSharesByPost(Long)
+	{POST [/api/shares]}: addShare(Share)
+2025-04-10T00:58:42.447-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.UserController:
+	{GET [/api/users/search]}: searchUsers(String,boolean)
+	{GET [/api/users/getAll]}: getAllUsers()
+	{GET [/api/users/{id}]}: getUserById(Long)
+	{PUT [/api/users/{id}]}: updateUser(Long,User)
+	{DELETE [/api/users/{id}]}: deleteUser(Long)
+	{POST [/api/users/cover]}: uploadCoverPhoto(Long,MultipartFile)
+	{POST [/api/users/avatar]}: uploadAvatar(Long,MultipartFile)
+2025-04-10T00:58:42.462-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	{ [/error]}: error(HttpServletRequest)
+	{ [/error], produces [text/html]}: errorHtml(HttpServletRequest,HttpServletResponse)
+2025-04-10T00:58:42.467-07:00 DEBUG 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 52 mappings in 'requestMappingHandlerMapping'
+2025-04-10T00:58:42.519-07:00 DEBUG 24312 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /uploads/**] in 'resourceHandlerMapping'
+2025-04-10T00:58:42.616-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.AdminController:
+	
+2025-04-10T00:58:42.619-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.AuthController:
+	
+2025-04-10T00:58:42.621-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.CommentController:
+	
+2025-04-10T00:58:42.623-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.FriendController:
+	
+2025-04-10T00:58:42.626-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.FriendRequestController:
+	
+2025-04-10T00:58:42.634-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.MessageController:
+	{[MESSAGE],[/chat]}: handleChatMessage(ChatMessage)
+2025-04-10T00:58:42.637-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.NotificationController:
+	
+2025-04-10T00:58:42.640-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.PostController:
+	
+2025-04-10T00:58:42.643-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.PostLikeController:
+	
+2025-04-10T00:58:42.644-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.ShareController:
+	
+2025-04-10T00:58:42.647-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.UserController:
+	
+2025-04-10T00:58:42.649-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	
+2025-04-10T00:58:42.721-07:00 DEBUG 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-10T00:58:42.751-07:00 DEBUG 24312 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-10T00:58:42.840-07:00  INFO 24312 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-10T00:58:42.862-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2025-04-10T00:58:42.864-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2025-04-10T00:58:42.865-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-04-10T00:58:42.866-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@79b13880]
+2025-04-10T00:58:42.876-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : brokerChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@79b13880]
+2025-04-10T00:58:42.878-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@79b13880]]
+2025-04-10T00:58:42.878-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-04-10T00:58:42.878-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T00:58:42.878-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T00:58:42.898-07:00  INFO 24312 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-04-10T00:58:42.905-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 6.566 seconds (process running for 58.37)
+2025-04-10T00:58:43.359-07:00  INFO 24312 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-04-10T00:58:54.083-07:00  INFO 24312 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-10T00:58:54.087-07:00  INFO 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-10T00:58:54.089-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2025-04-10T00:58:54.090-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2025-04-10T00:58:54.092-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2025-04-10T00:58:54.096-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@76f61e67
+2025-04-10T00:58:54.097-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@251d220b
+2025-04-10T00:58:54.097-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-04-10T00:58:54.104-07:00  INFO 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 16 ms
+2025-04-10T00:58:54.317-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/posts", parameters={}
+2025-04-10T00:58:54.324-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:54.330-07:00 TRACE 24312 --- [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getAllPosts()
+2025-04-10T00:58:54.339-07:00 TRACE 24312 --- [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:54.534-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:54.543-07:00 TRACE 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:58:54.591-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:54.606-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/posts", parameters={}
+2025-04-10T00:58:54.606-07:00 TRACE 24312 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getAllPosts()
+2025-04-10T00:58:54.624-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:54.626-07:00 TRACE 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:58:54.629-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:54.633-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:54.656-07:00 TRACE 24312 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:54.678-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:54.684-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:54.690-07:00 TRACE 24312 --- [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:54.704-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:54.706-07:00 TRACE 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:54.710-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.170-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:58.174-07:00 TRACE 24312 --- [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:58.190-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.190-07:00 TRACE 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:58.205-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.205-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:58.205-07:00 TRACE 24312 --- [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:58.233-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.234-07:00 TRACE 24312 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:58.236-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.251-07:00 DEBUG 24312 --- [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:58.254-07:00 TRACE 24312 --- [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:58.270-07:00 DEBUG 24312 --- [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.271-07:00 TRACE 24312 --- [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:58.271-07:00 DEBUG 24312 --- [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.286-07:00 DEBUG 24312 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:58.288-07:00 TRACE 24312 --- [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:58.307-07:00 DEBUG 24312 --- [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.309-07:00 TRACE 24312 --- [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:58.314-07:00 DEBUG 24312 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.346-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:58.348-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/posts/user/1", parameters={}
+2025-04-10T00:58:58.366-07:00 TRACE 24312 --- [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getPostsByUser(Long)
+2025-04-10T00:58:58.368-07:00 TRACE 24312 --- [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:58.368-07:00 DEBUG 24312 --- [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/posts/user/1/shares", parameters={}
+2025-04-10T00:58:58.384-07:00 TRACE 24312 --- [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getSharedPostsByUser(Long)
+2025-04-10T00:58:58.391-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/cover1.jpg", parameters={}
+2025-04-10T00:58:58.391-07:00  WARN 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /cover1.jpg
+2025-04-10T00:58:58.391-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.416-07:00 TRACE 24312 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:58.432-07:00  WARN 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /cover1.jpg.
+2025-04-10T00:58:58.435-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.439-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No endpoint GET /cover1.jpg.]
+2025-04-10T00:58:58.439-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2025-04-10T00:58:58.454-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:58:58.457-07:00 TRACE 24312 --- [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:58:58.473-07:00 TRACE 24312 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : 2 matching mappings: [{ [/error]}, { [/error], produces [text/html]}]
+2025-04-10T00:58:58.476-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2025-04-10T00:58:58.476-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.478-07:00 TRACE 24312 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=avatar1.png, coverPhoto=cover1.jpg, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:58:58.479-07:00 TRACE 24312 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : 2 matching mappings: [{ [/error]}, { [/error], produces [text/html]}]
+2025-04-10T00:58:58.479-07:00 TRACE 24312 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-04-10T00:58:58.479-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.494-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json;q=0.8', given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.494-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.494-07:00 DEBUG 24312 --- [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.494-07:00 TRACE 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Thu Apr 10 00:58:58 PDT 2025, status=404, error=Not Found, trace=org.springframework.web.servlet.NoHandlerFoundException: No endpoint GET /cover1.jpg.
+	at org.springframework.web.servlet.DispatcherServlet.noHandlerFound(DispatcherServlet.java:1304)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1066)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:978)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.www.BasicAuthenticationFilter.doFilterInternal(BasicAuthenticationFilter.java:181)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:243)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:238)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+, message=No endpoint GET /cover1.jpg., path=/cover1.jpg}]
+2025-04-10T00:58:58.494-07:00 TRACE 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:58:58.494-07:00 TRACE 24312 --- [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:58:58.526-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.526-07:00 DEBUG 24312 --- [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:58:58.526-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/posts/user/1/shares", parameters={}
+2025-04-10T00:58:58.526-07:00 TRACE 24312 --- [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getSharedPostsByUser(Long)
+2025-04-10T00:58:58.553-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 404
+2025-04-10T00:58:58.563-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:58:58.566-07:00 TRACE 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:58:58.570-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:10.423-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/users/avatar", parameters={multipart}
+2025-04-10T00:59:10.469-07:00 TRACE 24312 --- [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#uploadAvatar(Long, MultipartFile)
+2025-04-10T00:59:10.517-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-04-10T00:59:10.517-07:00 TRACE 24312 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=Avatar updated successfully, data=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png)]
+2025-04-10T00:59:10.517-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:10.551-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot%202025-04-10%20004735.png", parameters={}
+2025-04-10T00:59:10.555-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [URL [file:/C:/facebook/backend/uploads/]]
+2025-04-10T00:59:10.562-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:15.291-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/users/cover", parameters={multipart}
+2025-04-10T00:59:15.311-07:00 TRACE 24312 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#uploadCoverPhoto(Long, MultipartFile)
+2025-04-10T00:59:15.333-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-04-10T00:59:15.333-07:00 TRACE 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=Cover photo updated successfully, data=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png)]
+2025-04-10T00:59:15.333-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:15.366-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot%202024-11-26%20215133.png", parameters={}
+2025-04-10T00:59:15.366-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [URL [file:/C:/facebook/backend/uploads/]]
+2025-04-10T00:59:15.366-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.076-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:19.078-07:00 TRACE 24312 --- [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:19.088-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.091-07:00 TRACE 24312 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:19.094-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.101-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:19.103-07:00 TRACE 24312 --- [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:19.116-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.118-07:00 TRACE 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:19.122-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.126-07:00 DEBUG 24312 --- [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:19.127-07:00 TRACE 24312 --- [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:19.135-07:00 DEBUG 24312 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot%202025-04-10%20004735.png", parameters={}
+2025-04-10T00:59:19.136-07:00 DEBUG 24312 --- [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.139-07:00 DEBUG 24312 --- [http-nio-8080-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [URL [file:/C:/facebook/backend/uploads/]]
+2025-04-10T00:59:19.140-07:00 TRACE 24312 --- [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:19.145-07:00 DEBUG 24312 --- [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.149-07:00 DEBUG 24312 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.151-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:19.154-07:00 TRACE 24312 --- [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:19.168-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.169-07:00 TRACE 24312 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:19.174-07:00 DEBUG 24312 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.175-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot%202025-04-10%20004735.png", parameters={}
+2025-04-10T00:59:19.177-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [URL [file:/C:/facebook/backend/uploads/]]
+2025-04-10T00:59:19.183-07:00 DEBUG 24312 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.214-07:00 DEBUG 24312 --- [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:19.215-07:00 TRACE 24312 --- [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:19.215-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/posts/user/1/shares", parameters={}
+2025-04-10T00:59:19.215-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/posts/user/1", parameters={}
+2025-04-10T00:59:19.215-07:00 TRACE 24312 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getPostsByUser(Long)
+2025-04-10T00:59:19.215-07:00 TRACE 24312 --- [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getSharedPostsByUser(Long)
+2025-04-10T00:59:19.225-07:00 DEBUG 24312 --- [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.231-07:00 TRACE 24312 --- [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:19.231-07:00 DEBUG 24312 --- [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.231-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.231-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.231-07:00 TRACE 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:59:19.231-07:00 TRACE 24312 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:59:19.244-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.244-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.249-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot%202024-11-26%20215133.png", parameters={}
+2025-04-10T00:59:19.252-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:19.252-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/posts/user/1/shares", parameters={}
+2025-04-10T00:59:19.252-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [URL [file:/C:/facebook/backend/uploads/]]
+2025-04-10T00:59:19.253-07:00 TRACE 24312 --- [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getSharedPostsByUser(Long)
+2025-04-10T00:59:19.253-07:00 TRACE 24312 --- [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:19.259-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.265-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.266-07:00 TRACE 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:19.271-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:19.274-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:19.275-07:00 TRACE 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:59:19.276-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:22.784-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot%202025-04-10%20004735.png", parameters={}
+2025-04-10T00:59:22.786-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [URL [file:/C:/facebook/backend/uploads/]]
+2025-04-10T00:59:22.791-07:00 DEBUG 24312 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:22.791-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:22.798-07:00 TRACE 24312 --- [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:22.802-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/posts", parameters={}
+2025-04-10T00:59:22.804-07:00 TRACE 24312 --- [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getAllPosts()
+2025-04-10T00:59:22.812-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:22.813-07:00 TRACE 24312 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:22.817-07:00 DEBUG 24312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:22.818-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:22.819-07:00 TRACE 24312 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:59:22.819-07:00 DEBUG 24312 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:22.819-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/users/1", parameters={}
+2025-04-10T00:59:22.819-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/posts", parameters={}
+2025-04-10T00:59:22.819-07:00 TRACE 24312 --- [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.PostController#getAllPosts()
+2025-04-10T00:59:22.819-07:00 TRACE 24312 --- [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to backend.backend.controller.UserController#getUserById(Long)
+2025-04-10T00:59:22.835-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:22.835-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-04-10T00:59:22.835-07:00 TRACE 24312 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2025-04-10T00:59:22.835-07:00 TRACE 24312 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ResponseObject(status=success, message=User found, data=User(id=1, username=john_doe, email=john@example.com, password=$2a$10$CfC3W8l6N1yZEvPeVtLAA.lqgx4FigPuwMYZf1lQrYgtyPvGCj1Du, avatar=/uploads/avatars/215d03bb-61bc-47e7-90b1-6091fe9dc344_Screenshot 2025-04-10 004735.png, coverPhoto=/uploads/covers/ce1d242b-17d0-4ae7-9516-a327820d846b_Screenshot 2024-11-26 215133.png, createdAt=2025-04-10T00:58:43, firstName=John, lastName=Doe, dateOfBirth=1995-05-20, gender=Male, work=Software Engineer, education=MIT, currentCity=New York, hometown=Boston, bio=Lập trình viên yêu thích AI))]
+2025-04-10T00:59:22.835-07:00 DEBUG 24312 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:22.841-07:00 DEBUG 24312 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-10T00:59:42.870-07:00  INFO 24312 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-04-10T01:07:43.757-07:00  INFO 24312 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 62 class path changes (0 additions, 62 deletions, 0 modifications)
+2025-04-10T01:07:47.765-07:00  INFO 24312 --- [Thread-7] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-04-10T01:07:48.422-07:00  INFO 24312 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-04-10T01:07:48.772-07:00 DEBUG 24312 --- [Thread-7] org.springframework.web.SimpLogging      : clientOutboundChannel removed SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2025-04-10T01:07:48.784-07:00 DEBUG 24312 --- [Thread-7] org.springframework.web.SimpLogging      : clientInboundChannel removed WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2025-04-10T01:07:48.792-07:00  INFO 24312 --- [Thread-7] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-04-10T01:07:48.806-07:00  INFO 24312 --- [Thread-7] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@79b13880]]
+2025-04-10T01:07:48.812-07:00 DEBUG 24312 --- [Thread-7] org.springframework.web.SimpLogging      : clientInboundChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@79b13880]
+2025-04-10T01:07:48.817-07:00 DEBUG 24312 --- [Thread-7] org.springframework.web.SimpLogging      : brokerChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@79b13880]
+2025-04-10T01:07:48.820-07:00  INFO 24312 --- [Thread-7] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-04-10T01:07:48.824-07:00 DEBUG 24312 --- [Thread-7] org.springframework.web.SimpLogging      : clientInboundChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T01:07:48.827-07:00 DEBUG 24312 --- [Thread-7] org.springframework.web.SimpLogging      : brokerChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T01:07:49.015-07:00  INFO 24312 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-10T01:07:49.359-07:00  INFO 24312 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-04-10T01:07:49.631-07:00  INFO 24312 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-04-10T01:07:53.404-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 21.0.1 with PID 24312 (C:\facebook\backend\target\classes started by HOME in C:\facebook\backend)
+2025-04-10T01:07:53.409-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-04-10T01:07:58.932-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-10T01:07:59.315-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 369 ms. Found 9 JPA repository interfaces.
+2025-04-10T01:08:00.604-07:00  INFO 24312 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-04-10T01:08:01.343-07:00  INFO 24312 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-04-10T01:08:01.355-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-10T01:08:01.360-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-04-10T01:08:01.427-07:00  INFO 24312 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2025-04-10T01:08:01.428-07:00  INFO 24312 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7969 ms
+2025-04-10T01:08:01.525-07:00 DEBUG 24312 --- [restartedMain] o.springframework.web.filter.CorsFilter  : Filter 'corsFilter' configured for use
+2025-04-10T01:08:01.702-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-04-10T01:08:01.762-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@569d2397
+2025-04-10T01:08:01.764-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-04-10T01:08:03.841-07:00  INFO 24312 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-10T01:08:03.893-07:00  INFO 24312 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-04-10T01:08:04.368-07:00  INFO 24312 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-10T01:08:04.406-07:00  WARN 24312 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-04-10T01:08:04.411-07:00  WARN 24312 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-10T01:08:04.416-07:00  INFO 24312 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-04-10T01:08:08.542-07:00  INFO 24312 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-10T01:08:10.229-07:00  INFO 24312 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-10T01:08:11.147-07:00  WARN 24312 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageController': Lookup method resolution failed
+2025-04-10T01:08:11.151-07:00  INFO 24312 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-10T01:08:11.154-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-04-10T01:08:11.168-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2025-04-10T01:08:11.176-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-04-10T01:08:11.189-07:00  INFO 24312 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-04-10T01:08:11.210-07:00 ERROR 24312 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageController': Lookup method resolution failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.checkLookupMethods(AutowiredAnnotationBeanPostProcessor.java:498) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:368) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineConstructorsFromBeanPostProcessors(AbstractAutowireCapableBeanFactory.java:1320) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1215) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:346) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1155) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1121) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1056) ~[spring-beans-6.2.3.jar:6.2.3]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987) ~[spring-context-6.2.3.jar:6.2.3]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.3.jar:6.2.3]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.3.jar:3.4.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.3.jar:3.4.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.3.jar:3.4.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.3.jar:3.4.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.3.jar:3.4.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.3.jar:3.4.3]
+	at backend.backend.BackendApplication.main(BackendApplication.java:10) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.3.jar:3.4.3]
+Caused by: java.lang.IllegalStateException: Failed to introspect Class [backend.backend.controller.MessageController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@25550ece]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:483) ~[spring-core-6.2.3.jar:6.2.3]
+	at org.springframework.util.ReflectionUtils.doWithLocalMethods(ReflectionUtils.java:320) ~[spring-core-6.2.3.jar:6.2.3]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.checkLookupMethods(AutowiredAnnotationBeanPostProcessor.java:476) ~[spring-beans-6.2.3.jar:6.2.3]
+	... 24 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: backend/backend/model/ResponseObject
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3578) ~[na:na]
+	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2676) ~[na:na]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:465) ~[spring-core-6.2.3.jar:6.2.3]
+	... 26 common frames omitted
+Caused by: java.lang.ClassNotFoundException: backend.backend.model.ResponseObject
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	at java.base/java.lang.Class.forName0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:534) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:513) ~[na:na]
+	at org.springframework.boot.devtools.restart.classloader.RestartClassLoader.loadClass(RestartClassLoader.java:121) ~[spring-boot-devtools-3.4.3.jar:3.4.3]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	... 30 common frames omitted
+
+2025-04-10T01:08:18.025-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 21.0.1 with PID 24312 (C:\facebook\backend\target\classes started by HOME in C:\facebook\backend)
+2025-04-10T01:08:18.123-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-04-10T01:08:22.395-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-10T01:08:22.669-07:00  INFO 24312 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 264 ms. Found 9 JPA repository interfaces.
+2025-04-10T01:08:23.117-07:00  INFO 24312 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-04-10T01:08:23.179-07:00  INFO 24312 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-04-10T01:08:23.183-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-10T01:08:23.185-07:00  INFO 24312 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-04-10T01:08:23.224-07:00  INFO 24312 --- [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2025-04-10T01:08:23.228-07:00  INFO 24312 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5078 ms
+2025-04-10T01:08:23.272-07:00 DEBUG 24312 --- [restartedMain] o.springframework.web.filter.CorsFilter  : Filter 'corsFilter' configured for use
+2025-04-10T01:08:23.316-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-04-10T01:08:23.329-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@791b1d2e
+2025-04-10T01:08:23.331-07:00  INFO 24312 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-04-10T01:08:31.906-07:00  INFO 24312 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-10T01:08:31.913-07:00  INFO 24312 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-04-10T01:08:31.942-07:00  INFO 24312 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-10T01:08:31.956-07:00  WARN 24312 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-04-10T01:08:31.961-07:00  WARN 24312 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-10T01:08:31.964-07:00  INFO 24312 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-04-10T01:08:32.902-07:00  INFO 24312 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-10T01:08:33.985-07:00  INFO 24312 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-10T01:08:34.841-07:00  WARN 24312 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-10T01:08:34.869-07:00  WARN 24312 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: eeb46970-6e2e-4f0b-afee-18cdf3c7fac4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-04-10T01:08:34.876-07:00  INFO 24312 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-04-10T01:08:34.919-07:00 DEBUG 24312 --- [restartedMain] o.s.w.s.s.s.WebSocketHandlerMapping      : Patterns [/ws/**] in 'stompWebSocketHandlerMapping'
+2025-04-10T01:08:34.967-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.AdminController:
+	{DELETE [/api/admin/avatars/unused]}: deleteUnusedAvatars()
+	{GET [/api/admin/avatars]}: listAvatars()
+	{DELETE [/api/admin/avatars/{filename}]}: deleteAvatar(String)
+2025-04-10T01:08:34.971-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.AuthController:
+	{POST [/api/auth/register]}: register(Map)
+	{POST [/api/auth/login]}: login(Map)
+2025-04-10T01:08:34.979-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.CommentController:
+	{DELETE [/api/comments/{id}]}: deleteComment(Long)
+	{PUT [/api/comments/{id}]}: updateComment(Long,Comment)
+	{GET [/api/comments/{id}]}: getCommentById(Long)
+	{GET [/api/comments]}: getCommentsByPost(Long)
+	{POST [/api/comments]}: addComment(Long,Long,String)
+2025-04-10T01:08:34.985-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.FriendController:
+	{POST [/api/friends/status-batch]}: checkFriendshipStatusBatch(Map)
+	{GET [/api/friends/{userId}/suggestions]}: getFriendSuggestions(Long)
+	{DELETE [/api/friends/{user1Id}/{user2Id}]}: removeFriendship(Long,Long)
+	{GET [/api/friends/check]}: checkFriendship(Long,Long)
+	{GET [/api/friends/{userId}]}: getFriends(Long)
+2025-04-10T01:08:34.997-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.FriendRequestController:
+	{GET [/api/friend-requests/received/{userId}]}: getRequestsReceived(Long)
+	{POST [/api/friend-requests/{requestId}/accept]}: acceptFriendRequest(Long)
+	{POST [/api/friend-requests/{requestId}/reject]}: rejectFriendRequest(Long)
+	{DELETE [/api/friend-requests/{requestId}]}: deleteFriendRequest(Long)
+	{GET [/api/friend-requests/status]}: checkFriendshipStatus(Long,Long)
+	{GET [/api/friend-requests/sent/{userId}]}: getRequestsSent(Long)
+	{POST [/api/friend-requests]}: sendFriendRequest(Long,Long)
+2025-04-10T01:08:35.002-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.MessageController:
+	{GET [/api/messages/{user1Id}/{user2Id}]}: getMessagesBetweenUsers(Long,Long)
+	{POST [/api/messages/send]}: sendMessage(MessageRequest)
+	{GET [/api/messages/conversations/{userId}]}: getConversations(Long)
+2025-04-10T01:08:35.011-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.NotificationController:
+	{GET [/api/notifications/user/{userId}]}: getNotificationsByUser(Long)
+	{GET [/api/notifications/user/{userId}/unread-count]}: countUnreadNotifications(Long)
+	{DELETE [/api/notifications/{notificationId}]}: deleteNotification(Long)
+	{POST [/api/notifications]}: createNotification(Long,NotificationType,Long,String)
+	{PUT [/api/notifications/user/{userId}/read-all]}: markAllAsRead(Long)
+	{PUT [/api/notifications/{notificationId}/read]}: markAsRead(Long)
+2025-04-10T01:08:35.017-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.PostController:
+	{GET [/api/posts/user/{userId}/shares]}: getSharedPostsByUser(Long)
+	{GET [/api/posts/user/{userId}]}: getPostsByUser(Long)
+	{GET [/api/posts/{id}]}: getPostById(Long)
+	{GET [/api/posts]}: getAllPosts()
+	{POST [/api/posts]}: createPost(String,MultipartFile)
+	{DELETE [/api/posts/{id}]}: deletePost(Long)
+	{PUT [/api/posts/{id}]}: updatePost(Long,Post)
+2025-04-10T01:08:35.023-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.PostLikeController:
+	{GET [/api/likes]}: getLikesByPost(Long)
+	{POST [/api/likes]}: likePost(Long,Long)
+	{DELETE [/api/likes]}: unlikePost(Long,Long)
+2025-04-10T01:08:35.032-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.ShareController:
+	{GET [/api/shares/post/{postId}]}: getSharesByPost(Long)
+	{POST [/api/shares]}: addShare(Share)
+2025-04-10T01:08:35.037-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	b.b.c.UserController:
+	{GET [/api/users/search]}: searchUsers(String,boolean)
+	{GET [/api/users/getAll]}: getAllUsers()
+	{GET [/api/users/{id}]}: getUserById(Long)
+	{PUT [/api/users/{id}]}: updateUser(Long,User)
+	{DELETE [/api/users/{id}]}: deleteUser(Long)
+	{POST [/api/users/cover]}: uploadCoverPhoto(Long,MultipartFile)
+	{POST [/api/users/avatar]}: uploadAvatar(Long,MultipartFile)
+2025-04-10T01:08:35.046-07:00 TRACE 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	{ [/error]}: error(HttpServletRequest)
+	{ [/error], produces [text/html]}: errorHtml(HttpServletRequest,HttpServletResponse)
+2025-04-10T01:08:35.057-07:00 DEBUG 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 52 mappings in 'requestMappingHandlerMapping'
+2025-04-10T01:08:35.147-07:00 DEBUG 24312 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /uploads/**] in 'resourceHandlerMapping'
+2025-04-10T01:08:35.266-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.AdminController:
+	
+2025-04-10T01:08:35.269-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.AuthController:
+	
+2025-04-10T01:08:35.270-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.CommentController:
+	
+2025-04-10T01:08:35.272-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.FriendController:
+	
+2025-04-10T01:08:35.283-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.FriendRequestController:
+	
+2025-04-10T01:08:35.286-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.MessageController:
+	{[MESSAGE],[/chat]}: handleChatMessage(ChatMessage)
+2025-04-10T01:08:35.292-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.NotificationController:
+	
+2025-04-10T01:08:35.298-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.PostController:
+	
+2025-04-10T01:08:35.301-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.PostLikeController:
+	
+2025-04-10T01:08:35.304-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.ShareController:
+	
+2025-04-10T01:08:35.306-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	b.b.c.UserController:
+	
+2025-04-10T01:08:35.312-07:00 DEBUG 24312 --- [restartedMain] .WebSocketAnnotationMethodMessageHandler : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	
+2025-04-10T01:08:35.404-07:00 DEBUG 24312 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-10T01:08:35.439-07:00 DEBUG 24312 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-10T01:08:35.589-07:00  INFO 24312 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-10T01:08:35.622-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2025-04-10T01:08:35.624-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2025-04-10T01:08:35.625-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-04-10T01:08:35.626-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@e91f2fc]
+2025-04-10T01:08:35.630-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : brokerChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@e91f2fc]
+2025-04-10T01:08:35.632-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@e91f2fc]]
+2025-04-10T01:08:35.652-07:00  INFO 24312 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-04-10T01:08:35.654-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T01:08:35.656-07:00 DEBUG 24312 --- [restartedMain] org.springframework.web.SimpLogging      : brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2025-04-10T01:08:35.717-07:00  INFO 24312 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-04-10T01:08:35.755-07:00  INFO 24312 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 17.86 seconds (process running for 651.219)
+2025-04-10T01:08:36.406-07:00  INFO 24312 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-04-10T01:09:35.651-07:00  INFO 24312 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]

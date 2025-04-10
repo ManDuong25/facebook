@@ -1,5 +1,6 @@
 import React from "react";
 import images from "../../../assets/images"; 
+import { getAvatarUrl, handleImageError } from "../../../utils/avatarUtils";
 
 const ads = [
   {
@@ -16,14 +17,15 @@ const ads = [
   },
 ];
 
+// Dữ liệu mẫu bạn bè với avatar
 const friends = [
-  "Dương Công Mẫn",
-  "Thanh Tuyền",
-  "Nguyễn Trọng Thanh Hải",
-  "Trần Thái Hoàng",
-  "Lê Thế Minh",
-  "Mỹ Duyên",
-  "Mỹ Linh",
+  { id: 1, name: "Dương Công Mẫn", avatar: null }, // Sử dụng avatar mặc định
+  { id: 2, name: "Thanh Tuyền", avatar: null },
+  { id: 3, name: "Nguyễn Trọng Thanh Hải", avatar: null },
+  { id: 4, name: "Trần Thái Hoàng", avatar: null },
+  { id: 5, name: "Lê Thế Minh", avatar: null },
+  { id: 6, name: "Mỹ Duyên", avatar: null },
+  { id: 7, name: "Mỹ Linh", avatar: null },
 ];
 
 const AdItem = ({ title, description, image }) => (
@@ -32,6 +34,7 @@ const AdItem = ({ title, description, image }) => (
       src={image}
       alt={title}
       className="w-[120px] h-[120px] object-cover rounded-lg mr-3"
+      onError={handleImageError}
     />
     <div className="flex flex-col justify-center">
       <h5 className="text-base font-bold text-black leading-5">{title}</h5>
@@ -40,12 +43,13 @@ const AdItem = ({ title, description, image }) => (
   </div>
 );
 
-const OnlineFriend = ({ name }) => (
+const OnlineFriend = ({ name, avatar }) => (
   <div className="flex items-center relative cursor-pointer hover:bg-gray-200 transition-colors">
     <img
-      src={images.avatarJpg}
+      src={getAvatarUrl(avatar)}
       alt={name}
       className="w-10 h-10 rounded-full mr-3 object-cover"
+      onError={handleImageError}
     />
     <span className="absolute left-8 top-8 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
     <p className="text-sm text-[#65676B]">{name}</p>
@@ -84,8 +88,8 @@ const RightSidebar = () => {
           Người liên hệ
         </h4>
         <div className="space-y-3">
-          {friends.map((name, index) => (
-            <OnlineFriend key={index} name={name} />
+          {friends.map((friend) => (
+            <OnlineFriend key={friend.id} name={friend.name} avatar={friend.avatar} />
           ))}
         </div>
       </div>
