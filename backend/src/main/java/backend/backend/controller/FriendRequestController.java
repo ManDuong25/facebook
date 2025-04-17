@@ -24,10 +24,10 @@ public class FriendRequestController {
 
     @Autowired
     private FriendRequestService friendRequestService;
-    
+
     @Autowired
     private FriendService friendService;
-    
+
     @Autowired
     private UserService userService;
 
@@ -78,7 +78,7 @@ public class FriendRequestController {
                     .body(Map.of("message", e.getMessage()));
         }
     }
-    
+
     // Từ chối yêu cầu kết bạn
     @PostMapping("/{requestId}/reject")
     public ResponseEntity<?> rejectFriendRequest(@PathVariable Long requestId) {
@@ -102,7 +102,7 @@ public class FriendRequestController {
                     .body(Map.of("message", e.getMessage()));
         }
     }
-    
+
     // Kiểm tra trạng thái kết bạn giữa hai người dùng
     @GetMapping("/status")
     public ResponseEntity<?> checkFriendshipStatus(
@@ -114,18 +114,18 @@ public class FriendRequestController {
             if (areFriends) {
                 return ResponseEntity.ok(Map.of("status", "FRIENDS"));
             }
-            
+
             // Kiểm tra xem có lời mời kết bạn nào đang chờ xử lý không
             boolean pendingRequest = friendRequestService.existsFriendRequest(user1Id, user2Id);
             if (pendingRequest) {
                 return ResponseEntity.ok(Map.of("status", "PENDING"));
             }
-            
+
             boolean pendingRequestReverse = friendRequestService.existsFriendRequest(user2Id, user1Id);
             if (pendingRequestReverse) {
                 return ResponseEntity.ok(Map.of("status", "RECEIVED"));
             }
-            
+
             return ResponseEntity.ok(Map.of("status", "NONE"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
