@@ -8,6 +8,7 @@ import backend.backend.service.FriendService;
 import backend.backend.service.UserService;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,10 +39,16 @@ public class FriendRequestController {
             @RequestParam Long receiverId) {
         try {
             FriendRequest created = friendRequestService.sendFriendRequest(senderId, receiverId);
-            return ResponseEntity.ok(created);
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", created);
+            response.put("message", "Gửi lời mời kết bạn thành công");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            response.put("EC", -1);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
@@ -49,10 +56,17 @@ public class FriendRequestController {
     @GetMapping("/sent/{userId}")
     public ResponseEntity<?> getRequestsSent(@PathVariable Long userId) {
         try {
-            return ResponseEntity.ok(friendRequestService.getRequestsBySender(userId));
+            List<?> requests = friendRequestService.getRequestsBySender(userId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", requests);
+            response.put("message", "Lấy danh sách lời mời đã gửi thành công");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("message", "Error retrieving sent requests: " + e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Error retrieving sent requests: " + e.getMessage());
+            response.put("EC", -2);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
@@ -60,10 +74,17 @@ public class FriendRequestController {
     @GetMapping("/received/{userId}")
     public ResponseEntity<?> getRequestsReceived(@PathVariable Long userId) {
         try {
-            return ResponseEntity.ok(friendRequestService.getRequestsByReceiver(userId));
+            List<?> requests = friendRequestService.getRequestsByReceiver(userId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", requests);
+            response.put("message", "Lấy danh sách lời mời nhận được thành công");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("message", "Error retrieving received requests: " + e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Error retrieving received requests: " + e.getMessage());
+            response.put("EC", -3);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
@@ -76,24 +97,33 @@ public class FriendRequestController {
             // Kiểm tra xem lời mời tồn tại không
             Optional<FriendRequest> requestOpt = friendRequestService.findById(requestId);
             if (requestOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(Map.of("message", "Lời mời kết bạn không tồn tại"));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Lời mời kết bạn không tồn tại");
+                response.put("EC", -4);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
-            
+
             FriendRequest request = requestOpt.get();
-            
+
             // Kiểm tra xem người gọi API có phải là người nhận lời mời không
             if (!request.getReceiver().getId().equals(currentUserId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(Map.of("message", "Bạn không có quyền chấp nhận lời mời này"));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Bạn không có quyền chấp nhận lời mời này");
+                response.put("EC", -5);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
-            
+
             // Chấp nhận lời mời
             friendService.acceptFriendRequest(requestId);
-            return ResponseEntity.ok(Map.of("message", "Friend request accepted successfully"));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Chấp nhận lời mời kết bạn thành công");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            response.put("EC", -6);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
@@ -106,24 +136,33 @@ public class FriendRequestController {
             // Kiểm tra xem lời mời tồn tại không
             Optional<FriendRequest> requestOpt = friendRequestService.findById(requestId);
             if (requestOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(Map.of("message", "Lời mời kết bạn không tồn tại"));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Lời mời kết bạn không tồn tại");
+                response.put("EC", -7);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
-            
+
             FriendRequest request = requestOpt.get();
-            
+
             // Kiểm tra xem người gọi API có phải là người nhận lời mời không
             if (!request.getReceiver().getId().equals(currentUserId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(Map.of("message", "Bạn không có quyền từ chối lời mời này"));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Bạn không có quyền từ chối lời mời này");
+                response.put("EC", -8);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
-            
+
             // Từ chối lời mời
             friendRequestService.rejectFriendRequest(requestId);
-            return ResponseEntity.ok(Map.of("message", "Friend request rejected successfully"));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Từ chối lời mời kết bạn thành công");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            response.put("EC", -9);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
@@ -136,29 +175,40 @@ public class FriendRequestController {
             // Kiểm tra xem lời mời tồn tại không
             Optional<FriendRequest> requestOpt = friendRequestService.findById(requestId);
             if (requestOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(Map.of("message", "Lời mời kết bạn không tồn tại"));
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Lời mời kết bạn không tồn tại");
+                response.put("EC", -10);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
-            
+
             FriendRequest request = requestOpt.get();
-            
+
             // Kiểm tra xem người gọi API có phải là người gửi hoặc người nhận lời mời không
-            if (!request.getSender().getId().equals(currentUserId) && 
-                !request.getReceiver().getId().equals(currentUserId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(Map.of("message", "Bạn không có quyền xóa lời mời này"));
+            if (!request.getSender().getId().equals(currentUserId) &&
+                    !request.getReceiver().getId().equals(currentUserId)) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Bạn không có quyền xóa lời mời này");
+                response.put("EC", -11);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
-            
+
             // Xóa lời mời
             friendRequestService.deleteFriendRequest(requestId);
-            return ResponseEntity.ok(Map.of("message", "Friend request deleted successfully"));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Xóa lời mời kết bạn thành công");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
         } catch (IllegalStateException e) {
             // Bắt lỗi khi lời mời đã được chấp nhận hoặc từ chối
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            response.put("EC", -12);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("message", e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            response.put("EC", -13);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
@@ -168,27 +218,91 @@ public class FriendRequestController {
             @RequestParam Long user1Id,
             @RequestParam Long user2Id) {
         try {
+            Map<String, Object> response = new HashMap<>();
+
             // Kiểm tra xem họ đã là bạn bè chưa
             boolean areFriends = friendService.checkFriendship(user1Id, user2Id);
             if (areFriends) {
-                return ResponseEntity.ok(Map.of("status", "ACCEPTED"));
+                response.put("status", "ACCEPTED");
+                response.put("message", "Đã là bạn bè");
+                response.put("EC", 0);
+                return ResponseEntity.ok(response);
             }
 
             // Kiểm tra xem có lời mời kết bạn nào đang chờ xử lý không
             boolean pendingRequest = friendRequestService.existsFriendRequest(user1Id, user2Id);
             if (pendingRequest) {
-                return ResponseEntity.ok(Map.of("status", "PENDING"));
+                response.put("status", "PENDING");
+                response.put("message", "Đã gửi lời mời kết bạn");
+                response.put("EC", 0);
+                return ResponseEntity.ok(response);
             }
 
             boolean pendingRequestReverse = friendRequestService.existsFriendRequest(user2Id, user1Id);
             if (pendingRequestReverse) {
-                return ResponseEntity.ok(Map.of("status", "RECEIVED"));
+                response.put("status", "RECEIVED");
+                response.put("message", "Đã nhận lời mời kết bạn");
+                response.put("EC", 0);
+                return ResponseEntity.ok(response);
             }
 
-            return ResponseEntity.ok(Map.of("status", "NONE"));
+            response.put("status", "NONE");
+            response.put("message", "Chưa có mối quan hệ");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("message", "Error checking friendship status: " + e.getMessage()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Error checking friendship status: " + e.getMessage());
+            response.put("EC", -14);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    // Lấy tất cả lời mời kết bạn đang pending mà người dùng hiện tại NHẬN được
+    @GetMapping("/pending-received/{userId}")
+    public ResponseEntity<?> getPendingRequestsReceived(@PathVariable Long userId) {
+        try {
+            List<FriendRequest> pendingRequests = friendRequestService.getPendingRequestsReceivedByUser(userId);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", pendingRequests);
+            response.put("message", "Lấy danh sách lời mời kết bạn nhận được thành công");
+            response.put("EC", 0);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Lỗi khi lấy danh sách lời mời kết bạn: " + e.getMessage());
+            response.put("EC", -15);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    // Tìm lời mời kết bạn giữa hai người dùng
+    @GetMapping("/find")
+    public ResponseEntity<?> findFriendRequest(
+            @RequestParam Long senderId,
+            @RequestParam Long receiverId) {
+        try {
+            Optional<FriendRequest> requestOpt = friendRequestService.findPendingRequest(senderId, receiverId);
+
+            if (requestOpt.isPresent()) {
+                FriendRequest request = requestOpt.get();
+                Map<String, Object> response = new HashMap<>();
+                response.put("data", request);
+                response.put("message", "Tìm thấy lời mời kết bạn");
+                response.put("EC", 0);
+                return ResponseEntity.ok(response);
+            } else {
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Không tìm thấy lời mời kết bạn");
+                response.put("EC", -16);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Lỗi khi tìm lời mời kết bạn: " + e.getMessage());
+            response.put("EC", -17);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }

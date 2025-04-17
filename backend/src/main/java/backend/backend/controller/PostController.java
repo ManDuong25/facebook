@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -31,12 +32,17 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> createPost(
             @RequestParam("content") String content,
-            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam(value = "userId", required = false) Long userId) throws IOException {
 
-        Long userId = 1L;
+        // Nếu không có userId được gửi lên, báo lỗi
+        if (userId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         User user = userService.getUserById(userId);
         if (user == null) {
-            throw new RuntimeException("User not found");
+            return ResponseEntity.badRequest().body(null);
         }
 
         String fileUrl = null;
@@ -99,7 +105,7 @@ public class PostController {
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
         Optional<Post> postOpt = postService.getPostById(id);
         return postOpt.map(ResponseEntity::ok)
-                      .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")

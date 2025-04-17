@@ -11,4 +11,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     // Lấy tất cả các bài post của 1 user
     List<Post> findByUser(User user);
+
+    // Lấy tất cả các bài post của 1 user và sắp xếp theo thời gian tạo mới nhất
+    List<Post> findByUserOrderByCreatedAtDesc(User user);
 }

@@ -47,42 +47,43 @@ public class UserController {
             System.out.println("\n\n========= USER SEARCH REQUEST ===========");
             System.out.println("Searching users with term: " + searchTerm);
             System.out.println("Exclude current user: " + excludeCurrentUser);
-            
+
             // Kiểm tra thông tin tìm kiếm
             if (searchTerm == null || searchTerm.trim().isEmpty()) {
                 System.out.println("WARNING: Empty search term provided");
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "Từ khóa tìm kiếm không được để trống", null));
             }
-            
+
             // Thực hiện tìm kiếm người dùng qua service
             List<User> searchResults = userService.searchUsers(searchTerm);
-            
+
             // Loại bỏ người dùng hiện tại nếu được yêu cầu
             if (excludeCurrentUser) {
                 // Trong thực tế, bạn sẽ lấy ID người dùng từ authentication
                 Long currentUserId = getCurrentUserId();
                 System.out.println("Current user ID for exclusion: " + currentUserId);
-                
+
                 if (currentUserId != null) {
                     int beforeSize = searchResults.size();
                     searchResults = searchResults.stream()
-                        .filter(user -> !user.getId().equals(currentUserId))
-                        .collect(Collectors.toList());
-                    System.out.println("Excluded current user from results: " + (beforeSize - searchResults.size()) + " users removed");
+                            .filter(user -> !user.getId().equals(currentUserId))
+                            .collect(Collectors.toList());
+                    System.out.println("Excluded current user from results: " + (beforeSize - searchResults.size())
+                            + " users removed");
                 }
             }
-            
+
             System.out.println("Final search results count: " + searchResults.size());
             if (searchResults.isEmpty()) {
                 System.out.println("No users found matching the search term: " + searchTerm);
             } else {
                 System.out.println("Found users: " + searchResults.stream()
-                    .map(u -> u.getId() + ":" + u.getFirstName() + " " + u.getLastName())
-                    .collect(Collectors.joining(", ")));
+                        .map(u -> u.getId() + ":" + u.getFirstName() + " " + u.getLastName())
+                        .collect(Collectors.joining(", ")));
             }
             System.out.println("=========================================\n");
-            
+
             return ResponseEntity.ok(new ResponseObject("success", "Users found", searchResults));
         } catch (Exception e) {
             System.out.println("Error searching users: " + e.getMessage());
@@ -177,33 +178,33 @@ public class UserController {
             System.out.println("File size: " + avatar.getSize() + " bytes");
             System.out.println("Content type: " + avatar.getContentType());
             System.out.println("Is file empty: " + avatar.isEmpty());
-            
+
             // Kiểm tra file có tồn tại không
             if (avatar.isEmpty()) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "Avatar file is empty", null));
             }
-            
+
             // Kiểm tra kích thước file (10MB max)
             if (avatar.getSize() > 10 * 1024 * 1024) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "Avatar file too large (max 10MB)", null));
             }
-            
+
             // Kiểm tra loại file
             String contentType = avatar.getContentType();
             if (contentType == null || !contentType.startsWith("image/")) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "Only image files are allowed", null));
             }
-            
+
             // Kiểm tra userId có hợp lệ không
             if (userId == null) {
                 System.out.println("userId is null");
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "userId is required", null));
             }
-            
+
             // Xác thực người dùng (hardcode tạm thời)
             Long loggedInUserId = 1L; // Thay bằng ID người dùng đăng nhập thực tế sau này
             if (!userId.equals(loggedInUserId)) {
@@ -211,7 +212,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .body(new ResponseObject("failed", "You can only update your own avatar", null));
             }
-            
+
             // Check if user exists
             Optional<User> userOpt = userService.findById(userId);
             if (userOpt.isEmpty()) {
@@ -219,45 +220,45 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("failed", "User not found with ID: " + userId, null));
             }
-            
+
             try {
                 System.out.println("User found, proceeding to save avatar");
                 // Kiểm tra thư mục uploads tồn tại
                 String rootDir = System.getProperty("user.dir");
                 File uploadsDir = new File(rootDir, "uploads");
                 File avatarsDir = new File(rootDir, "uploads" + File.separator + "avatars");
-                
+
                 System.out.println("Root directory: " + rootDir);
                 System.out.println("Uploads directory: " + uploadsDir.getAbsolutePath());
                 System.out.println("Avatars directory: " + avatarsDir.getAbsolutePath());
-                
+
                 if (!uploadsDir.exists()) {
                     boolean created = uploadsDir.mkdirs();
                     System.out.println("Created uploads directory: " + created);
                 }
-                
+
                 if (!avatarsDir.exists()) {
                     boolean created = avatarsDir.mkdirs();
                     System.out.println("Created avatars directory: " + created);
                 }
-                
+
                 // Kiểm tra quyền ghi vào thư mục
                 if (!avatarsDir.canWrite()) {
                     System.out.println("ERROR: Cannot write to avatars directory");
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body(new ResponseObject("failed", "Server error: Cannot write to upload directory", null));
                 }
-                
+
                 String avatarUrl = userService.updateAvatar(userId, avatar);
                 System.out.println("Avatar URL after saving: " + avatarUrl);
-                
+
                 // Kiểm tra URL trả về có hợp lệ không
                 if (avatarUrl == null || avatarUrl.isEmpty()) {
                     System.out.println("Avatar URL is null or empty");
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body(new ResponseObject("failed", "Failed to generate avatar URL", null));
                 }
-                
+
                 return ResponseEntity.ok(new ResponseObject("success", "Avatar updated successfully", avatarUrl));
             } catch (Exception e) {
                 System.out.println("Error in inner try block: " + e.getMessage());
@@ -290,27 +291,27 @@ public class UserController {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "Cover photo file is empty", null));
             }
-            
+
             // Kiểm tra kích thước file (20MB max)
             if (cover.getSize() > 20 * 1024 * 1024) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "Cover photo too large (max 20MB)", null));
             }
-            
+
             // Kiểm tra loại file
             String contentType = cover.getContentType();
             if (contentType == null || !contentType.startsWith("image/")) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "Only image files are allowed", null));
             }
-            
+
             // Kiểm tra userId có hợp lệ không
             if (userId == null) {
                 System.out.println("userId is null");
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("failed", "userId is required", null));
             }
-            
+
             // Xác thực người dùng (hardcode tạm thời)
             Long loggedInUserId = 1L; // Thay bằng ID người dùng đăng nhập thực tế sau này
             if (!userId.equals(loggedInUserId)) {
@@ -318,7 +319,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .body(new ResponseObject("failed", "You can only update your own cover photo", null));
             }
-            
+
             // Check if user exists
             Optional<User> userOpt = userService.findById(userId);
             if (userOpt.isEmpty()) {
@@ -326,45 +327,45 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("failed", "User not found with ID: " + userId, null));
             }
-            
+
             try {
                 System.out.println("User found, proceeding to save cover photo");
                 // Kiểm tra thư mục uploads tồn tại
                 String rootDir = System.getProperty("user.dir");
                 File uploadsDir = new File(rootDir, "uploads");
                 File coversDir = new File(rootDir, "uploads" + File.separator + "covers");
-                
+
                 System.out.println("Root directory: " + rootDir);
                 System.out.println("Uploads directory: " + uploadsDir.getAbsolutePath());
                 System.out.println("Covers directory: " + coversDir.getAbsolutePath());
-                
+
                 if (!uploadsDir.exists()) {
                     boolean created = uploadsDir.mkdirs();
                     System.out.println("Created uploads directory: " + created);
                 }
-                
+
                 if (!coversDir.exists()) {
                     boolean created = coversDir.mkdirs();
                     System.out.println("Created covers directory: " + created);
                 }
-                
+
                 // Kiểm tra quyền ghi vào thư mục
                 if (!coversDir.canWrite()) {
                     System.out.println("ERROR: Cannot write to covers directory");
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body(new ResponseObject("failed", "Server error: Cannot write to upload directory", null));
                 }
-                
+
                 String coverUrl = userService.updateCoverPhoto(userId, cover);
                 System.out.println("Cover photo URL after saving: " + coverUrl);
-                
+
                 // Kiểm tra URL trả về có hợp lệ không
                 if (coverUrl == null || coverUrl.isEmpty()) {
                     System.out.println("Cover photo URL is null or empty");
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body(new ResponseObject("failed", "Failed to generate cover photo URL", null));
                 }
-                
+
                 return ResponseEntity.ok(new ResponseObject("success", "Cover photo updated successfully", coverUrl));
             } catch (Exception e) {
                 System.out.println("Error saving cover photo: " + e.getMessage());

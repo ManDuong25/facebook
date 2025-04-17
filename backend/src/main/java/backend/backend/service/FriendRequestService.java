@@ -25,10 +25,10 @@ public class FriendRequestService {
 
     @Autowired
     private FriendRequestRepository friendRequestRepository;
-    
+
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private NotificationService notificationService;
 
@@ -42,30 +42,30 @@ public class FriendRequestService {
                 .orElseThrow(() -> new IllegalArgumentException("Người gửi không tồn tại."));
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Người nhận không tồn tại."));
-        
+
         // Kiểm tra nếu đã gửi lời mời kết bạn
         if (existsFriendRequest(senderId, receiverId)) {
             throw new IllegalStateException("Đã gửi lời mời kết bạn trước đó.");
         }
-        
+
         // Tạo lời mời kết bạn mới
         FriendRequest request = new FriendRequest();
         request.setSender(sender);
         request.setReceiver(receiver);
         request.setStatus(FriendRequest.FriendRequestStatus.PENDING);
         request.setCreatedAt(LocalDateTime.now());
-        
+
         FriendRequest savedRequest = friendRequestRepository.save(request);
-        
+
         // Tạo thông báo cho người nhận với tham số content
-        String notificationContent = "Bạn có một lời mời kết bạn mới từ " + sender.getFirstName() + " " + sender.getLastName();
+        String notificationContent = "Bạn có một lời mời kết bạn mới từ " + sender.getFirstName() + " "
+                + sender.getLastName();
         notificationService.createNotification(
-            receiver.getId(),
-            Notification.NotificationType.FRIEND_REQUEST,
-            savedRequest.getId(),
-            notificationContent
-        );
-        
+                receiver.getId(),
+                Notification.NotificationType.FRIEND_REQUEST,
+                savedRequest.getId(),
+                notificationContent);
+
         return savedRequest;
     }
 
@@ -75,14 +75,14 @@ public class FriendRequestService {
     public boolean existsFriendRequest(Long senderId, Long receiverId) {
         User sender = new User();
         sender.setId(senderId);
-        
+
         User receiver = new User();
         receiver.setId(receiverId);
-        
+
         List<FriendRequest> sentRequests = friendRequestRepository.findBySender(sender);
-        
+
         return sentRequests.stream()
-                .anyMatch(req -> req.getReceiver().getId().equals(receiverId) && 
+                .anyMatch(req -> req.getReceiver().getId().equals(receiverId) &&
                         req.getStatus() == FriendRequest.FriendRequestStatus.PENDING);
     }
 
@@ -123,19 +123,19 @@ public class FriendRequestService {
     @Transactional
     public boolean deleteFriendRequest(Long id) {
         Optional<FriendRequest> requestOpt = friendRequestRepository.findById(id);
-        if(requestOpt.isEmpty()) {
+        if (requestOpt.isEmpty()) {
             return false;
         }
-        
+
         FriendRequest request = requestOpt.get();
-        if(request.getStatus() != FriendRequest.FriendRequestStatus.PENDING) {
+        if (request.getStatus() != FriendRequest.FriendRequestStatus.PENDING) {
             throw new IllegalStateException("Không thể xóa lời mời đã được chấp nhận hoặc từ chối.");
         }
-        
+
         friendRequestRepository.deleteById(id);
         return true;
     }
-    
+
     /**
      * Từ chối lời mời kết bạn
      */
@@ -143,11 +143,11 @@ public class FriendRequestService {
     public FriendRequest rejectFriendRequest(Long requestId) {
         FriendRequest request = friendRequestRepository.findById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Lời mời kết bạn không tồn tại."));
-        
+
         if (request.getStatus() != FriendRequest.FriendRequestStatus.PENDING) {
             throw new IllegalStateException("Lời mời kết bạn đã được xử lý trước đó.");
         }
-        
+
         request.setStatus(FriendRequest.FriendRequestStatus.REJECTED);
         return friendRequestRepository.save(request);
     }
@@ -157,5 +157,19 @@ public class FriendRequestService {
      */
     public Optional<FriendRequest> findById(Long requestId) {
         return friendRequestRepository.findById(requestId);
+    }
+
+    /**
+     * Lấy tất cả lời mời kết bạn đang pending mà người dùng NHẬN được
+     */
+    public List<FriendRequest> getPendingRequestsReceivedByUser(Long userId) {
+        return friendRequestRepository.findPendingRequestsReceivedByUserId(userId);
+    }
+
+    /**
+     * Tìm lời mời kết bạn đang pending giữa hai người dùng
+     */
+    public Optional<FriendRequest> findPendingRequest(Long senderId, Long receiverId) {
+        return friendRequestRepository.findPendingRequest(senderId, receiverId);
     }
 }

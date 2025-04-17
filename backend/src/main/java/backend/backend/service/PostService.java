@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-    
+
     @Autowired
     private ShareRepository shareRepository;
 
@@ -30,7 +31,10 @@ public class PostService {
 
     // Lấy tất cả bài viết
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        List<Post> posts = postRepository.findAll();
+        // Sắp xếp bài viết theo thời gian tạo mới nhất
+        posts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+        return posts;
     }
 
     // Lấy bài viết theo id
@@ -38,29 +42,36 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    // Lấy bài viết của 1 user
+    // Lấy bài viết của 1 user và sắp xếp theo thời gian tạo mới nhất
     public List<Post> getPostsByUser(User user) {
-        return postRepository.findByUser(user);
+        return postRepository.findByUserOrderByCreatedAtDesc(user);
     }
-    
+
     // Lấy bài viết đã chia sẻ của 1 user
     public List<Post> getSharedPostsByUser(User user) {
         List<Share> shares = shareRepository.findByUser(user);
-        return shares.stream()
+        List<Post> sharedPosts = shares.stream()
                 .map(Share::getPost)
                 .collect(Collectors.toList());
+
+        // Sắp xếp bài viết theo thời gian tạo mới nhất
+        sharedPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+        return sharedPosts;
     }
-    
+
     // Lấy tất cả bài viết và bài viết đã chia sẻ của 1 user
     public List<Post> getAllPostsByUser(User user) {
         List<Post> result = new ArrayList<>();
-        
+
         // Thêm bài viết của user
         result.addAll(getPostsByUser(user));
-        
+
         // Thêm bài viết đã chia sẻ
         result.addAll(getSharedPostsByUser(user));
-        
+
+        // Sắp xếp tất cả bài viết theo thời gian tạo mới nhất
+        result.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+
         return result;
     }
 
