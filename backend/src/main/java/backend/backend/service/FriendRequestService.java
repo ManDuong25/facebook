@@ -52,7 +52,7 @@ public class FriendRequestService {
         FriendRequest request = new FriendRequest();
         request.setSender(sender);
         request.setReceiver(receiver);
-        request.setStatus(FriendRequest.FriendRequestStatus.pending);
+        request.setStatus(FriendRequest.FriendRequestStatus.PENDING);
         request.setCreatedAt(LocalDateTime.now());
         
         FriendRequest savedRequest = friendRequestRepository.save(request);
@@ -83,7 +83,7 @@ public class FriendRequestService {
         
         return sentRequests.stream()
                 .anyMatch(req -> req.getReceiver().getId().equals(receiverId) && 
-                        req.getStatus() == FriendRequest.FriendRequestStatus.pending);
+                        req.getStatus() == FriendRequest.FriendRequestStatus.PENDING);
     }
 
     /**
@@ -122,11 +122,18 @@ public class FriendRequestService {
      */
     @Transactional
     public boolean deleteFriendRequest(Long id) {
-        if(friendRequestRepository.existsById(id)) {
-            friendRequestRepository.deleteById(id);
-            return true;
+        Optional<FriendRequest> requestOpt = friendRequestRepository.findById(id);
+        if(requestOpt.isEmpty()) {
+            return false;
         }
-        return false;
+        
+        FriendRequest request = requestOpt.get();
+        if(request.getStatus() != FriendRequest.FriendRequestStatus.PENDING) {
+            throw new IllegalStateException("Không thể xóa lời mời đã được chấp nhận hoặc từ chối.");
+        }
+        
+        friendRequestRepository.deleteById(id);
+        return true;
     }
     
     /**
@@ -137,11 +144,18 @@ public class FriendRequestService {
         FriendRequest request = friendRequestRepository.findById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Lời mời kết bạn không tồn tại."));
         
-        if (request.getStatus() != FriendRequest.FriendRequestStatus.pending) {
+        if (request.getStatus() != FriendRequest.FriendRequestStatus.PENDING) {
             throw new IllegalStateException("Lời mời kết bạn đã được xử lý trước đó.");
         }
         
-        request.setStatus(FriendRequest.FriendRequestStatus.rejected);
+        request.setStatus(FriendRequest.FriendRequestStatus.REJECTED);
         return friendRequestRepository.save(request);
+    }
+
+    /**
+     * Tìm lời mời kết bạn theo ID
+     */
+    public Optional<FriendRequest> findById(Long requestId) {
+        return friendRequestRepository.findById(requestId);
     }
 }

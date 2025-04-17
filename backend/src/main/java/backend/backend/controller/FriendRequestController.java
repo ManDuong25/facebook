@@ -69,8 +69,26 @@ public class FriendRequestController {
 
     // Chấp nhận yêu cầu kết bạn
     @PostMapping("/{requestId}/accept")
-    public ResponseEntity<?> acceptFriendRequest(@PathVariable Long requestId) {
+    public ResponseEntity<?> acceptFriendRequest(
+            @PathVariable Long requestId,
+            @RequestParam Long currentUserId) {
         try {
+            // Kiểm tra xem lời mời tồn tại không
+            Optional<FriendRequest> requestOpt = friendRequestService.findById(requestId);
+            if (requestOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "Lời mời kết bạn không tồn tại"));
+            }
+            
+            FriendRequest request = requestOpt.get();
+            
+            // Kiểm tra xem người gọi API có phải là người nhận lời mời không
+            if (!request.getReceiver().getId().equals(currentUserId)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("message", "Bạn không có quyền chấp nhận lời mời này"));
+            }
+            
+            // Chấp nhận lời mời
             friendService.acceptFriendRequest(requestId);
             return ResponseEntity.ok(Map.of("message", "Friend request accepted successfully"));
         } catch (Exception e) {
@@ -81,8 +99,26 @@ public class FriendRequestController {
     
     // Từ chối yêu cầu kết bạn
     @PostMapping("/{requestId}/reject")
-    public ResponseEntity<?> rejectFriendRequest(@PathVariable Long requestId) {
+    public ResponseEntity<?> rejectFriendRequest(
+            @PathVariable Long requestId,
+            @RequestParam Long currentUserId) {
         try {
+            // Kiểm tra xem lời mời tồn tại không
+            Optional<FriendRequest> requestOpt = friendRequestService.findById(requestId);
+            if (requestOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "Lời mời kết bạn không tồn tại"));
+            }
+            
+            FriendRequest request = requestOpt.get();
+            
+            // Kiểm tra xem người gọi API có phải là người nhận lời mời không
+            if (!request.getReceiver().getId().equals(currentUserId)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("message", "Bạn không có quyền từ chối lời mời này"));
+            }
+            
+            // Từ chối lời mời
             friendRequestService.rejectFriendRequest(requestId);
             return ResponseEntity.ok(Map.of("message", "Friend request rejected successfully"));
         } catch (Exception e) {
@@ -93,10 +129,33 @@ public class FriendRequestController {
 
     // Xoá yêu cầu kết bạn
     @DeleteMapping("/{requestId}")
-    public ResponseEntity<?> deleteFriendRequest(@PathVariable Long requestId) {
+    public ResponseEntity<?> deleteFriendRequest(
+            @PathVariable Long requestId,
+            @RequestParam Long currentUserId) {
         try {
+            // Kiểm tra xem lời mời tồn tại không
+            Optional<FriendRequest> requestOpt = friendRequestService.findById(requestId);
+            if (requestOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "Lời mời kết bạn không tồn tại"));
+            }
+            
+            FriendRequest request = requestOpt.get();
+            
+            // Kiểm tra xem người gọi API có phải là người gửi hoặc người nhận lời mời không
+            if (!request.getSender().getId().equals(currentUserId) && 
+                !request.getReceiver().getId().equals(currentUserId)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("message", "Bạn không có quyền xóa lời mời này"));
+            }
+            
+            // Xóa lời mời
             friendRequestService.deleteFriendRequest(requestId);
             return ResponseEntity.ok(Map.of("message", "Friend request deleted successfully"));
+        } catch (IllegalStateException e) {
+            // Bắt lỗi khi lời mời đã được chấp nhận hoặc từ chối
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
@@ -112,7 +171,7 @@ public class FriendRequestController {
             // Kiểm tra xem họ đã là bạn bè chưa
             boolean areFriends = friendService.checkFriendship(user1Id, user2Id);
             if (areFriends) {
-                return ResponseEntity.ok(Map.of("status", "FRIENDS"));
+                return ResponseEntity.ok(Map.of("status", "ACCEPTED"));
             }
             
             // Kiểm tra xem có lời mời kết bạn nào đang chờ xử lý không

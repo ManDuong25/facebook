@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,8 +74,13 @@ public class FriendController {
                         .body(Map.of("message", "targetUserIds không được để trống"));
             }
             
+            // Thay thế cách ép kiểu trực tiếp bằng chuyển đổi từng phần tử
             @SuppressWarnings("unchecked")
-            List<Long> targetUserIds = (List<Long>) request.get("targetUserIds");
+            List<?> tempList = (List<?>) request.get("targetUserIds");
+            List<Long> targetUserIds = new ArrayList<>();
+            for (Object item : tempList) {
+                targetUserIds.add(Long.valueOf(item.toString()));
+            }
             System.out.println("targetUserIds: " + targetUserIds);
             
             // Validate input
@@ -113,7 +119,7 @@ public class FriendController {
     }
 
     // Get friend suggestions for a user
-    @GetMapping("/{userId}/suggestions")
+    @GetMapping("/suggestions/{userId}")
     public ResponseEntity<?> getFriendSuggestions(@PathVariable Long userId) {
         try {
             return ResponseEntity.ok(friendService.getFriendSuggestions(userId));

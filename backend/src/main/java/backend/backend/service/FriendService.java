@@ -122,10 +122,15 @@ public class FriendService {
         User user2 = userRepository.findById(user2Id)
                 .orElseThrow(() -> new IllegalArgumentException("Người dùng 2 không tồn tại."));
         
-        // Tạo mối quan hệ bạn bè
+        // Luôn lưu với user1_id < user2_id để đảm bảo tính nhất quán (lưu một chiều)
         Friend friendship = new Friend();
-        friendship.setUser1(user1);
-        friendship.setUser2(user2);
+        if (user1Id < user2Id) {
+            friendship.setUser1(user1);
+            friendship.setUser2(user2);
+        } else {
+            friendship.setUser1(user2);
+            friendship.setUser2(user1);
+        }
         friendship.setSince(LocalDateTime.now());
         
         return friendRepository.save(friendship);
@@ -147,7 +152,7 @@ public class FriendService {
     }
     
     /**
-     * Lấy danh sách gợi ý bạn bè
+     * Lấy danh sách gợi ý bạn bè (đơn giản hóa: chỉ lấy những người chưa kết bạn)
      */
     public List<User> getFriendSuggestions(Long userId) {
         // Lấy danh sách ID bạn bè hiện tại
@@ -159,30 +164,9 @@ public class FriendService {
         // Thêm ID người dùng hiện tại vào danh sách loại trừ
         friendIds.add(userId);
         
-        // Lấy người dùng hiện tại từ repository
-        User currentUser = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại: " + userId));
-        
-        // Lấy danh sách ID người dùng đã gửi lời mời kết bạn
-        List<Long> sentRequestIds = friendRequestRepository.findBySender(currentUser)
-                .stream()
-                .map(request -> request.getReceiver().getId())
-                .collect(Collectors.toList());
-        
-        // Lấy danh sách ID người dùng đã nhận lời mời kết bạn
-        List<Long> receivedRequestIds = friendRequestRepository.findByReceiver(currentUser)
-                .stream()
-                .map(request -> request.getSender().getId())
-                .collect(Collectors.toList());
-        
-        // Loại bỏ tất cả ID cần loại trừ
-        List<Long> excludeIds = new ArrayList<>(friendIds);
-        excludeIds.addAll(sentRequestIds);
-        excludeIds.addAll(receivedRequestIds);
-        
-        // Lấy tất cả người dùng, ngoại trừ các ID đã loại trừ, giới hạn 20 gợi ý
+        // Lấy tất cả người dùng, ngoại trừ bản thân và bạn bè, giới hạn 20 gợi ý
         return userRepository.findAll().stream()
-                .filter(user -> !excludeIds.contains(user.getId()))
+                .filter(user -> !friendIds.contains(user.getId()))
                 .limit(20)
                 .collect(Collectors.toList());
     }
@@ -195,12 +179,12 @@ public class FriendService {
         FriendRequest request = friendRequestRepository.findById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Lời mời kết bạn không tồn tại."));
         
-        if (request.getStatus() != FriendRequest.FriendRequestStatus.pending) {
+        if (request.getStatus() != FriendRequest.FriendRequestStatus.PENDING) {
             throw new IllegalStateException("Lời mời kết bạn đã được xử lý trước đó.");
         }
         
         // Cập nhật trạng thái lời mời thành accepted
-        request.setStatus(FriendRequest.FriendRequestStatus.accepted);
+        request.setStatus(FriendRequest.FriendRequestStatus.ACCEPTED);
         friendRequestRepository.save(request);
         
         // Gửi thông báo cho người gửi lời mời

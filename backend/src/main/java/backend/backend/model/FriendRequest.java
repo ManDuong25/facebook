@@ -27,13 +27,13 @@ public class FriendRequest {
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private FriendRequestStatus status = FriendRequestStatus.pending;
+    private FriendRequestStatus status = FriendRequestStatus.PENDING;
     
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum FriendRequestStatus {
-        pending, accepted, rejected
+        PENDING, ACCEPTED, REJECTED
     }
 
     // Getters and Setters
