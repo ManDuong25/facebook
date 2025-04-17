@@ -21,12 +21,12 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
     @Query("SELECT CASE WHEN COUNT(fr) > 0 THEN true ELSE false END FROM FriendRequest fr " +
            "WHERE ((fr.sender.id = :senderId AND fr.receiver.id = :receiverId) OR " +
            "(fr.sender.id = :receiverId AND fr.receiver.id = :senderId)) " +
-           "AND fr.status = backend.backend.model.FriendRequest$FriendRequestStatus.pending")
+           "AND fr.status = backend.backend.model.FriendRequest$FriendRequestStatus.PENDING")
     boolean existsFriendRequest(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
     
     // Tìm lời mời kết bạn đang chờ xử lý giữa 2 người dùng
     @Query("SELECT fr FROM FriendRequest fr " +
            "WHERE fr.sender.id = :senderId AND fr.receiver.id = :receiverId " +
-           "AND fr.status = backend.backend.model.FriendRequest$FriendRequestStatus.pending")
+           "AND fr.status = backend.backend.model.FriendRequest$FriendRequestStatus.PENDING")
     Optional<FriendRequest> findPendingRequest(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
 }
