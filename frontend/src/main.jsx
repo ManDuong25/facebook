@@ -8,7 +8,9 @@ import './index.css'; // Import CSS để ngăn chặn swipe navigation
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <Provider store={store}> {/* Bọc ứng dụng trong Provider */}
+        <Provider store={store}>
+            {' '}
+            {/* Bọc ứng dụng trong Provider */}
             <GlobalStyle>
                 <App />
             </GlobalStyle>

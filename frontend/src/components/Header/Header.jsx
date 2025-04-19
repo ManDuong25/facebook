@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser, logout } from '../../redux/features/authSlice';
 import ChatSidebar from './ChatSidebar';
+import { useChat } from '../../contexts/ChatContext';
 import images from '../../assets/images';
 import { getAvatarUrl, handleImageError } from '../../utils/avatarUtils';
 import axios from 'axios';
@@ -19,6 +20,15 @@ function Header() {
     // Thêm state để lưu trữ URL avatar sau khi xử lý
     const [processedAvatarUrl, setProcessedAvatarUrl] = useState('');
     const [avatarError, setAvatarError] = useState(null);
+
+    // Use chat context instead of local state
+    const {
+        activeConversations,
+        selectedConversation,
+        handleSelectConversation,
+        maxChatWindows,
+        handleMaxChatWindowsChange,
+    } = useChat();
 
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
@@ -141,6 +151,13 @@ function Header() {
         navigate('/profile');
     };
 
+    // Handle conversation selection from sidebar
+    const selectConversationAndCloseSidebar = (conversation) => {
+        handleSelectConversation(conversation);
+        setShowChatSidebar(false);
+        setActiveRightIcon('');
+    };
+
     return (
         <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
             <nav className="w-full">
@@ -218,7 +235,15 @@ function Header() {
                     </div>
                 </div>
             </nav>
-            {showChatSidebar && <ChatSidebar right={chatPosition} />}
+            {showChatSidebar && (
+                <ChatSidebar
+                    right={chatPosition}
+                    onSelectConversation={selectConversationAndCloseSidebar}
+                    selectedConversation={selectedConversation}
+                    activeConversationsCount={activeConversations.length}
+                    onMaxChatWindowsChange={handleMaxChatWindowsChange}
+                />
+            )}
         </div>
     );
 }
