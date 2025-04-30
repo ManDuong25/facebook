@@ -6,11 +6,14 @@ import DefaultLayout from './layouts/DefaultLayout';
 import RouteWrapper from './routes/RouteWrapper';
 import RouteAuthenticated from './routes/RouteAuthenticated';
 import RouteProtected from './routes/RouteProtected';
+import RouteAdmin from './routes/RouteAdmin';
 import { privateRoutes } from './routes/privateRoutes';
+import { adminRoutes } from './routes/adminRoutes';
 import HomeLayout from './layouts/HomeLayout';
 import Content from './components/Content/HomeContent/HomeContent';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import AdminLoginPage from './pages/admin/AdminLoginPage';
 import { ChatProvider } from './contexts/ChatContext';
 import { ChatWindowContainer } from './components/Chat';
 import './App.css';
@@ -26,24 +29,27 @@ function App() {
                         {/* Route đăng nhập và đăng ký */}
                         <Route path="/login" element={<RouteProtected layout={null} component={LoginPage} />} />
                         <Route path="/register" element={<RouteProtected layout={null} component={RegisterPage} />} />
-                        {/* initial public routes */}
-                        {/* {publicRoutes.map((route, i) => {
-              const Page = route.component;
-              let Layout = DefaultLayout;
-              if (route.layout) {
-                Layout = route.layout;
-              } else if (route.layout === null) {
-                Layout = Fragment;
-              }
-              return (
-                <Route
-                  key={i}
-                  path={route.path}
-                  element={<RouteWrapper layout={Layout} component={Page} />}
-                />
-              );
-            })} */}
-                        {/* initial private routes */}
+
+                        {/* Route admin login */}
+                        <Route path="/admin/login" element={<RouteProtected layout={null} component={AdminLoginPage} />} />
+
+                        {/* Admin routes */}
+                        {adminRoutes.map((route, i) => {
+                            const Page = route.component;
+                            let Layout = route.layout;
+                            if (route.layout === null) {
+                                Layout = Fragment;
+                            }
+                            return (
+                                <Route
+                                    key={`admin-${i}`}
+                                    path={route.path}
+                                    element={<RouteAdmin layout={Layout} component={Page} />}
+                                />
+                            );
+                        })}
+
+                        {/* Private routes */}
                         {privateRoutes.map((route, i) => {
                             const Page = route.component;
                             let Layout = DefaultLayout;

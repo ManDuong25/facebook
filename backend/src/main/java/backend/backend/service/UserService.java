@@ -4,14 +4,19 @@ import backend.backend.model.User;
 import backend.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -128,6 +133,19 @@ public class UserService {
     public Page<User> findAllUsersWithPagination(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
+
+    // Đếm tổng số người dùng
+    public long countAllUsers() {
+        return userRepository.count();
+    }
+
+    // Đếm số người dùng được tạo trong n ngày qua
+    public int countUsersCreatedInLastDays(int days) {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(days);
+        return userRepository.countByCreatedAtAfter(startDate);
+    }
+
+
 
     // Xử lý lưu ảnh đại diện (nếu có)
     public String saveAvatar(MultipartFile file) {

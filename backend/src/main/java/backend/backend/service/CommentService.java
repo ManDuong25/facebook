@@ -7,6 +7,7 @@ import backend.backend.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,5 +74,16 @@ public class CommentService {
             return true;
         }
         return false;
+    }
+
+    // Đếm tổng số bình luận
+    public long countAllComments() {
+        return commentRepository.count();
+    }
+
+    // Đếm số bình luận được tạo trong n ngày qua
+    public int countCommentsInLastDays(int days) {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(days);
+        return commentRepository.countByCreatedAtAfter(startDate);
     }
 }

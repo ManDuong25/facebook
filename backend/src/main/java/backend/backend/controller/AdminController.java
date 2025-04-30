@@ -1,8 +1,10 @@
 package backend.backend.controller;
 
+import backend.backend.model.Comment;
 import backend.backend.model.Post;
 import backend.backend.model.ResponseObject;
 import backend.backend.model.User;
+import backend.backend.service.CommentService;
 import backend.backend.service.PostService;
 import backend.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class AdminController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private CommentService commentService;
+
     // ==================== QUẢN LÝ NGƯỜI DÙNG ====================
 
     // API lấy danh sách tất cả người dùng (có phân trang)
@@ -58,30 +63,88 @@ public class AdminController {
         }
     }
 
-    // API lấy thông tin chi tiết của một người dùng
-    @GetMapping("/users/{id}")
-    public ResponseEntity<ResponseObject> getUserDetails(@PathVariable Long id) {
-        try {
-            Optional<User> userOpt = userService.findById(id);
-            if (userOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ResponseObject("error", "Không tìm thấy người dùng với ID: " + id, null));
-            }
+    // Sử dụng API chung từ UserController: GET /api/users/{id}
 
-            return ResponseEntity.ok(new ResponseObject("success", "Lấy thông tin người dùng thành công", userOpt.get()));
+    // API lấy thống kê tổng quan cho dashboard
+    @GetMapping("/dashboard/stats")
+    public ResponseEntity<ResponseObject> getDashboardStats() {
+        try {
+            // Lấy tổng số người dùng
+            long totalUsers = userService.countAllUsers();
+
+            // Lấy tổng số bài viết
+            long totalPosts = postService.countAllPosts();
+
+            // Lấy tổng số bình luận
+            long totalComments = commentService.countAllComments();
+
+            // Tạo đối tượng chứa thống kê
+            Map<String, Object> stats = new HashMap<>();
+            stats.put("totalUsers", totalUsers);
+            stats.put("totalPosts", totalPosts);
+            stats.put("totalComments", totalComments);
+
+            return ResponseEntity.ok(new ResponseObject("success", "Lấy thống kê tổng quan thành công", stats));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseObject("error", "Lỗi khi lấy thông tin người dùng: " + e.getMessage(), null));
+                    .body(new ResponseObject("error", "Lỗi khi lấy thống kê tổng quan: " + e.getMessage(), null));
         }
     }
+
+    // API lấy dữ liệu hoạt động gần đây (biểu đồ)
+    @GetMapping("/dashboard/activity")
+    public ResponseEntity<ResponseObject> getActivityStats() {
+        try {
+            // Lấy số lượng bài viết trong 30 ngày qua
+            int recentPosts = postService.countPostsInLastDays(30);
+
+            // Lấy số lượng bình luận trong 30 ngày qua
+            int recentComments = commentService.countCommentsInLastDays(30);
+
+            // Lấy số lượng đăng ký mới trong 30 ngày qua
+            int recentRegistrations = userService.countUsersCreatedInLastDays(30);
+
+            // Tạo danh sách hoạt động
+            List<Map<String, Object>> activityData = new ArrayList<>();
+
+            Map<String, Object> postsActivity = new HashMap<>();
+            postsActivity.put("label", "Bài viết");
+            postsActivity.put("value", recentPosts);
+            activityData.add(postsActivity);
+
+            Map<String, Object> commentsActivity = new HashMap<>();
+            commentsActivity.put("label", "Bình luận");
+            commentsActivity.put("value", recentComments);
+            activityData.add(commentsActivity);
+
+            Map<String, Object> registrationsActivity = new HashMap<>();
+            registrationsActivity.put("label", "Đăng ký");
+            registrationsActivity.put("value", recentRegistrations);
+            activityData.add(registrationsActivity);
+
+            return ResponseEntity.ok(new ResponseObject("success", "Lấy dữ liệu hoạt động thành công", activityData));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi lấy dữ liệu hoạt động: " + e.getMessage(), null));
+        }
+    }
+
+
 
     // API khóa/mở khóa tài khoản người dùng
     @PutMapping("/users/{id}/status")
     public ResponseEntity<ResponseObject> updateUserStatus(
             @PathVariable Long id,
-            @RequestParam boolean active) {
+            @RequestBody Map<String, Boolean> statusData) {
         try {
+            Boolean isActive = statusData.get("isActive");
+            if (isActive == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("error", "Trạng thái tài khoản không được để trống", null));
+            }
+
             Optional<User> userOpt = userService.findById(id);
             if (userOpt.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -89,13 +152,13 @@ public class AdminController {
             }
 
             User user = userOpt.get();
-            // Giả sử chúng ta thêm trường active vào User model
-            // user.setActive(active);
-            // Vì hiện tại không có trường active, chúng ta sẽ trả về thông báo
+            // Cập nhật trạng thái tài khoản (isBlocked = !isActive)
+            user.setIsBlocked(!isActive);
+            userService.saveUser(user);
 
             return ResponseEntity.ok(new ResponseObject("success",
-                    active ? "Đã kích hoạt tài khoản người dùng" : "Đã khóa tài khoản người dùng",
-                    Map.of("id", id, "active", active)));
+                    isActive ? "Đã kích hoạt tài khoản người dùng" : "Đã khóa tài khoản người dùng",
+                    Map.of("id", id, "isActive", isActive, "isBlocked", !isActive)));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -118,6 +181,77 @@ public class AdminController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("error", "Lỗi khi xóa người dùng: " + e.getMessage(), null));
+        }
+    }
+
+    // API cập nhật thông tin người dùng
+    @PutMapping("/users/{id}")
+    public ResponseEntity<ResponseObject> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        try {
+            Optional<User> userOpt = userService.findById(id);
+            if (userOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("error", "Không tìm thấy người dùng với ID: " + id, null));
+            }
+
+            User existingUser = userOpt.get();
+
+            // Cập nhật thông tin cơ bản
+            if (updatedUser.getFirstName() != null) existingUser.setFirstName(updatedUser.getFirstName());
+            if (updatedUser.getLastName() != null) existingUser.setLastName(updatedUser.getLastName());
+            if (updatedUser.getEmail() != null) existingUser.setEmail(updatedUser.getEmail());
+            if (updatedUser.getUsername() != null) existingUser.setUsername(updatedUser.getUsername());
+            if (updatedUser.getDateOfBirth() != null) existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
+            if (updatedUser.getGender() != null) existingUser.setGender(updatedUser.getGender());
+            if (updatedUser.getWork() != null) existingUser.setWork(updatedUser.getWork());
+            if (updatedUser.getEducation() != null) existingUser.setEducation(updatedUser.getEducation());
+            if (updatedUser.getCurrentCity() != null) existingUser.setCurrentCity(updatedUser.getCurrentCity());
+            if (updatedUser.getHometown() != null) existingUser.setHometown(updatedUser.getHometown());
+            if (updatedUser.getBio() != null) existingUser.setBio(updatedUser.getBio());
+
+            // Cập nhật quyền admin nếu được chỉ định
+            if (updatedUser.getIsAdmin() != null) existingUser.setIsAdmin(updatedUser.getIsAdmin());
+
+            // Lưu người dùng đã cập nhật
+            User savedUser = userService.saveUser(existingUser);
+
+            return ResponseEntity.ok(new ResponseObject("success", "Cập nhật thông tin người dùng thành công", savedUser));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi cập nhật thông tin người dùng: " + e.getMessage(), null));
+        }
+    }
+
+    // API đặt lại mật khẩu cho người dùng
+    @PostMapping("/users/{id}/reset-password")
+    public ResponseEntity<ResponseObject> resetUserPassword(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> passwordData) {
+        try {
+            String newPassword = passwordData.get("newPassword");
+            if (newPassword == null || newPassword.trim().isEmpty()) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("error", "Mật khẩu mới không được để trống", null));
+            }
+
+            Optional<User> userOpt = userService.findById(id);
+            if (userOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("error", "Không tìm thấy người dùng với ID: " + id, null));
+            }
+
+            User user = userOpt.get();
+
+            // Mã hóa mật khẩu mới và cập nhật
+            user.setPassword(new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode(newPassword));
+            userService.saveUser(user);
+
+            return ResponseEntity.ok(new ResponseObject("success", "Đặt lại mật khẩu thành công", Map.of("id", id)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi đặt lại mật khẩu: " + e.getMessage(), null));
         }
     }
 

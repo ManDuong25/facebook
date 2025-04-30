@@ -30,11 +30,41 @@ public class UserController {
                         .body(new ResponseObject("failed", "User not found", null)));
     }
 
-    // Lấy tất cả user
+    // Lấy tất cả user (có hỗ trợ phân trang)
     @GetMapping("/getAll")
-    public ResponseEntity<ResponseObject> getAllUsers() {
-        List<User> users = userService.findAllUsers();
-        return ResponseEntity.ok(new ResponseObject("success", "All users retrieved", users));
+    public ResponseEntity<ResponseObject> getAllUsers(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "false") boolean paginate) {
+        try {
+            if (paginate) {
+                // Sử dụng phân trang
+                org.springframework.data.domain.Pageable pageable =
+                    org.springframework.data.domain.PageRequest.of(
+                        page,
+                        size,
+                        org.springframework.data.domain.Sort.by("createdAt").descending()
+                    );
+
+                org.springframework.data.domain.Page<User> usersPage = userService.findAllUsersWithPagination(pageable);
+
+                java.util.Map<String, Object> response = new java.util.HashMap<>();
+                response.put("users", usersPage.getContent());
+                response.put("currentPage", usersPage.getNumber());
+                response.put("totalItems", usersPage.getTotalElements());
+                response.put("totalPages", usersPage.getTotalPages());
+
+                return ResponseEntity.ok(new ResponseObject("success", "Users retrieved with pagination", response));
+            } else {
+                // Không sử dụng phân trang, lấy tất cả
+                List<User> users = userService.findAllUsers();
+                return ResponseEntity.ok(new ResponseObject("success", "All users retrieved", users));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("failed", "Error retrieving users: " + e.getMessage(), null));
+        }
     }
 
     // Tìm kiếm người dùng theo tên, username hoặc email
@@ -154,16 +184,8 @@ public class UserController {
         }
     }
 
-    // Xóa user
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseObject> deleteUser(@PathVariable Long id) {
-        if (userService.findById(id).isPresent()) {
-            userService.deleteUserById(id);
-            return ResponseEntity.ok(new ResponseObject("success", "User deleted successfully", null));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ResponseObject("failed", "User not found", null));
-    }
+    // Chức năng xóa người dùng chỉ dành cho admin
+    // Sử dụng API: DELETE /api/admin/users/{id}
 
     // Thêm endpoint để upload ảnh đại diện
     @PostMapping("/avatar")

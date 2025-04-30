@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -66,4 +68,24 @@ public class User {
     // Giới thiệu bản thân
     @Column
     private String bio; // Mô tả ngắn gọn
+
+    // Vai trò người dùng (ADMIN, USER)
+    @Column(name = "is_admin")
+    private Boolean isAdmin = false;
+
+    // Trạng thái tài khoản (bị khóa hay không)
+    @Column(name = "is_blocked")
+    private Boolean isBlocked = false;
+
+    // Phương thức tiện ích để kiểm tra vai trò admin
+    @Transient
+    public boolean isAdmin() {
+        return isAdmin != null && isAdmin;
+    }
+
+    // Phương thức tiện ích để kiểm tra trạng thái tài khoản
+    @Transient
+    public boolean isBlocked() {
+        return isBlocked != null && isBlocked;
+    }
 }

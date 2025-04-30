@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -96,4 +98,17 @@ public class PostService {
         }
         return false;
     }
+
+    // Đếm tổng số bài viết
+    public long countAllPosts() {
+        return postRepository.count();
+    }
+
+    // Đếm số bài viết được tạo trong n ngày qua
+    public int countPostsInLastDays(int days) {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(days);
+        return postRepository.countByCreatedAtAfter(startDate);
+    }
+
+
 }

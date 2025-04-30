@@ -47,39 +47,39 @@ public class AuthController {
             newUser.setPassword(passwordEncoder.encode((String) registrationData.get("password")));
             newUser.setFirstName((String) registrationData.get("firstName"));
             newUser.setLastName((String) registrationData.get("lastName"));
-            
+
             // Chuyển đổi chuỗi ngày thành LocalDate
             String dateOfBirthStr = (String) registrationData.get("dateOfBirth");
             LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr);
             newUser.setDateOfBirth(dateOfBirth);
-            
+
             newUser.setGender((String) registrationData.get("gender"));
             newUser.setCreatedAt(LocalDateTime.now());
-            
+
             // Các thông tin tùy chọn
             if (registrationData.containsKey("currentCity")) {
                 newUser.setCurrentCity((String) registrationData.get("currentCity"));
             }
-            
+
             if (registrationData.containsKey("hometown")) {
                 newUser.setHometown((String) registrationData.get("hometown"));
             }
-            
+
             if (registrationData.containsKey("work")) {
                 newUser.setWork((String) registrationData.get("work"));
             }
-            
+
             if (registrationData.containsKey("education")) {
                 newUser.setEducation((String) registrationData.get("education"));
             }
-            
+
             if (registrationData.containsKey("bio")) {
                 newUser.setBio((String) registrationData.get("bio"));
             }
-            
+
             // Lưu người dùng mới
             User savedUser = userService.saveUser(newUser);
-            
+
             // Trả về thông tin người dùng đã đăng ký (không bao gồm mật khẩu)
             Map<String, Object> response = new HashMap<>();
             response.put("id", savedUser.getId());
@@ -89,7 +89,7 @@ public class AuthController {
             response.put("lastName", savedUser.getLastName());
             response.put("createdAt", savedUser.getCreatedAt());
             response.put("message", "Đăng ký thành công");
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -105,20 +105,26 @@ public class AuthController {
 
             // Tìm người dùng theo email
             Optional<User> userOpt = userService.findByEmail(email);
-            
+
             if (userOpt.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(Map.of("message", "Email hoặc mật khẩu không chính xác"));
             }
-            
+
             User user = userOpt.get();
-            
+
             // Kiểm tra mật khẩu
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(Map.of("message", "Email hoặc mật khẩu không chính xác"));
             }
-            
+
+            // Kiểm tra tài khoản có bị khóa không
+            if (user.getIsBlocked() != null && user.getIsBlocked()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("message", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết."));
+            }
+
             // Trả về thông tin người dùng đã đăng nhập (không bao gồm mật khẩu)
             Map<String, Object> response = new HashMap<>();
             response.put("id", user.getId());
@@ -128,11 +134,11 @@ public class AuthController {
             response.put("lastName", user.getLastName());
             response.put("avatar", user.getAvatar());
             response.put("bio", user.getBio());
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("message", "Lỗi khi đăng nhập: " + e.getMessage()));
         }
     }
-} 
+}
