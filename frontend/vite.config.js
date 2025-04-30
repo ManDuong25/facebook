@@ -6,8 +6,8 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            '~': path.resolve(__dirname, './src'), 
-            'bootstrap-icons': path.resolve(__dirname, '../node_modules/bootstrap-icons')
+            '~': path.resolve(__dirname, './src'),
+            'bootstrap-icons': path.resolve(__dirname, '../node_modules/bootstrap-icons'),
         },
     },
     css: {
@@ -15,7 +15,7 @@ export default defineConfig({
     },
     server: {
         fs: {
-            allow: ['..'] 
-        }
-    }
+            allow: ['..'],
+        },
+    },
 });
