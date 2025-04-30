@@ -3,6 +3,8 @@ package backend.backend.service;
 import backend.backend.model.User;
 import backend.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +34,7 @@ public class UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
-    
+
     // Kiểm tra xem username đã tồn tại chưa
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
@@ -63,51 +65,51 @@ public class UserService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
-    
+
     // Tìm kiếm người dùng theo tên, username, hoặc email
     public List<User> searchUsers(String searchTerm) {
         if (searchTerm == null || searchTerm.trim().isEmpty()) {
             throw new IllegalArgumentException("Search term cannot be empty");
         }
-        
+
         // Log để debug
         System.out.println("Searching users with term: " + searchTerm);
-        
+
         List<User> results = new ArrayList<>();
         String trimmedTerm = searchTerm.trim();
-        
+
         // Tìm kiếm chính xác trước
         List<User> exactMatches = userRepository.findByExactFullName(trimmedTerm);
         if (!exactMatches.isEmpty()) {
             results.addAll(exactMatches);
             System.out.println("Found " + exactMatches.size() + " exact matches");
         }
-        
+
         // Nếu không có kết quả chính xác, tìm với cách thông thường
         if (results.isEmpty()) {
             List<User> normalMatches = userRepository.searchUsers(trimmedTerm);
             results.addAll(normalMatches);
             System.out.println("Found " + normalMatches.size() + " normal matches");
-            
+
             // Nếu vẫn không có kết quả, thử tìm theo từng từ trong cụm từ tìm kiếm
             if (results.isEmpty() && trimmedTerm.contains(" ")) {
                 String[] words = trimmedTerm.split("\\s+");
                 Set<User> wordMatches = new HashSet<>();
-                
+
                 for (String word : words) {
                     if (word.length() > 1) { // Chỉ tìm kiếm từ có ít nhất 2 ký tự
                         wordMatches.addAll(userRepository.searchUsersByWord(word));
                     }
                 }
-                
+
                 results.addAll(wordMatches);
                 System.out.println("Found " + wordMatches.size() + " word-based matches");
             }
         }
-        
+
         // Loại bỏ trùng lặp nếu có
         results = results.stream().distinct().collect(Collectors.toList());
-        
+
         System.out.println("Total unique results: " + results.size());
         return results;
     }
@@ -115,6 +117,16 @@ public class UserService {
     // Xóa user theo ID
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    // Kiểm tra xem user có tồn tại không
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    // Lấy danh sách user có phân trang
+    public Page<User> findAllUsersWithPagination(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     // Xử lý lưu ảnh đại diện (nếu có)
@@ -129,27 +141,27 @@ public class UserService {
                 System.out.println("Original filename is null or empty");
                 throw new RuntimeException("File name is missing");
             }
-            
+
             // In thông tin chi tiết để debug
             System.out.println("Original filename: " + originalFilename);
             System.out.println("Content type: " + file.getContentType());
             System.out.println("Size: " + file.getSize() + " bytes");
-            
+
             // Tạo tên file duy nhất với UUID
             String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-            
+
             // Tạo đường dẫn tuyệt đối (không dùng đường dẫn tương đối)
             String rootDir = System.getProperty("user.dir");
             String uploadDir = rootDir + File.separator + "uploads" + File.separator + "avatars" + File.separator;
-            
+
             // In ra để debug
             System.out.println("Root directory: " + rootDir);
             System.out.println("Upload directory: " + uploadDir);
-            
+
             // Đảm bảo thư mục tồn tại
             File directory = new File(uploadDir);
             System.out.println("Absolute directory path: " + directory.getAbsolutePath());
-            
+
             if (!directory.exists()) {
                 if (directory.mkdirs()) {
                     System.out.println("Created directory: " + directory.getAbsolutePath());
@@ -158,17 +170,17 @@ public class UserService {
                     throw new RuntimeException("Failed to create directory: " + directory.getAbsolutePath());
                 }
             }
-            
+
             // Kiểm tra quyền ghi
             if (!directory.canWrite()) {
                 System.out.println("ERROR: No write permission to directory: " + directory.getAbsolutePath());
                 throw new RuntimeException("No write permission to upload directory");
             }
-            
+
             // Tạo file path đầy đủ
             String filePath = uploadDir + fileName;
             File destFile = new File(filePath);
-            
+
             // Lưu file với 2 phương pháp để đảm bảo
             System.out.println("Attempting to save file to: " + destFile.getAbsolutePath());
             try {
@@ -178,7 +190,7 @@ public class UserService {
             } catch (IOException e) {
                 System.out.println("Error during file transfer with transferTo(): " + e.getMessage());
                 e.printStackTrace();
-                
+
                 // Phương pháp 2: Sử dụng streams
                 try (java.io.InputStream inputStream = file.getInputStream();
                      java.io.FileOutputStream outputStream = new java.io.FileOutputStream(destFile)) {
@@ -194,11 +206,11 @@ public class UserService {
                     throw new RuntimeException("Error transferring file: " + ex.getMessage());
                 }
             }
-            
+
             // Kiểm tra file đã lưu thành công chưa
             if (destFile.exists()) {
                 System.out.println("File saved successfully at: " + destFile.getAbsolutePath());
-                
+
                 // URL relative path - this will be used by the frontend
                 String avatarUrlPath = "/uploads/avatars/" + fileName;
                 System.out.println("Avatar URL path: " + avatarUrlPath);
@@ -219,9 +231,9 @@ public class UserService {
         // Tìm user theo ID
         User user = findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-        
+
         System.out.println("Starting avatar update for user: " + user.getUsername() + " (ID: " + userId + ")");
-        
+
         try {
             // Xóa ảnh cũ nếu có
             String oldAvatarUrl = user.getAvatar();
@@ -230,7 +242,7 @@ public class UserService {
                 String oldFilename = oldAvatarUrl.substring(oldAvatarUrl.lastIndexOf("/") + 1);
                 String rootDir = System.getProperty("user.dir");
                 File oldFile = new File(rootDir + File.separator + "uploads" + File.separator + "avatars" + File.separator + oldFilename);
-                
+
                 if (oldFile.exists()) {
                     boolean deleted = oldFile.delete();
                     System.out.println("Deleting old avatar file: " + oldFile.getAbsolutePath() + " - Success: " + deleted);
@@ -238,20 +250,20 @@ public class UserService {
                     System.out.println("Old avatar file not found: " + oldFile.getAbsolutePath());
                 }
             }
-            
+
             // Lưu ảnh mới
             System.out.println("Saving new avatar...");
             String avatarUrl = saveAvatar(avatar);
-            
+
             if (avatarUrl == null) {
                 throw new RuntimeException("Failed to save avatar file");
             }
-            
+
             // Cập nhật user với URL ảnh mới
             System.out.println("Updating user with new avatar URL: " + avatarUrl);
             user.setAvatar(avatarUrl);
             userRepository.save(user);
-            
+
             System.out.println("Avatar updated successfully");
             return avatarUrl;
         } catch (Exception e) {
@@ -273,27 +285,27 @@ public class UserService {
                 System.out.println("Original filename is null or empty");
                 throw new RuntimeException("File name is missing");
             }
-            
+
             // In thông tin chi tiết để debug
             System.out.println("Original filename: " + originalFilename);
             System.out.println("Content type: " + file.getContentType());
             System.out.println("Size: " + file.getSize() + " bytes");
-            
+
             // Tạo tên file duy nhất với UUID
             String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-            
+
             // Tạo đường dẫn tuyệt đối (không dùng đường dẫn tương đối)
             String rootDir = System.getProperty("user.dir");
             String uploadDir = rootDir + File.separator + "uploads" + File.separator + "covers" + File.separator;
-            
+
             // In ra để debug
             System.out.println("Root directory: " + rootDir);
             System.out.println("Upload directory: " + uploadDir);
-            
+
             // Đảm bảo thư mục tồn tại
             File directory = new File(uploadDir);
             System.out.println("Absolute directory path: " + directory.getAbsolutePath());
-            
+
             if (!directory.exists()) {
                 if (directory.mkdirs()) {
                     System.out.println("Created directory: " + directory.getAbsolutePath());
@@ -302,17 +314,17 @@ public class UserService {
                     throw new RuntimeException("Failed to create directory: " + directory.getAbsolutePath());
                 }
             }
-            
+
             // Kiểm tra quyền ghi
             if (!directory.canWrite()) {
                 System.out.println("ERROR: No write permission to directory: " + directory.getAbsolutePath());
                 throw new RuntimeException("No write permission to upload directory");
             }
-            
+
             // Tạo file path đầy đủ
             String filePath = uploadDir + fileName;
             File destFile = new File(filePath);
-            
+
             // Lưu file với 2 phương pháp để đảm bảo
             System.out.println("Attempting to save file to: " + destFile.getAbsolutePath());
             try {
@@ -322,7 +334,7 @@ public class UserService {
             } catch (IOException e) {
                 System.out.println("Error during file transfer with transferTo(): " + e.getMessage());
                 e.printStackTrace();
-                
+
                 // Phương pháp 2: Sử dụng streams
                 try (java.io.InputStream inputStream = file.getInputStream();
                      java.io.FileOutputStream outputStream = new java.io.FileOutputStream(destFile)) {
@@ -338,11 +350,11 @@ public class UserService {
                     throw new RuntimeException("Error transferring file: " + ex.getMessage());
                 }
             }
-            
+
             // Kiểm tra file đã lưu thành công chưa
             if (destFile.exists()) {
                 System.out.println("File saved successfully at: " + destFile.getAbsolutePath());
-                
+
                 // URL relative path - this will be used by the frontend
                 String coverUrlPath = "/uploads/covers/" + fileName;
                 System.out.println("Cover URL path: " + coverUrlPath);
@@ -363,9 +375,9 @@ public class UserService {
         // Tìm user theo ID
         User user = findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-        
+
         System.out.println("Starting cover photo update for user: " + user.getUsername() + " (ID: " + userId + ")");
-        
+
         try {
             // Xóa ảnh bìa cũ nếu có
             String oldCoverUrl = user.getCoverPhoto();
@@ -374,7 +386,7 @@ public class UserService {
                 String oldFilename = oldCoverUrl.substring(oldCoverUrl.lastIndexOf("/") + 1);
                 String rootDir = System.getProperty("user.dir");
                 File oldFile = new File(rootDir + File.separator + "uploads" + File.separator + "covers" + File.separator + oldFilename);
-                
+
                 if (oldFile.exists()) {
                     boolean deleted = oldFile.delete();
                     System.out.println("Deleting old cover file: " + oldFile.getAbsolutePath() + " - Success: " + deleted);
@@ -382,20 +394,20 @@ public class UserService {
                     System.out.println("Old cover file not found: " + oldFile.getAbsolutePath());
                 }
             }
-            
+
             // Lưu ảnh mới
             System.out.println("Saving new cover photo...");
             String coverUrl = saveCoverPhoto(coverPhoto);
-            
+
             if (coverUrl == null) {
                 throw new RuntimeException("Failed to save cover photo file");
             }
-            
+
             // Cập nhật user với URL ảnh bìa mới
             System.out.println("Updating user with new cover URL: " + coverUrl);
             user.setCoverPhoto(coverUrl);
             userRepository.save(user);
-            
+
             System.out.println("Cover photo updated successfully");
             return coverUrl;
         } catch (Exception e) {
