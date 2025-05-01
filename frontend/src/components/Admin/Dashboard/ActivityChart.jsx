@@ -6,7 +6,7 @@ const ActivityChart = ({ data }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-semibold mb-4">Hoạt động gần đây</h3>
+      <h3 className="text-lg font-semibold mb-4">Thống kê hoạt động trong 30 ngày qua</h3>
 
       <div className="flex flex-col space-y-4">
         {data.map((item, index) => (

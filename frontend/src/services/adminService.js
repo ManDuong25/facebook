@@ -30,12 +30,27 @@ export const getCurrentAdmin = () => {
   return adminUser ? JSON.parse(adminUser) : null;
 };
 
+// Tạo instance axios với headers chứa token
+const getAuthAxios = () => {
+  return axios.create({
+    baseURL: API_URL,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
 // Lấy thống kê tổng quan
 export const getDashboardStats = async () => {
   try {
-    const response = await axios.get(`${API_URL}/dashboard/stats`);
+    // Sử dụng axios với token
+    const authAxios = getAuthAxios();
+    const response = await authAxios.get(`/dashboard/stats`);
+
+    console.log('API response (stats):', response.data);
     return response.data;
   } catch (error) {
+    console.error('Error fetching stats:', error);
     throw new Error(error.response?.data?.message || 'Không thể lấy thống kê');
   }
 };
@@ -43,9 +58,14 @@ export const getDashboardStats = async () => {
 // Lấy dữ liệu hoạt động gần đây (biểu đồ)
 export const getActivityStats = async () => {
   try {
-    const response = await axios.get(`${API_URL}/dashboard/activity`);
+    // Sử dụng axios với token
+    const authAxios = getAuthAxios();
+    const response = await authAxios.get(`/dashboard/activity`);
+
+    console.log('API response (activity):', response.data);
     return response.data;
   } catch (error) {
+    console.error('Error fetching activity:', error);
     throw new Error(error.response?.data?.message || 'Không thể lấy dữ liệu hoạt động');
   }
 };
@@ -112,5 +132,15 @@ export const toggleUserStatus = async (userId, isActive) => {
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Không thể thay đổi trạng thái người dùng');
+  }
+};
+
+// Tạo người dùng mới
+export const createUser = async (userData) => {
+  try {
+    const response = await axios.post(`${API_URL}/users`, userData);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Không thể tạo người dùng mới');
   }
 };

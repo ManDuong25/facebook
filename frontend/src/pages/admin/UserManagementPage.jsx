@@ -9,7 +9,8 @@ import {
   getUserDetails,
   updateUser,
   deleteUser,
-  toggleUserStatus
+  toggleUserStatus,
+  createUser
 } from '../../services/adminService';
 
 const UserManagementPage = () => {
@@ -208,10 +209,21 @@ const UserManagementPage = () => {
           throw new Error(response.message || 'Không thể cập nhật thông tin người dùng');
         }
       } else {
-        // Thêm người dùng mới - Giả sử có API createUser
-        // Trong trường hợp này, chúng ta sẽ gọi lại API getAllUsers để lấy danh sách mới
-        toast.success('Thêm người dùng mới thành công');
-        await fetchUsers(0); // Tải lại trang đầu tiên
+        // Thêm người dùng mới
+        const userData = {
+          ...formData,
+          isAdmin: formData.role === 'admin'
+        };
+
+        // Gọi API tạo người dùng mới
+        const response = await createUser(userData);
+
+        if (response.status === 'success') {
+          toast.success('Thêm người dùng mới thành công');
+          await fetchUsers(0); // Tải lại trang đầu tiên
+        } else {
+          throw new Error(response.message || 'Không thể tạo người dùng mới');
+        }
       }
     } catch (error) {
       console.error('Lỗi khi lưu người dùng:', error);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDashboardStats, setLoading, setError } from '../../redux/features/adminSlice';
-import { getDashboardStats, getActivityStats, getRecentActivities } from '../../services/adminService';
+import { getDashboardStats, getActivityStats } from '../../services/adminService';
 import StatisticsCard from '../../components/Admin/Dashboard/StatisticsCard';
 import ActivityChart from '../../components/Admin/Dashboard/ActivityChart';
 
@@ -9,33 +9,41 @@ const AdminDashboardPage = () => {
   const dispatch = useDispatch();
   const { dashboardStats, loading, error } = useSelector((state) => state.admin);
 
-  // Dữ liệu mẫu cho biểu đồ hoạt động
-  const activityData = [
-    { label: 'Bài viết', value: 45 },
-    { label: 'Bình luận', value: 120 },
-    { label: 'Đăng ký', value: 25 },
-  ];
+  // State để lưu dữ liệu hoạt động từ API
+  const [activityData, setActivityData] = useState([
+    { label: 'Bài viết', value: 0 },
+    { label: 'Bình luận', value: 0 },
+    { label: 'Đăng ký', value: 0 },
+  ]);
 
   useEffect(() => {
     const fetchStats = async () => {
       dispatch(setLoading(true));
       try {
-        // Trong môi trường thực tế, sẽ gọi API để lấy dữ liệu
-        // const response = await getDashboardStats();
-        // dispatch(setDashboardStats(response.data));
+        console.log('Đang gọi API lấy thống kê tổng quan...');
 
-        // Dùng dữ liệu mẫu cho demo
-        const mockStats = {
-          totalUsers: 1250,
-          totalPosts: 3456,
-          totalComments: 12890,
-          recentActivity: activityData
-        };
+        // Lấy thống kê tổng quan từ API
+        const statsResponse = await getDashboardStats();
+        console.log('Kết quả API stats:', statsResponse);
 
-        dispatch(setDashboardStats(mockStats));
+        if (statsResponse.status === 'success') {
+          // Cập nhật state với dữ liệu từ API
+          dispatch(setDashboardStats(statsResponse.data));
+          console.log('Đã cập nhật dữ liệu thống kê:', statsResponse.data);
+        }
+
+        // Lấy dữ liệu hoạt động trong 30 ngày qua từ API
+        const activityResponse = await getActivityStats();
+        console.log('Kết quả API activity:', activityResponse);
+
+        if (activityResponse.status === 'success') {
+          // Cập nhật dữ liệu hoạt động
+          setActivityData(activityResponse.data);
+          console.log('Đã cập nhật dữ liệu hoạt động:', activityResponse.data);
+        }
       } catch (error) {
         console.error('Lỗi khi lấy thống kê:', error);
-        dispatch(setError(error.message || 'Không thể lấy dữ liệu thống kê'));
+        dispatch(setError('Không thể lấy dữ liệu thống kê. Vui lòng kiểm tra kết nối.'));
       } finally {
         dispatch(setLoading(false));
       }
@@ -87,35 +95,8 @@ const AdminDashboardPage = () => {
       </div>
 
       {/* Biểu đồ hoạt động */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <ActivityChart data={activityData} />
-
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Hoạt động gần đây</h3>
-          <div className="space-y-4">
-            <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                <i className="bi bi-person-fill text-blue-500"></i>
-              </div>
-              <div>
-                <p className="text-sm">Người dùng mới đăng ký: <span className="font-medium">Nguyễn Văn A</span></p>
-                <p className="text-xs text-gray-500">2 giờ trước</p>
-              </div>
-            </div>
-
-            <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                <i className="bi bi-file-post text-green-500"></i>
-              </div>
-              <div>
-                <p className="text-sm">Bài viết mới: <span className="font-medium">Chuyến du lịch Đà Lạt</span></p>
-                <p className="text-xs text-gray-500">5 giờ trước</p>
-              </div>
-            </div>
-
-
-          </div>
-        </div>
       </div>
     </div>
   );
