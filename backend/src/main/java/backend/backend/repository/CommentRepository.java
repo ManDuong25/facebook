@@ -22,4 +22,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     // Đếm số bình luận được tạo sau một ngày cụ thể
     int countByCreatedAtAfter(LocalDateTime date);
+
+    // Đếm số bình luận của một người dùng
+    long countByUser(User user);
 }

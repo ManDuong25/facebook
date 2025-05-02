@@ -41,4 +41,18 @@ public class PostLikeController {
         List<PostLike> likes = postLikeService.getLikesByPost(post);
         return ResponseEntity.ok(likes);
     }
+
+    // Lấy số lượng like của bài viết
+    @GetMapping("/count")
+    public ResponseEntity<?> countLikesByPost(@RequestParam Long postId) {
+        if (postId == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        try {
+            int count = postLikeService.countLikesByPostId(postId);
+            return ResponseEntity.ok(java.util.Map.of("count", count));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
 }

@@ -38,4 +38,18 @@ public class ShareController {
         post.setId(postId);
         return ResponseEntity.ok(shareService.getSharesByPost(post));
     }
+
+    // Lấy số lượng share của bài viết
+    @GetMapping("/count/{postId}")
+    public ResponseEntity<?> countSharesByPost(@PathVariable Long postId) {
+        if (postId == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        try {
+            int count = shareService.countSharesByPostId(postId);
+            return ResponseEntity.ok(java.util.Map.of("count", count));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
 }

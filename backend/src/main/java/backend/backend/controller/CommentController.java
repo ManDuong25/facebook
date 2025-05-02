@@ -52,4 +52,18 @@ public class CommentController {
         boolean deleted = commentService.deleteComment(id);
         return deleted ? ResponseEntity.ok("Comment deleted successfully") : ResponseEntity.notFound().build();
     }
+
+    // Lấy số lượng comment của bài viết
+    @GetMapping("/count")
+    public ResponseEntity<?> countCommentsByPost(@RequestParam Long postId) {
+        if (postId == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        try {
+            int count = commentService.countCommentsByPostId(postId);
+            return ResponseEntity.ok(java.util.Map.of("count", count));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
 }

@@ -3,33 +3,23 @@ import { getAvatarUrl } from '../../../utils/avatarUtils';
 import { searchUsers } from '../../../services/adminService';
 import { toast } from 'react-toastify';
 
-const UserTable = ({ users, onEdit, onDelete, onBlock, onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+const UserTable = ({ users, onEdit, onDelete, onBlock, onSearch, onViewDetail }) => {
+  const [searchInput, setSearchInput] = useState('');
 
   // Sử dụng danh sách người dùng từ props
   const filteredUsers = users;
 
-  // Debounce search term để tránh gọi API quá nhiều
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500);
+  // Hàm xử lý khi nhấn nút tìm kiếm
+  const handleSearch = () => {
+    onSearch && onSearch(searchInput);
+  };
 
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [searchTerm]);
-
-  // Gọi hàm tìm kiếm khi debouncedSearchTerm thay đổi
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      onSearch && onSearch(debouncedSearchTerm);
-    } else {
-      // Khi xóa hết nội dung tìm kiếm, quay về danh sách cũ
-      onSearch && onSearch("");
+  // Hàm xử lý khi nhấn Enter trong ô tìm kiếm
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
     }
-  }, [debouncedSearchTerm, onSearch]);
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -41,20 +31,32 @@ const UserTable = ({ users, onEdit, onDelete, onBlock, onSearch }) => {
               type="text"
               placeholder="Tìm kiếm người dùng..."
               className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
             <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
           </div>
+
+          {/* Nút tìm kiếm */}
+          <button
+            onClick={handleSearch}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+          >
+            Tìm kiếm
+          </button>
+
+          {/* Nút tải lại */}
           <button
             onClick={() => {
-              setSearchTerm('');
+              setSearchInput('');
               onSearch && onSearch('');
             }}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center"
+            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center"
             title="Tải lại danh sách"
           >
-            <i className="bi bi-arrow-clockwise"></i>
+            <i className="bi bi-arrow-clockwise mr-1"></i>
+            Tải lại
           </button>
         </div>
       </div>
@@ -123,8 +125,16 @@ const UserTable = ({ users, onEdit, onDelete, onBlock, onSearch }) => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
+                      onClick={() => onViewDetail(user.id)}
+                      className="text-indigo-600 hover:text-indigo-900 mr-3"
+                      title="Xem chi tiết"
+                    >
+                      <i className="bi bi-eye"></i>
+                    </button>
+                    <button
                       onClick={() => onEdit(user)}
                       className="text-blue-600 hover:text-blue-900 mr-3"
+                      title="Chỉnh sửa"
                     >
                       <i className="bi bi-pencil"></i>
                     </button>
@@ -135,12 +145,14 @@ const UserTable = ({ users, onEdit, onDelete, onBlock, onSearch }) => {
                           ? 'text-green-600 hover:text-green-900'
                           : 'text-orange-600 hover:text-orange-900'
                       } mr-3`}
+                      title={user.isBlocked ? "Mở khóa" : "Khóa"}
                     >
                       <i className={`bi ${user.isBlocked ? 'bi-unlock' : 'bi-lock'}`}></i>
                     </button>
                     <button
                       onClick={() => onDelete(user)}
                       className="text-red-600 hover:text-red-900"
+                      title="Xóa"
                     >
                       <i className="bi bi-trash"></i>
                     </button>

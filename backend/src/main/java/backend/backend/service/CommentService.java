@@ -86,4 +86,23 @@ public class CommentService {
         LocalDateTime startDate = LocalDateTime.now().minusDays(days);
         return commentRepository.countByCreatedAtAfter(startDate);
     }
+
+    // Đếm số lượng comment của một bài viết
+    public int countCommentsByPost(Post post) {
+        return commentRepository.findByPost(post).size();
+    }
+
+    // Đếm số lượng comment của một bài viết theo postId
+    public int countCommentsByPostId(Long postId) {
+        Post post = postService.getPostById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        return countCommentsByPost(post);
+    }
+
+    /**
+     * Đếm số lượng bình luận của một người dùng
+     */
+    public long countCommentsByUser(User user) {
+        return commentRepository.countByUser(user);
+    }
 }

@@ -44,4 +44,23 @@ public class ShareService {
         }
         return false;
     }
+
+    // Đếm số lượng share của một bài viết
+    public int countSharesByPost(Post post) {
+        return shareRepository.findByPost(post).size();
+    }
+
+    // Đếm số lượng share của một bài viết theo postId
+    public int countSharesByPostId(Long postId) {
+        Post post = new Post();
+        post.setId(postId);
+        return countSharesByPost(post);
+    }
+
+    /**
+     * Đếm số lượng chia sẻ của một người dùng
+     */
+    public long countSharesByUser(User user) {
+        return shareRepository.countByUser(user);
+    }
 }

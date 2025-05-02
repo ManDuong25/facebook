@@ -254,3 +254,54 @@ export const getUsersForDropdown = async () => {
     throw new Error(error.response?.data?.message || 'Không thể lấy danh sách người dùng');
   }
 };
+
+// Lấy số lượng like của bài viết
+export const getPostLikes = async (postId) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/likes/count`, {
+      params: { postId }
+    });
+    console.log('API likes/count response:', response.data);
+    return response.data.count || 0;
+  } catch (error) {
+    console.error('Lỗi khi lấy số lượng like:', error);
+    return 0;
+  }
+};
+
+// Lấy số lượng comment của bài viết
+export const getPostComments = async (postId) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/comments/count`, {
+      params: { postId }
+    });
+    return response.data.count || 0;
+  } catch (error) {
+    console.error('Lỗi khi lấy số lượng comment:', error);
+    return 0;
+  }
+};
+
+// Lấy số lượng share của bài viết
+export const getPostShares = async (postId) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/shares/count/${postId}`);
+    console.log('API shares/count response:', response.data);
+    return response.data.count || 0;
+  } catch (error) {
+    console.error('Lỗi khi lấy số lượng share:', error);
+    return 0;
+  }
+};
+
+// Lấy thông tin chi tiết của người dùng
+export const getUserDetail = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/${userId}/detail`);
+    console.log('API response (user detail):', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user detail:', error);
+    throw new Error(error.response?.data?.message || 'Không thể lấy thông tin chi tiết người dùng');
+  }
+};

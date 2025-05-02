@@ -7,6 +7,7 @@ import RouteWrapper from './routes/RouteWrapper';
 import RouteAuthenticated from './routes/RouteAuthenticated';
 import RouteProtected from './routes/RouteProtected';
 import RouteAdmin from './routes/RouteAdmin';
+import RouteAdminLogin from './routes/RouteAdminLogin';
 import { privateRoutes } from './routes/privateRoutes';
 import { adminRoutes } from './routes/adminRoutes';
 import HomeLayout from './layouts/HomeLayout';
@@ -16,6 +17,7 @@ import RegisterPage from './pages/RegisterPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import { ChatProvider } from './contexts/ChatContext';
 import { ChatWindowContainer } from './components/Chat';
+import Chatbot from './components/Chatbot/Chatbot';
 import './App.css';
 
 function App() {
@@ -30,8 +32,8 @@ function App() {
                         <Route path="/login" element={<RouteProtected layout={null} component={LoginPage} />} />
                         <Route path="/register" element={<RouteProtected layout={null} component={RegisterPage} />} />
 
-                        {/* Route admin login */}
-                        <Route path="/admin/login" element={<RouteProtected layout={null} component={AdminLoginPage} />} />
+                        {/* Route admin login - Sử dụng RouteAdminLogin thay vì RouteProtected */}
+                        <Route path="/admin/login" element={<RouteAdminLogin layout={null} component={AdminLoginPage} />} />
 
                         {/* Admin routes */}
                         {adminRoutes.map((route, i) => {
@@ -84,6 +86,9 @@ function App() {
 
                 {/* Chat windows container */}
                 <ChatWindowContainer />
+
+                {/* AI Chatbot */}
+                <Chatbot />
             </>
         </ChatProvider>
     );

@@ -80,7 +80,8 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPosts());
+        // Sử dụng getAllVisiblePosts() để chỉ lấy bài viết có visible=true và chưa bị xóa
+        return ResponseEntity.ok(postService.getAllVisiblePosts());
     }
 
     @GetMapping("/user/{userId}")
@@ -89,7 +90,8 @@ public class PostController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(postService.getPostsByUser(user));
+        // Sử dụng getVisiblePostsByUser() để chỉ lấy bài viết có visible=true và chưa bị xóa
+        return ResponseEntity.ok(postService.getVisiblePostsByUser(user));
     }
 
     @GetMapping("/user/{userId}/shares")
@@ -98,12 +100,20 @@ public class PostController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(postService.getSharedPostsByUser(user));
+        // Sử dụng getVisibleSharedPostsByUser() để chỉ lấy bài viết có visible=true và chưa bị xóa
+        return ResponseEntity.ok(postService.getVisibleSharedPostsByUser(user));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
-        Optional<Post> postOpt = postService.getPostById(id);
+        // Sử dụng getNotDeletedPostById() để chỉ lấy bài viết chưa bị xóa
+        Optional<Post> postOpt = postService.getNotDeletedPostById(id);
+
+        // Kiểm tra thêm điều kiện visible=true
+        if (postOpt.isPresent() && (postOpt.get().getVisible() == null || !postOpt.get().getVisible())) {
+            return ResponseEntity.notFound().build();
+        }
+
         return postOpt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

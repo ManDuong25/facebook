@@ -8,9 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
+// @EnableWebSecurity
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -18,19 +17,19 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .cors(withDefaults())
-            .authorizeHttpRequests(authz -> authz
-                // Các API admin cần được bảo vệ
-                // .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
-                // Tạm thời cho phép tất cả các request để dễ dàng test
-                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-            )
-            .httpBasic(withDefaults());
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //     http
+    //         .csrf(csrf -> csrf.disable())
+    //         .cors(withDefaults())
+    //         .authorizeHttpRequests(authz -> authz
+    //             // Các API admin cần được bảo vệ
+    //             // .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
+    //             // Tạm thời cho phép tất cả các request để dễ dàng test
+    //             .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+    //         )
+    //         .httpBasic(withDefaults());
 
-        return http.build();
-    }
+    //     return http.build();
+    // }
 }

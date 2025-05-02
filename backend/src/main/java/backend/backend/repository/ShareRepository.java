@@ -19,4 +19,7 @@ public interface ShareRepository extends JpaRepository<Share, Long> {
 
     // Kiểm tra xem một người dùng đã chia sẻ bài viết hay chưa
     Optional<Share> findByPostAndUser(Post post, User user);
+
+    // Đếm số lượng chia sẻ của một người dùng
+    long countByUser(User user);
 }

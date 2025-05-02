@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { getAvatarUrl, getImageUrl } from '../../../utils/avatarUtils';
 
-const PostTable = ({ posts, onView, onEdit, onDelete, onToggleVisibility }) => {
-  const [filter, setFilter] = useState('all'); // all, hidden, visible
+const PostTable = ({ posts, filter = 'all', onView, onEdit, onDelete, onToggleVisibility }) => {
 
   // Lọc bài viết theo trạng thái
   const filteredPosts = posts.filter(post => {
@@ -19,21 +18,6 @@ const PostTable = ({ posts, onView, onEdit, onDelete, onToggleVisibility }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      {/* Bộ lọc trạng thái */}
-      <div className="p-4 border-b flex flex-wrap gap-4 items-center justify-end">
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-600">Lọc theo trạng thái:</span>
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="all">Tất cả</option>
-            <option value="visible">Đang hiển thị</option>
-            <option value="hidden">Đã ẩn</option>
-          </select>
-        </div>
-      </div>
 
       {/* Bảng bài viết */}
       <div className="overflow-x-auto">

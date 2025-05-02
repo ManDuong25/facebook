@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setError } from '../../redux/features/adminSlice';
 import PostTable from '../../components/Admin/Posts/PostTable';
@@ -9,7 +9,10 @@ import {
   getPostDetails,
   updatePostVisibility,
   deletePost,
-  getUsersForDropdown
+  getUsersForDropdown,
+  getPostLikes,
+  getPostComments,
+  getPostShares
 } from '../../services/adminService';
 
 const PostManagementPage = () => {
@@ -21,6 +24,9 @@ const PostManagementPage = () => {
   const [showPostDetail, setShowPostDetail] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
+  const [likeCount, setLikeCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
+  const [shareCount, setShareCount] = useState(0);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPages: 0,
@@ -28,8 +34,10 @@ const PostManagementPage = () => {
     pageSize: 10
   });
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [users, setUsers] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('all'); // all, visible, hidden
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -82,6 +90,8 @@ const PostManagementPage = () => {
     fetchUsers();
   }, []);
 
+
+
   const handleViewPost = async (post) => {
     dispatch(setLoading(true));
     try {
@@ -90,6 +100,32 @@ const PostManagementPage = () => {
       if (response.status === 'success') {
         setSelectedPost(response.data.post || post);
         setShowPostDetail(true);
+
+        // Lấy số lượng like, comment và share
+        try {
+          // Lấy số lượng like
+          const likesCount = await getPostLikes(post.id);
+          console.log('Likes count:', likesCount);
+          setLikeCount(likesCount);
+
+          // Lấy số lượng comment
+          const commentsCount = await getPostComments(post.id);
+          console.log('Comments count:', commentsCount);
+          setCommentCount(commentsCount);
+
+          // Lấy số lượng share
+          const sharesCount = await getPostShares(post.id);
+          console.log('Shares count:', sharesCount);
+          setShareCount(sharesCount);
+
+          console.log(`Đã lấy thông tin tương tác cho bài viết ${post.id}: ${likesCount} likes, ${commentsCount} comments, ${sharesCount} shares`);
+        } catch (countError) {
+          console.error('Lỗi khi lấy số lượng tương tác:', countError);
+          // Không hiển thị lỗi này cho người dùng, chỉ log ra console
+          setLikeCount(0);
+          setCommentCount(0);
+          setShareCount(0);
+        }
       } else {
         throw new Error(response.message || 'Không thể lấy chi tiết bài viết');
       }
@@ -171,10 +207,15 @@ const PostManagementPage = () => {
   const handleClosePostDetail = () => {
     setShowPostDetail(false);
     setSelectedPost(null);
+    // Reset số lượng like, comment và share
+    setLikeCount(0);
+    setCommentCount(0);
+    setShareCount(0);
   };
 
-  const handleSearch = (term) => {
-    setSearchTerm(term);
+  // Hàm xử lý khi nhấn nút tìm kiếm
+  const handleSearch = () => {
+    setSearchTerm(searchInput);
     setPagination({...pagination, currentPage: 0}); // Reset về trang đầu tiên khi tìm kiếm
   };
 
@@ -187,6 +228,19 @@ const PostManagementPage = () => {
     if (newPage >= 0 && newPage < pagination.totalPages) {
       setPagination({...pagination, currentPage: newPage});
     }
+  };
+
+  // Hàm tải lại dữ liệu
+  const handleReload = () => {
+    // Reset các bộ lọc về mặc định
+    setSearchInput('');
+    setSearchTerm('');
+    setStatusFilter('all');
+    // Giữ nguyên bộ lọc người dùng nếu muốn
+    // setSelectedUserId(null);
+
+    // Quay về trang đầu tiên
+    setPagination({...pagination, currentPage: 0});
   };
 
   if (loading && posts.length === 0) {
@@ -252,10 +306,23 @@ const PostManagementPage = () => {
               </div>
             )}
 
+            {selectedPost?.videoUrl && (
+              <div className="mt-2 mb-3">
+                <video
+                  controls
+                  className="max-w-full h-auto max-h-96 rounded-lg w-full object-contain bg-black"
+                  preload="metadata"
+                >
+                  <source src={getImageUrl(selectedPost.videoUrl)} type="video/mp4" />
+                  Trình duyệt của bạn không hỗ trợ thẻ video.
+                </video>
+              </div>
+            )}
+
             <div className="flex items-center text-sm text-gray-500 space-x-4">
-              <span><i className="bi bi-hand-thumbs-up mr-1"></i> {selectedPost?.likeCount} lượt thích</span>
-              <span><i className="bi bi-chat mr-1"></i> {selectedPost?.commentCount} bình luận</span>
-              <span><i className="bi bi-share mr-1"></i> {selectedPost?.shareCount} chia sẻ</span>
+              <span><i className="bi bi-hand-thumbs-up mr-1"></i> {likeCount} lượt thích</span>
+              <span><i className="bi bi-chat mr-1"></i> {commentCount} bình luận</span>
+              <span><i className="bi bi-share mr-1"></i> {shareCount} chia sẻ</span>
               {selectedPost?.visible === false && (
                 <span className="text-red-500"><i className="bi bi-eye-slash mr-1"></i> Đã ẩn</span>
               )}
@@ -289,18 +356,30 @@ const PostManagementPage = () => {
       ) : (
         <div>
           {/* Thanh tìm kiếm và lọc */}
-          <div className="mb-4 flex flex-wrap items-center gap-4">
-            <div className="flex-grow max-w-md relative">
+          <div className="mb-4 flex items-center space-x-4">
+            {/* Ô tìm kiếm */}
+            <div className="relative w-64">
               <input
                 type="text"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-l-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Tìm kiếm bài viết..."
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               />
               <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
             </div>
 
+            {/* Nút tìm kiếm */}
+            <button
+              type="button"
+              onClick={handleSearch}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+            >
+              Tìm kiếm
+            </button>
+
+            {/* Dropdown lọc người dùng */}
             <div className="w-64">
               <select
                 className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -315,10 +394,35 @@ const PostManagementPage = () => {
                 ))}
               </select>
             </div>
+
+            {/* Dropdown lọc trạng thái */}
+            <div className="w-48">
+              <select
+                className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="all">Tất cả trạng thái</option>
+                <option value="visible">Đang hiển thị</option>
+                <option value="hidden">Đã ẩn</option>
+              </select>
+            </div>
+
+            {/* Nút tải lại dữ liệu */}
+            <button
+              type="button"
+              onClick={handleReload}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center"
+              title="Tải lại dữ liệu"
+            >
+              <i className="bi bi-arrow-clockwise mr-1"></i>
+              Tải lại
+            </button>
           </div>
 
           <PostTable
             posts={posts}
+            filter={statusFilter}
             onView={handleViewPost}
             onToggleVisibility={handleToggleVisibility}
             onDelete={handleDeletePost}

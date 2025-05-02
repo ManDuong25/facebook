@@ -110,11 +110,13 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         if (userId != null && searchTerm != null && !searchTerm.isEmpty()) {
-            return postRepository.findByUserIdAndContentContaining(userId, searchTerm, pageable);
+            // Tìm kiếm theo userId và (nội dung hoặc thông tin người dùng)
+            return postRepository.findByUserIdAndContentOrUserInfo(userId, searchTerm, pageable);
         } else if (userId != null) {
             return postRepository.findByUserId(userId, pageable);
         } else if (searchTerm != null && !searchTerm.isEmpty()) {
-            return postRepository.findByContentContaining(searchTerm, pageable);
+            // Tìm kiếm theo nội dung hoặc thông tin người dùng
+            return postRepository.findByContentOrUserInfo(searchTerm, pageable);
         } else {
             return postRepository.findAllNotDeleted(pageable);
         }
@@ -130,11 +132,24 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    // Lấy bài viết đã chia sẻ của 1 user
+    // Lấy bài viết đã chia sẻ của 1 user (bao gồm cả bài viết đã ẩn và đã xóa)
     public List<Post> getSharedPostsByUser(User user) {
         List<Share> shares = shareRepository.findByUser(user);
         List<Post> sharedPosts = shares.stream()
                 .map(Share::getPost)
+                .collect(Collectors.toList());
+
+        // Sắp xếp bài viết theo thời gian tạo mới nhất
+        sharedPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+        return sharedPosts;
+    }
+
+    // Lấy bài viết đã chia sẻ của 1 user (chỉ lấy bài viết có visible=true và chưa bị xóa)
+    public List<Post> getVisibleSharedPostsByUser(User user) {
+        List<Share> shares = shareRepository.findByUser(user);
+        List<Post> sharedPosts = shares.stream()
+                .map(Share::getPost)
+                .filter(post -> post.getVisible() != null && post.getVisible() && post.getDeletedAt() == null)
                 .collect(Collectors.toList());
 
         // Sắp xếp bài viết theo thời gian tạo mới nhất
@@ -225,5 +240,19 @@ public class PostService {
         return postRepository.findByDeletedAtIsNotNull(pageable);
     }
 
+    /**
+     * Đếm số lượng bài viết của một người dùng
+     */
+    public long countPostsByUser(User user) {
+        return postRepository.countByUserAndDeletedAtIsNull(user);
+    }
 
+    /**
+     * Lấy các bài viết gần đây của một người dùng
+     */
+    public List<Post> getRecentPostsByUser(User user, int limit) {
+        Pageable pageable = PageRequest.of(0, limit, Sort.by("createdAt").descending());
+        Page<Post> postPage = postRepository.findByUserAndDeletedAtIsNull(user, pageable);
+        return postPage.getContent();
+    }
 }

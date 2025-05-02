@@ -6,6 +6,7 @@ import backend.backend.model.User;
 import backend.backend.service.CommentService;
 import backend.backend.service.PostService;
 import backend.backend.service.UserService;
+import backend.backend.service.UserStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,9 @@ public class AdminController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private UserStatsService userStatsService;
 
     // ==================== QUẢN LÝ NGƯỜI DÙNG ====================
 
@@ -296,6 +300,29 @@ public class AdminController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("error", "Lỗi khi đặt lại mật khẩu: " + e.getMessage(), null));
+        }
+    }
+
+    /**
+     * API lấy thông tin chi tiết của người dùng bao gồm các thống kê hoạt động
+     */
+    @GetMapping("/users/{id}/detail")
+    public ResponseEntity<ResponseObject> getUserDetail(@PathVariable Long id) {
+        try {
+            // Kiểm tra xem người dùng có tồn tại không
+            if (!userService.existsById(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("error", "Không tìm thấy người dùng với ID: " + id, null));
+            }
+
+            // Lấy thông tin chi tiết người dùng từ UserStatsService
+            Map<String, Object> userDetail = userStatsService.getUserDetailWithStats(id);
+
+            return ResponseEntity.ok(new ResponseObject("success", "Lấy thông tin chi tiết người dùng thành công", userDetail));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi lấy thông tin chi tiết người dùng: " + e.getMessage(), null));
         }
     }
 

@@ -68,4 +68,16 @@ public class PostLikeService {
     public List<PostLike> getLikesByUser(User user) {
         return postLikeRepository.findByUser(user);
     }
+
+    // Đếm số lượng like của một bài viết
+    public int countLikesByPost(Post post) {
+        return postLikeRepository.findByPost(post).size();
+    }
+
+    // Đếm số lượng like của một bài viết theo postId
+    public int countLikesByPostId(Long postId) {
+        Post post = postService.getPostById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        return countLikesByPost(post);
+    }
 }

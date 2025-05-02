@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setError } from '../../redux/features/adminSlice';
 import UserTable from '../../components/Admin/Users/UserTable';
 import UserForm from '../../components/Admin/Users/UserForm';
+import UserDetail from '../../components/Admin/Users/UserDetail';
 import { toast } from 'react-toastify';
 import {
   getAllUsers,
@@ -11,7 +12,8 @@ import {
   deleteUser,
   toggleUserStatus,
   createUser,
-  searchUsers
+  searchUsers,
+  getUserDetail
 } from '../../services/adminService';
 
 const UserManagementPage = () => {
@@ -24,6 +26,8 @@ const UserManagementPage = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [isSearchMode, setIsSearchMode] = useState(false);
+  const [showUserDetail, setShowUserDetail] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   // Dữ liệu mẫu cho demo
   const mockUsers = [
@@ -164,11 +168,20 @@ const UserManagementPage = () => {
     dispatch(setError(null));
     setSelectedUser(user);
     setShowForm(true);
+    // Đóng form chi tiết nếu đang mở
+    setShowUserDetail(false);
   };
 
   const handleDeleteUser = (user) => {
     setUserToDelete(user);
     setShowDeleteConfirm(true);
+  };
+
+  const handleViewUserDetail = (userId) => {
+    setSelectedUserId(userId);
+    setShowUserDetail(true);
+    // Đóng form chỉnh sửa nếu đang mở
+    setShowForm(false);
   };
 
   const confirmDeleteUser = async () => {
@@ -311,15 +324,20 @@ const UserManagementPage = () => {
     setSelectedUser(null);
   };
 
+  const handleCloseUserDetail = () => {
+    setShowUserDetail(false);
+    setSelectedUserId(null);
+  };
+
   // Hàm xử lý tìm kiếm người dùng
   const handleSearchUsers = async (searchTerm) => {
     if (!searchTerm) {
       // Nếu từ khóa tìm kiếm trống, quay lại chế độ hiển thị danh sách
       if (isSearchMode) {
         setIsSearchMode(false);
-        await fetchUsers(currentPage);
+        await fetchUsers(0); // Quay về trang đầu tiên khi tải lại
       }
-      return Promise.resolve();
+      return;
     }
 
     dispatch(setError(null));
@@ -327,6 +345,7 @@ const UserManagementPage = () => {
 
     try {
       const response = await searchUsers(searchTerm, false);
+      console.log('Kết quả tìm kiếm:', response);
 
       if (response.status === 'success') {
         // Chuyển đổi dữ liệu từ API để phù hợp với cấu trúc component
@@ -360,8 +379,6 @@ const UserManagementPage = () => {
       dispatch(setError(error.message || 'Không thể tìm kiếm người dùng'));
       toast.error('Không thể tìm kiếm người dùng');
     }
-
-    return Promise.resolve();
   };
 
   if (loading && users.length === 0) {
@@ -398,6 +415,11 @@ const UserManagementPage = () => {
           onSubmit={handleFormSubmit}
           onCancel={handleCancelForm}
         />
+      ) : showUserDetail ? (
+        <UserDetail
+          userId={selectedUserId}
+          onClose={handleCloseUserDetail}
+        />
       ) : (
         <>
           <UserTable
@@ -406,6 +428,7 @@ const UserManagementPage = () => {
             onDelete={handleDeleteUser}
             onBlock={handleBlockUser}
             onSearch={handleSearchUsers}
+            onViewDetail={handleViewUserDetail}
           />
 
           {/* Phân trang - Chỉ hiển thị khi không ở chế độ tìm kiếm */}

@@ -70,5 +70,29 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     // Đếm tổng số bài viết chưa bị xóa
     long countByDeletedAtIsNull();
 
+    // Tìm kiếm bài viết theo nội dung hoặc thông tin người dùng (username, firstName, lastName)
+    @Query("SELECT p FROM Post p JOIN p.user u WHERE " +
+           "(LOWER(p.content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(u.username) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(CONCAT(u.firstName, ' ', u.lastName)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+           "AND p.deletedAt IS NULL")
+    Page<Post> findByContentOrUserInfo(@Param("searchTerm") String searchTerm, Pageable pageable);
 
+    // Tìm kiếm bài viết theo người dùng và (nội dung hoặc thông tin người dùng)
+    @Query("SELECT p FROM Post p JOIN p.user u WHERE p.user.id = :userId AND " +
+           "(LOWER(p.content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(u.username) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(CONCAT(u.firstName, ' ', u.lastName)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+           "AND p.deletedAt IS NULL")
+    Page<Post> findByUserIdAndContentOrUserInfo(@Param("userId") Long userId, @Param("searchTerm") String searchTerm, Pageable pageable);
+
+    // Đếm số bài viết của một người dùng chưa bị xóa
+    long countByUserAndDeletedAtIsNull(User user);
+
+    // Lấy bài viết của một người dùng có phân trang (chỉ lấy bài viết chưa bị xóa)
+    Page<Post> findByUserAndDeletedAtIsNull(User user, Pageable pageable);
 }
