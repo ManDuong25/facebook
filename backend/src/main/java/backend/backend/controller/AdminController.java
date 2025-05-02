@@ -1,6 +1,5 @@
 package backend.backend.controller;
 
-import backend.backend.model.Comment;
 import backend.backend.model.Post;
 import backend.backend.model.ResponseObject;
 import backend.backend.model.User;
@@ -23,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -63,6 +61,52 @@ public class AdminController {
         }
     }
 
+    // API tạo người dùng mới (dành cho admin)
+    @PostMapping("/users")
+    public ResponseEntity<ResponseObject> createUser(@RequestBody User newUser) {
+        try {
+            // Kiểm tra email đã tồn tại chưa
+            if (userService.existsByEmail(newUser.getEmail())) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("error", "Email đã tồn tại trong hệ thống", null));
+            }
+
+            // Kiểm tra username đã tồn tại chưa
+            if (userService.existsByUsername(newUser.getUsername())) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("error", "Tên đăng nhập đã tồn tại", null));
+            }
+
+            // Kiểm tra các trường bắt buộc
+            if (newUser.getUsername() == null || newUser.getUsername().trim().isEmpty() ||
+                newUser.getEmail() == null || newUser.getEmail().trim().isEmpty() ||
+                newUser.getPassword() == null || newUser.getPassword().trim().isEmpty() ||
+                newUser.getFirstName() == null || newUser.getFirstName().trim().isEmpty() ||
+                newUser.getLastName() == null || newUser.getLastName().trim().isEmpty() ||
+                newUser.getDateOfBirth() == null ||
+                newUser.getGender() == null || newUser.getGender().trim().isEmpty()) {
+
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("error", "Vui lòng điền đầy đủ thông tin bắt buộc", null));
+            }
+
+            // Mã hóa mật khẩu
+            newUser.setPassword(new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode(newUser.getPassword()));
+
+            // Đặt thời gian tạo
+            newUser.setCreatedAt(java.time.LocalDateTime.now());
+
+            // Lưu người dùng mới
+            User savedUser = userService.saveUser(newUser);
+
+            return ResponseEntity.ok(new ResponseObject("success", "Tạo người dùng mới thành công", savedUser));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi tạo người dùng mới: " + e.getMessage(), null));
+        }
+    }
+
     // Sử dụng API chung từ UserController: GET /api/users/{id}
 
     // API lấy thống kê tổng quan cho dashboard
@@ -72,8 +116,8 @@ public class AdminController {
             // Lấy tổng số người dùng
             long totalUsers = userService.countAllUsers();
 
-            // Lấy tổng số bài viết
-            long totalPosts = postService.countAllPosts();
+            // Lấy tổng số bài viết (chỉ đếm bài viết chưa bị xóa)
+            long totalPosts = postService.countAllNotDeletedPosts();
 
             // Lấy tổng số bình luận
             long totalComments = commentService.countAllComments();
@@ -139,8 +183,8 @@ public class AdminController {
             @PathVariable Long id,
             @RequestBody Map<String, Boolean> statusData) {
         try {
-            Boolean isActive = statusData.get("isActive");
-            if (isActive == null) {
+            Boolean isBlocked = statusData.get("isBlocked");
+            if (isBlocked == null) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("error", "Trạng thái tài khoản không được để trống", null));
             }
@@ -152,13 +196,13 @@ public class AdminController {
             }
 
             User user = userOpt.get();
-            // Cập nhật trạng thái tài khoản (isBlocked = !isActive)
-            user.setIsBlocked(!isActive);
+            // Cập nhật trạng thái tài khoản
+            user.setIsBlocked(isBlocked);
             userService.saveUser(user);
 
             return ResponseEntity.ok(new ResponseObject("success",
-                    isActive ? "Đã kích hoạt tài khoản người dùng" : "Đã khóa tài khoản người dùng",
-                    Map.of("id", id, "isActive", isActive, "isBlocked", !isActive)));
+                    isBlocked ? "Đã khóa tài khoản người dùng" : "Đã kích hoạt tài khoản người dùng",
+                    Map.of("id", id, "isBlocked", isBlocked)));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -257,41 +301,28 @@ public class AdminController {
 
     // ==================== QUẢN LÝ BÀI VIẾT ====================
 
-    // API lấy danh sách tất cả bài viết (có phân trang, lọc)
+    // API lấy danh sách tất cả bài viết (có phân trang, tìm kiếm) - chỉ lấy bài viết chưa bị xóa
     @GetMapping("/posts")
-    public ResponseEntity<ResponseObject> getAllPosts(
+    public ResponseEntity<ResponseObject> getPosts(
             @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) String searchTerm,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDir) {
+
         try {
+            // Chỉ lấy bài viết chưa bị xóa mềm
+            Page<Post> postsPage = postService.getNotDeletedPosts(userId, searchTerm, page, size, sortBy, sortDir);
+
             Map<String, Object> response = new HashMap<>();
+            response.put("posts", postsPage.getContent());
+            response.put("currentPage", postsPage.getNumber());
+            response.put("totalItems", postsPage.getTotalElements());
+            response.put("totalPages", postsPage.getTotalPages());
 
             if (userId != null) {
-                // Lấy bài viết của một người dùng cụ thể
-                User user = userService.getUserById(userId);
-                if (user == null) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(new ResponseObject("error", "Không tìm thấy người dùng với ID: " + userId, null));
-                }
-
-                List<Post> posts = postService.getPostsByUser(user);
-                response.put("posts", posts);
-                response.put("totalItems", posts.size());
                 response.put("userId", userId);
-            } else {
-                // Lấy tất cả bài viết với phân trang
-                // Giả sử postService có phương thức getAllPostsWithPagination
-                List<Post> allPosts = postService.getAllPosts();
-
-                // Thực hiện phân trang thủ công
-                int start = page * size;
-                int end = Math.min(start + size, allPosts.size());
-                List<Post> paginatedPosts = start < allPosts.size() ? allPosts.subList(start, end) : new ArrayList<>();
-
-                response.put("posts", paginatedPosts);
-                response.put("currentPage", page);
-                response.put("totalItems", allPosts.size());
-                response.put("totalPages", (int) Math.ceil((double) allPosts.size() / size));
             }
 
             return ResponseEntity.ok(new ResponseObject("success", "Lấy danh sách bài viết thành công", response));
@@ -299,6 +330,32 @@ public class AdminController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("error", "Lỗi khi lấy danh sách bài viết: " + e.getMessage(), null));
+        }
+    }
+
+    // API lấy danh sách bài viết đã xóa (có phân trang)
+    @GetMapping("/posts/deleted")
+    public ResponseEntity<ResponseObject> getDeletedPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            // Tạo Pageable với sắp xếp theo thời gian xóa giảm dần
+            Pageable pageable = PageRequest.of(page, size, Sort.by("deletedAt").descending());
+
+            // Lấy danh sách bài viết đã xóa
+            Page<Post> postsPage = postService.getDeletedPosts(pageable);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("posts", postsPage.getContent());
+            response.put("currentPage", postsPage.getNumber());
+            response.put("totalItems", postsPage.getTotalElements());
+            response.put("totalPages", postsPage.getTotalPages());
+
+            return ResponseEntity.ok(new ResponseObject("success", "Lấy danh sách bài viết đã xóa thành công", response));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi lấy danh sách bài viết đã xóa: " + e.getMessage(), null));
         }
     }
 
@@ -312,7 +369,17 @@ public class AdminController {
                         .body(new ResponseObject("error", "Không tìm thấy bài viết với ID: " + id, null));
             }
 
-            return ResponseEntity.ok(new ResponseObject("success", "Lấy thông tin bài viết thành công", postOpt.get()));
+            Post post = postOpt.get();
+
+            // Thêm thông tin về trạng thái xóa
+            Map<String, Object> postData = new HashMap<>();
+            postData.put("post", post);
+            postData.put("isDeleted", post.isDeleted());
+            if (post.getDeletedAt() != null) {
+                postData.put("deletedAt", post.getDeletedAt());
+            }
+
+            return ResponseEntity.ok(new ResponseObject("success", "Lấy thông tin bài viết thành công", postData));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -324,22 +391,25 @@ public class AdminController {
     @PutMapping("/posts/{id}/visibility")
     public ResponseEntity<ResponseObject> updatePostVisibility(
             @PathVariable Long id,
-            @RequestParam boolean visible) {
+            @RequestBody Map<String, Boolean> visibilityData) {
         try {
+            Boolean visible = visibilityData.get("visible");
+            if (visible == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("error", "Trạng thái hiển thị không được để trống", null));
+            }
+
             Optional<Post> postOpt = postService.getPostById(id);
             if (postOpt.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("error", "Không tìm thấy bài viết với ID: " + id, null));
             }
 
-            // Giả sử chúng ta thêm trường visible vào Post model
-            // Post post = postOpt.get();
-            // post.setVisible(visible);
-            // postService.updatePost(id, post);
+            Post updatedPost = postService.updatePostVisibility(id, visible);
 
             return ResponseEntity.ok(new ResponseObject("success",
                     visible ? "Đã hiện bài viết" : "Đã ẩn bài viết",
-                    Map.of("id", id, "visible", visible)));
+                    Map.of("id", updatedPost.getId(), "visible", updatedPost.getVisible())));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -347,7 +417,7 @@ public class AdminController {
         }
     }
 
-    // API xóa bài viết
+    // API xóa mềm bài viết
     @DeleteMapping("/posts/{id}")
     public ResponseEntity<ResponseObject> deletePost(@PathVariable Long id) {
         try {
@@ -368,6 +438,59 @@ public class AdminController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("error", "Lỗi khi xóa bài viết: " + e.getMessage(), null));
+        }
+    }
+
+    // API khôi phục bài viết đã xóa
+    @PutMapping("/posts/{id}/restore")
+    public ResponseEntity<ResponseObject> restorePost(@PathVariable Long id) {
+        try {
+            Optional<Post> postOpt = postService.getPostById(id);
+            if (postOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("error", "Không tìm thấy bài viết với ID: " + id, null));
+            }
+
+            if (postOpt.get().getDeletedAt() == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("error", "Bài viết này chưa bị xóa", null));
+            }
+
+            boolean restored = postService.restorePost(id);
+            if (restored) {
+                return ResponseEntity.ok(new ResponseObject("success", "Đã khôi phục bài viết thành công", Map.of("id", id)));
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ResponseObject("error", "Không thể khôi phục bài viết", null));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi khôi phục bài viết: " + e.getMessage(), null));
+        }
+    }
+
+    // API xóa vĩnh viễn bài viết (hard delete)
+    @DeleteMapping("/posts/{id}/permanent")
+    public ResponseEntity<ResponseObject> permanentDeletePost(@PathVariable Long id) {
+        try {
+            Optional<Post> postOpt = postService.getPostById(id);
+            if (postOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("error", "Không tìm thấy bài viết với ID: " + id, null));
+            }
+
+            boolean deleted = postService.permanentDeletePost(id);
+            if (deleted) {
+                return ResponseEntity.ok(new ResponseObject("success", "Đã xóa vĩnh viễn bài viết thành công", Map.of("id", id)));
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ResponseObject("error", "Không thể xóa vĩnh viễn bài viết", null));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi xóa vĩnh viễn bài viết: " + e.getMessage(), null));
         }
     }
 
@@ -453,6 +576,31 @@ public class AdminController {
             e.printStackTrace();
             return ResponseEntity.internalServerError()
                     .body(new ResponseObject("error", "Lỗi khi xóa file không sử dụng: " + e.getMessage(), null));
+        }
+    }
+
+    // API lấy danh sách người dùng cho dropdown
+    @GetMapping("/users/list")
+    public ResponseEntity<ResponseObject> getUsersList() {
+        try {
+            List<User> users = userService.findAllUsers();
+
+            // Chỉ lấy thông tin cần thiết
+            List<Map<String, Object>> simplifiedUsers = new ArrayList<>();
+            for (User user : users) {
+                Map<String, Object> userMap = new HashMap<>();
+                userMap.put("id", user.getId());
+                userMap.put("username", user.getUsername());
+                userMap.put("firstName", user.getFirstName());
+                userMap.put("lastName", user.getLastName());
+                simplifiedUsers.add(userMap);
+            }
+
+            return ResponseEntity.ok(new ResponseObject("success", "Lấy danh sách người dùng thành công", simplifiedUsers));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("error", "Lỗi khi lấy danh sách người dùng: " + e.getMessage(), null));
         }
     }
 }

@@ -103,12 +103,23 @@ public class AuthController {
             String email = loginData.get("email");
             String password = loginData.get("password");
 
-            // Tìm người dùng theo email
+            // Tìm người dùng theo email (không bao gồm tài khoản đã bị xóa)
             Optional<User> userOpt = userService.findByEmail(email);
 
+            // Kiểm tra xem email có tồn tại trong hệ thống không (bao gồm cả tài khoản đã bị xóa)
+            // Nếu email tồn tại nhưng userOpt.isEmpty(), có nghĩa là tài khoản đã bị xóa
+            boolean emailExists = userService.existsByEmailIncludeDeleted(email);
+
             if (userOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(Map.of("message", "Email hoặc mật khẩu không chính xác"));
+                if (emailExists) {
+                    // Email tồn tại nhưng tài khoản đã bị xóa
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body(Map.of("message", "Tài khoản không tồn tại hoặc đã bị xóa"));
+                } else {
+                    // Email không tồn tại
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                            .body(Map.of("message", "Email hoặc mật khẩu không chính xác"));
+                }
             }
 
             User user = userOpt.get();

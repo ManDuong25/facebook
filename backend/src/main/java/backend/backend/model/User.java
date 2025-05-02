@@ -77,6 +77,10 @@ public class User {
     @Column(name = "is_blocked")
     private Boolean isBlocked = false;
 
+    // Thời gian xóa (null nếu chưa bị xóa)
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     // Phương thức tiện ích để kiểm tra vai trò admin
     @Transient
     public boolean isAdmin() {
@@ -87,5 +91,11 @@ public class User {
     @Transient
     public boolean isBlocked() {
         return isBlocked != null && isBlocked;
+    }
+
+    // Phương thức tiện ích để kiểm tra xem người dùng đã bị xóa chưa
+    @Transient
+    public boolean isDeleted() {
+        return deletedAt != null;
     }
 }

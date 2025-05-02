@@ -1,29 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAvatarUrl } from '../../../utils/avatarUtils';
+import { searchUsers } from '../../../services/adminService';
+import { toast } from 'react-toastify';
 
-const UserTable = ({ users, onEdit, onDelete, onBlock }) => {
+const UserTable = ({ users, onEdit, onDelete, onBlock, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
-  // Lọc người dùng theo từ khóa tìm kiếm
-  const filteredUsers = users.filter(user =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Sử dụng danh sách người dùng từ props
+  const filteredUsers = users;
+
+  // Debounce search term để tránh gọi API quá nhiều
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
+
+  // Gọi hàm tìm kiếm khi debouncedSearchTerm thay đổi
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      onSearch && onSearch(debouncedSearchTerm);
+    } else {
+      // Khi xóa hết nội dung tìm kiếm, quay về danh sách cũ
+      onSearch && onSearch("");
+    }
+  }, [debouncedSearchTerm, onSearch]);
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       {/* Thanh tìm kiếm */}
       <div className="p-4 border-b">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Tìm kiếm người dùng..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        <div className="flex items-center space-x-2">
+          <div className="relative flex-grow">
+            <input
+              type="text"
+              placeholder="Tìm kiếm người dùng..."
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          </div>
+          <button
+            onClick={() => {
+              setSearchTerm('');
+              onSearch && onSearch('');
+            }}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center"
+            title="Tải lại danh sách"
+          >
+            <i className="bi bi-arrow-clockwise"></i>
+          </button>
         </div>
       </div>
 
@@ -124,27 +156,6 @@ const UserTable = ({ users, onEdit, onDelete, onBlock }) => {
             )}
           </tbody>
         </table>
-      </div>
-
-      {/* Phân trang */}
-      <div className="px-6 py-3 flex items-center justify-between border-t">
-        <div className="text-sm text-gray-700">
-          Hiển thị <span className="font-medium">{filteredUsers.length}</span> trong tổng số <span className="font-medium">{users.length}</span> người dùng
-        </div>
-        <div className="flex space-x-2">
-          <button className="px-3 py-1 border rounded text-sm disabled:opacity-50">
-            Trước
-          </button>
-          <button className="px-3 py-1 border rounded bg-blue-600 text-white text-sm">
-            1
-          </button>
-          <button className="px-3 py-1 border rounded text-sm">
-            2
-          </button>
-          <button className="px-3 py-1 border rounded text-sm">
-            Sau
-          </button>
-        </div>
       </div>
     </div>
   );

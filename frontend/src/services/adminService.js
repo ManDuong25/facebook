@@ -75,12 +75,30 @@ export const getActivityStats = async () => {
 // Lấy danh sách người dùng có phân trang
 export const getAllUsers = async (page = 0, size = 10) => {
   try {
+    console.log(`Gọi API lấy danh sách người dùng: ${API_URL}/users với page=${page}, size=${size}`);
     const response = await axios.get(`${API_URL}/users`, {
       params: { page, size }
     });
+    console.log('Kết quả API lấy danh sách người dùng:', response.data);
     return response.data;
   } catch (error) {
+    console.error('Lỗi khi lấy danh sách người dùng:', error.response?.data || error);
     throw new Error(error.response?.data?.message || 'Không thể lấy danh sách người dùng');
+  }
+};
+
+// Tìm kiếm người dùng theo tên, username hoặc email
+export const searchUsers = async (searchTerm, excludeCurrentUser = false) => {
+  try {
+    console.log(`Gọi API tìm kiếm người dùng với từ khóa: ${searchTerm}`);
+    const response = await axios.get(`http://localhost:8080/api/users/search`, {
+      params: { searchTerm, excludeCurrentUser }
+    });
+    console.log('Kết quả API tìm kiếm người dùng:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi tìm kiếm người dùng:', error.response?.data || error);
+    throw new Error(error.response?.data?.message || 'Không thể tìm kiếm người dùng');
   }
 };
 
@@ -126,9 +144,9 @@ export const resetUserPassword = async (userId, newPassword) => {
 };
 
 // Thay đổi trạng thái người dùng (khóa/mở khóa)
-export const toggleUserStatus = async (userId, isActive) => {
+export const toggleUserStatus = async (userId, isBlocked) => {
   try {
-    const response = await axios.put(`${API_URL}/users/${userId}/status`, { isActive });
+    const response = await axios.put(`${API_URL}/users/${userId}/status`, { isBlocked });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Không thể thay đổi trạng thái người dùng');
@@ -138,9 +156,101 @@ export const toggleUserStatus = async (userId, isActive) => {
 // Tạo người dùng mới
 export const createUser = async (userData) => {
   try {
+    console.log('Gửi dữ liệu tạo người dùng mới:', userData);
     const response = await axios.post(`${API_URL}/users`, userData);
+    console.log('Kết quả API tạo người dùng:', response.data);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Không thể tạo người dùng mới');
+    console.error('Lỗi khi tạo người dùng mới:', error.response?.data || error);
+
+    // Xử lý các lỗi cụ thể
+    if (error.response?.data?.message) {
+      // Nếu server trả về thông báo lỗi cụ thể
+      throw new Error(error.response.data.message);
+    } else if (error.response?.status === 400) {
+      // Lỗi dữ liệu không hợp lệ
+      throw new Error('Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin.');
+    } else if (error.response?.status === 409) {
+      // Lỗi xung đột (ví dụ: username hoặc email đã tồn tại)
+      throw new Error('Username hoặc email đã tồn tại trong hệ thống.');
+    } else if (error.response?.status === 500) {
+      // Lỗi server
+      throw new Error('Lỗi máy chủ. Vui lòng thử lại sau.');
+    } else {
+      // Lỗi khác
+      throw new Error('Không thể tạo người dùng mới. Vui lòng thử lại.');
+    }
+  }
+};
+
+// ==================== QUẢN LÝ BÀI VIẾT ====================
+
+// Lấy danh sách bài viết có phân trang và tìm kiếm
+export const getAllPosts = async (page = 0, size = 10, searchTerm = '', userId = null, sortBy = 'createdAt', sortDir = 'desc') => {
+  try {
+    console.log(`Gọi API lấy danh sách bài viết: ${API_URL}/posts`);
+    const params = { page, size, sortBy, sortDir };
+
+    if (searchTerm) params.searchTerm = searchTerm;
+    if (userId) params.userId = userId;
+
+    const response = await axios.get(`${API_URL}/posts`, { params });
+    console.log('Kết quả API lấy danh sách bài viết:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy danh sách bài viết:', error.response?.data || error);
+    throw new Error(error.response?.data?.message || 'Không thể lấy danh sách bài viết');
+  }
+};
+
+// Lấy chi tiết bài viết
+export const getPostDetails = async (postId) => {
+  try {
+    console.log(`Gọi API lấy chi tiết bài viết: ${API_URL}/posts/${postId}`);
+    const response = await axios.get(`${API_URL}/posts/${postId}`);
+    console.log('Kết quả API lấy chi tiết bài viết:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy chi tiết bài viết:', error.response?.data || error);
+    throw new Error(error.response?.data?.message || 'Không thể lấy chi tiết bài viết');
+  }
+};
+
+// Cập nhật trạng thái hiển thị bài viết (ẩn/hiện)
+export const updatePostVisibility = async (postId, visible) => {
+  try {
+    console.log(`Gọi API cập nhật trạng thái bài viết: ${API_URL}/posts/${postId}/visibility`);
+    const response = await axios.put(`${API_URL}/posts/${postId}/visibility`, { visible });
+    console.log('Kết quả API cập nhật trạng thái bài viết:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi cập nhật trạng thái bài viết:', error.response?.data || error);
+    throw new Error(error.response?.data?.message || 'Không thể cập nhật trạng thái bài viết');
+  }
+};
+
+// Xóa bài viết (xóa mềm)
+export const deletePost = async (postId) => {
+  try {
+    console.log(`Gọi API xóa bài viết: ${API_URL}/posts/${postId}`);
+    const response = await axios.delete(`${API_URL}/posts/${postId}`);
+    console.log('Kết quả API xóa bài viết:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi xóa bài viết:', error.response?.data || error);
+    throw new Error(error.response?.data?.message || 'Không thể xóa bài viết');
+  }
+};
+
+// Lấy danh sách người dùng cho dropdown
+export const getUsersForDropdown = async () => {
+  try {
+    console.log(`Gọi API lấy danh sách người dùng cho dropdown: ${API_URL}/users/list`);
+    const response = await axios.get(`${API_URL}/users/list`);
+    console.log('Kết quả API lấy danh sách người dùng cho dropdown:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy danh sách người dùng cho dropdown:', error.response?.data || error);
+    throw new Error(error.response?.data?.message || 'Không thể lấy danh sách người dùng');
   }
 };

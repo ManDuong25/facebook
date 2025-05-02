@@ -23,10 +23,12 @@ CREATE TABLE users (
     date_of_birth DATE NOT NULL,  -- Ngày sinh
     is_admin BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    work VARCHAR(255),          
-    education VARCHAR(255),     
-    current_city VARCHAR(255),  
-    hometown VARCHAR(255)       
+    work VARCHAR(255),
+    education VARCHAR(255),
+    current_city VARCHAR(255),
+    hometown VARCHAR(255),
+    is_blocked BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------
@@ -58,8 +60,8 @@ CREATE TABLE chat_room_members (
 CREATE TABLE messages (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     sender_id BIGINT NOT NULL,
-    receiver_id BIGINT DEFAULT NULL,  
-    room_id BIGINT DEFAULT NULL,       
+    receiver_id BIGINT DEFAULT NULL,
+    room_id BIGINT DEFAULT NULL,
     content TEXT NOT NULL,
     type ENUM('CHAT', 'GROUP_CHAT', 'JOIN', 'LEAVE') NOT NULL DEFAULT 'CHAT',
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -92,7 +94,7 @@ CREATE TABLE posts (
     video_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    original_post_id BIGINT NULL,  
+    original_post_id BIGINT NULL,
     CONSTRAINT fk_posts_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_original_post FOREIGN KEY (original_post_id) REFERENCES posts(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
@@ -167,7 +169,7 @@ CREATE TABLE notifications (
     user_id BIGINT NOT NULL,
     type ENUM('FRIEND_REQUEST', 'FRIEND_ACCEPT', 'POST_LIKE', 'POST_COMMENT', 'POST_SHARE', 'MESSAGE') NOT NULL,
     content VARCHAR(255) NULL,
-    reference_id BIGINT NULL, 
+    reference_id BIGINT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_notifications_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

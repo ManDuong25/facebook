@@ -21,7 +21,7 @@ public class AdminService {
 
     /**
      * Xác thực đăng nhập admin
-     * 
+     *
      * @param username Tên đăng nhập
      * @param password Mật khẩu
      * @return Map chứa thông tin đăng nhập và token nếu thành công, null nếu thất bại
@@ -29,24 +29,40 @@ public class AdminService {
     public Map<String, Object> authenticateAdmin(String username, String password) {
         // Tìm user theo username
         Optional<User> userOpt = userRepository.findByUsername(username);
-        
+
         // Kiểm tra user có tồn tại không
         if (userOpt.isEmpty()) {
             return null;
         }
-        
+
         User user = userOpt.get();
-        
+
         // Kiểm tra user có phải là admin không
         if (!user.isAdmin()) {
             return null;
         }
-        
+
         // Kiểm tra mật khẩu
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return null;
         }
-        
+
+        // Kiểm tra tài khoản có bị khóa không
+        if (user.isBlocked()) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "blocked");
+            errorResponse.put("message", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết.");
+            return errorResponse;
+        }
+
+        // Kiểm tra tài khoản có bị xóa không
+        if (user.isDeleted()) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "deleted");
+            errorResponse.put("message", "Tài khoản không tồn tại hoặc đã bị xóa.");
+            return errorResponse;
+        }
+
         // Tạo response
         Map<String, Object> response = new HashMap<>();
         response.put("id", user.getId());
@@ -56,28 +72,28 @@ public class AdminService {
         response.put("lastName", user.getLastName());
         response.put("avatar", user.getAvatar());
         response.put("isAdmin", user.isAdmin());
-        
+
         // Trong thực tế, bạn có thể tạo JWT token ở đây
         // String token = jwtTokenProvider.generateToken(user);
         // response.put("token", token);
-        
+
         return response;
     }
-    
+
     /**
      * Tạo tài khoản admin mới
-     * 
+     *
      * @param user Thông tin user admin
      * @return User đã được tạo
      */
     public User createAdmin(User user) {
         user.setIsAdmin(true);
-        
+
         // Mã hóa mật khẩu
         if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        
+
         return userRepository.save(user);
     }
 }

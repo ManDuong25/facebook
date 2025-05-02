@@ -18,7 +18,7 @@ public class AdminAuthController {
 
     /**
      * API đăng nhập dành cho admin
-     * 
+     *
      * @param loginData Map chứa username và password
      * @return ResponseEntity chứa thông tin đăng nhập nếu thành công
      */
@@ -27,35 +27,47 @@ public class AdminAuthController {
         try {
             String username = loginData.get("username");
             String password = loginData.get("password");
-            
+
             // Kiểm tra dữ liệu đầu vào
             if (username == null || password == null) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("error", "Tên đăng nhập và mật khẩu không được để trống", null));
             }
-            
+
             // Xác thực admin
             Map<String, Object> adminData = adminService.authenticateAdmin(username, password);
-            
+
             // Kiểm tra kết quả xác thực
             if (adminData == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(new ResponseObject("error", "Tên đăng nhập hoặc mật khẩu không chính xác", null));
             }
-            
+
+            // Kiểm tra nếu tài khoản bị khóa
+            if (adminData.containsKey("error") && adminData.get("error").equals("blocked")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(new ResponseObject("error", (String) adminData.get("message"), null));
+            }
+
+            // Kiểm tra nếu tài khoản bị xóa
+            if (adminData.containsKey("error") && adminData.get("error").equals("deleted")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("error", (String) adminData.get("message"), null));
+            }
+
             // Trả về thông tin admin đã đăng nhập
             return ResponseEntity.ok(new ResponseObject("success", "Đăng nhập thành công", adminData));
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("error", "Lỗi khi đăng nhập: " + e.getMessage(), null));
         }
     }
-    
+
     /**
      * API kiểm tra trạng thái đăng nhập của admin
-     * 
+     *
      * @return ResponseEntity chứa thông tin trạng thái
      */
     @GetMapping("/check")

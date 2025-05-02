@@ -10,7 +10,8 @@ import {
   updateUser,
   deleteUser,
   toggleUserStatus,
-  createUser
+  createUser,
+  searchUsers
 } from '../../services/adminService';
 
 const UserManagementPage = () => {
@@ -22,6 +23,7 @@ const UserManagementPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [isSearchMode, setIsSearchMode] = useState(false);
 
   // Dữ liệu mẫu cho demo
   const mockUsers = [
@@ -32,6 +34,8 @@ const UserManagementPage = () => {
       firstName: 'John',
       lastName: 'Doe',
       avatar: null,
+      dateOfBirth: '1990-01-15',
+      gender: 'MALE',
       createdAt: '2023-01-15T08:30:00',
       role: 'user',
       isBlocked: false
@@ -43,6 +47,8 @@ const UserManagementPage = () => {
       firstName: 'Jane',
       lastName: 'Doe',
       avatar: null,
+      dateOfBirth: '1992-05-20',
+      gender: 'FEMALE',
       createdAt: '2023-02-20T10:15:00',
       role: 'user',
       isBlocked: false
@@ -54,6 +60,8 @@ const UserManagementPage = () => {
       firstName: 'Admin',
       lastName: 'User',
       avatar: null,
+      dateOfBirth: '1985-12-01',
+      gender: 'MALE',
       createdAt: '2022-12-01T09:00:00',
       role: 'admin',
       isBlocked: false
@@ -65,6 +73,8 @@ const UserManagementPage = () => {
       firstName: 'Blocked',
       lastName: 'User',
       avatar: null,
+      dateOfBirth: '1995-03-10',
+      gender: 'OTHER',
       createdAt: '2023-03-10T14:20:00',
       role: 'user',
       isBlocked: true
@@ -78,9 +88,12 @@ const UserManagementPage = () => {
 
   // Hàm lấy danh sách người dùng
   const fetchUsers = async (page = currentPage) => {
+    // Xóa thông báo lỗi khi tải lại danh sách
+    dispatch(setError(null));
     dispatch(setLoading(true));
     try {
       const response = await getAllUsers(page, pageSize);
+      console.log('API response:', response);
 
       if (response.status === 'success') {
         // Chuyển đổi dữ liệu từ API để phù hợp với cấu trúc component
@@ -91,9 +104,17 @@ const UserManagementPage = () => {
           firstName: user.firstName,
           lastName: user.lastName,
           avatar: user.avatar,
+          dateOfBirth: user.dateOfBirth || '',
+          gender: user.gender || '',
           createdAt: user.createdAt,
           role: user.isAdmin ? 'admin' : 'user',
-          isBlocked: user.isBlocked || false
+          isBlocked: user.isBlocked || false,
+          // Thêm các trường bổ sung
+          bio: user.bio || '',
+          work: user.work || '',
+          education: user.education || '',
+          currentCity: user.currentCity || '',
+          hometown: user.hometown || ''
         }));
 
         setUsers(formattedUsers);
@@ -119,20 +140,28 @@ const UserManagementPage = () => {
 
   // Xử lý chuyển trang
   const handlePageChange = (newPage) => {
+    // Xóa thông báo lỗi khi chuyển trang
+    dispatch(setError(null));
     setCurrentPage(newPage);
     fetchUsers(newPage);
   };
 
   useEffect(() => {
+    // Xóa thông báo lỗi khi component được tải
+    dispatch(setError(null));
     fetchUsers();
   }, [dispatch, pageSize]);
 
   const handleAddUser = () => {
+    // Xóa thông báo lỗi trước khi mở form
+    dispatch(setError(null));
     setSelectedUser(null);
     setShowForm(true);
   };
 
   const handleEditUser = (user) => {
+    // Xóa thông báo lỗi trước khi mở form
+    dispatch(setError(null));
     setSelectedUser(user);
     setShowForm(true);
   };
@@ -196,49 +225,143 @@ const UserManagementPage = () => {
     try {
       if (selectedUser) {
         // Cập nhật người dùng
-        const response = await updateUser(selectedUser.id, formData);
+        // Chuyển đổi định dạng dữ liệu để phù hợp với API
+        const userData = {
+          ...formData,
+          isAdmin: formData.role === 'admin',
+          // Đảm bảo dateOfBirth có định dạng đúng (YYYY-MM-DD)
+          dateOfBirth: formData.dateOfBirth
+        };
+
+        // Loại bỏ trường role vì backend không cần
+        delete userData.role;
+
+        const response = await updateUser(selectedUser.id, userData);
 
         if (response.status === 'success') {
           // Cập nhật state
           setUsers(users.map(user =>
-            user.id === selectedUser.id ? { ...user, ...formData } : user
+            user.id === selectedUser.id ? {
+              ...user,
+              ...formData,
+              isAdmin: formData.role === 'admin'
+            } : user
           ));
 
+          // Xóa thông báo lỗi khi thành công
+          dispatch(setError(null));
+
           toast.success('Cập nhật người dùng thành công');
+          // Đóng form chỉ khi thành công
+          setShowForm(false);
+          setSelectedUser(null);
         } else {
           throw new Error(response.message || 'Không thể cập nhật thông tin người dùng');
         }
       } else {
         // Thêm người dùng mới
+        // Chuyển đổi định dạng dữ liệu để phù hợp với API
         const userData = {
           ...formData,
-          isAdmin: formData.role === 'admin'
+          isAdmin: formData.role === 'admin',
+          // Đảm bảo dateOfBirth có định dạng đúng (YYYY-MM-DD)
+          dateOfBirth: formData.dateOfBirth
         };
+
+        // Loại bỏ trường role vì backend không cần
+        delete userData.role;
 
         // Gọi API tạo người dùng mới
         const response = await createUser(userData);
 
         if (response.status === 'success') {
+          // Xóa thông báo lỗi khi thành công
+          dispatch(setError(null));
+
           toast.success('Thêm người dùng mới thành công');
           await fetchUsers(0); // Tải lại trang đầu tiên
+          // Đóng form chỉ khi thành công
+          setShowForm(false);
+          setSelectedUser(null);
         } else {
           throw new Error(response.message || 'Không thể tạo người dùng mới');
         }
       }
     } catch (error) {
       console.error('Lỗi khi lưu người dùng:', error);
-      dispatch(setError(error.message || 'Không thể lưu thông tin người dùng'));
-      toast.error('Không thể lưu thông tin người dùng');
+
+      // Hiển thị thông báo lỗi cụ thể
+      const errorMessage = error.message || 'Không thể lưu thông tin người dùng';
+      dispatch(setError(errorMessage));
+
+      // Hiển thị toast thông báo
+      toast.error(errorMessage);
+
+      // Không đóng form khi có lỗi để người dùng có thể sửa và thử lại
     } finally {
       dispatch(setLoading(false));
-      setShowForm(false);
-      setSelectedUser(null);
+      // Đã di chuyển setShowForm và setSelectedUser vào các khối thành công
     }
   };
 
   const handleCancelForm = () => {
+    // Xóa thông báo lỗi khi đóng form
+    dispatch(setError(null));
     setShowForm(false);
     setSelectedUser(null);
+  };
+
+  // Hàm xử lý tìm kiếm người dùng
+  const handleSearchUsers = async (searchTerm) => {
+    if (!searchTerm) {
+      // Nếu từ khóa tìm kiếm trống, quay lại chế độ hiển thị danh sách
+      if (isSearchMode) {
+        setIsSearchMode(false);
+        await fetchUsers(currentPage);
+      }
+      return Promise.resolve();
+    }
+
+    dispatch(setError(null));
+    setIsSearchMode(true);
+
+    try {
+      const response = await searchUsers(searchTerm, false);
+
+      if (response.status === 'success') {
+        // Chuyển đổi dữ liệu từ API để phù hợp với cấu trúc component
+        const formattedUsers = response.data.map(user => ({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          avatar: user.avatar,
+          dateOfBirth: user.dateOfBirth || '',
+          gender: user.gender || '',
+          createdAt: user.createdAt,
+          role: user.isAdmin ? 'admin' : 'user',
+          isBlocked: user.isBlocked || false,
+          // Thêm các trường bổ sung
+          bio: user.bio || '',
+          work: user.work || '',
+          education: user.education || '',
+          currentCity: user.currentCity || '',
+          hometown: user.hometown || ''
+        }));
+
+        setUsers(formattedUsers);
+        // Không cập nhật phân trang trong chế độ tìm kiếm
+      } else {
+        throw new Error(response.message || 'Không thể tìm kiếm người dùng');
+      }
+    } catch (error) {
+      console.error('Lỗi khi tìm kiếm người dùng:', error);
+      dispatch(setError(error.message || 'Không thể tìm kiếm người dùng'));
+      toast.error('Không thể tìm kiếm người dùng');
+    }
+
+    return Promise.resolve();
   };
 
   if (loading && users.length === 0) {
@@ -262,7 +385,8 @@ const UserManagementPage = () => {
         </button>
       </div>
 
-      {error && (
+      {/* Chỉ hiển thị thông báo lỗi khi không hiển thị form */}
+      {error && !showForm && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           <p>{error}</p>
         </div>
@@ -281,10 +405,11 @@ const UserManagementPage = () => {
             onEdit={handleEditUser}
             onDelete={handleDeleteUser}
             onBlock={handleBlockUser}
+            onSearch={handleSearchUsers}
           />
 
-          {/* Phân trang */}
-          {totalPages > 0 && (
+          {/* Phân trang - Chỉ hiển thị khi không ở chế độ tìm kiếm */}
+          {totalPages > 0 && !isSearchMode && (
             <div className="flex justify-center mt-6">
               <nav className="flex items-center">
                 <button

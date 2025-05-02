@@ -4,6 +4,13 @@ import { setLoading, setError } from '../../redux/features/adminSlice';
 import PostTable from '../../components/Admin/Posts/PostTable';
 import { toast } from 'react-toastify';
 import { getImageUrl } from '../../utils/avatarUtils';
+import {
+  getAllPosts,
+  getPostDetails,
+  updatePostVisibility,
+  deletePost,
+  getUsersForDropdown
+} from '../../services/adminService';
 
 const PostManagementPage = () => {
   const dispatch = useDispatch();
@@ -14,78 +21,39 @@ const PostManagementPage = () => {
   const [showPostDetail, setShowPostDetail] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
-
-  // Dữ liệu mẫu cho demo
-  const mockPosts = [
-    {
-      id: 1,
-      content: 'Chuyến du lịch Đà Lạt cuối tuần vừa qua thật tuyệt vời!',
-      imageUrl: null,
-      createdAt: '2023-04-15T08:30:00',
-      updatedAt: '2023-04-15T08:30:00',
-      user: {
-        id: 1,
-        username: 'johndoe',
-        firstName: 'John',
-        lastName: 'Doe',
-        avatar: null
-      },
-      likeCount: 24,
-      commentCount: 5,
-      shareCount: 2,
-      reportCount: 0,
-      isHidden: false
-    },
-    {
-      id: 2,
-      content: 'Nội dung vi phạm quy định cộng đồng',
-      imageUrl: null,
-      createdAt: '2023-04-10T14:20:00',
-      updatedAt: '2023-04-10T14:20:00',
-      user: {
-        id: 2,
-        username: 'janedoe',
-        firstName: 'Jane',
-        lastName: 'Doe',
-        avatar: null
-      },
-      likeCount: 3,
-      commentCount: 12,
-      shareCount: 0,
-      reportCount: 5,
-      isHidden: true
-    },
-    {
-      id: 3,
-      content: 'Chia sẻ hình ảnh mới nhất từ sự kiện',
-      imageUrl: 'uploads/posts/event.jpg',
-      createdAt: '2023-04-12T10:15:00',
-      updatedAt: '2023-04-12T10:15:00',
-      user: {
-        id: 3,
-        username: 'admin',
-        firstName: 'Admin',
-        lastName: 'User',
-        avatar: null
-      },
-      likeCount: 56,
-      commentCount: 8,
-      shareCount: 7,
-      reportCount: 1,
-      isHidden: false
-    }
-  ];
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPages: 0,
+    totalItems: 0,
+    pageSize: 10
+  });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
       dispatch(setLoading(true));
       try {
-        // Trong môi trường thực tế, sẽ gọi API để lấy dữ liệu
-        // const response = await getAllPosts();
-        // setPosts(response.data);
+        // Gọi API để lấy danh sách bài viết
+        const response = await getAllPosts(
+          pagination.currentPage,
+          pagination.pageSize,
+          searchTerm,
+          selectedUserId
+        );
 
-        // Dùng dữ liệu mẫu cho demo
-        setPosts(mockPosts);
+        if (response.status === 'success') {
+          setPosts(response.data.posts || []);
+          setPagination({
+            currentPage: response.data.currentPage,
+            totalPages: response.data.totalPages,
+            totalItems: response.data.totalItems,
+            pageSize: pagination.pageSize
+          });
+        } else {
+          throw new Error(response.message || 'Không thể lấy danh sách bài viết');
+        }
       } catch (error) {
         console.error('Lỗi khi lấy danh sách bài viết:', error);
         dispatch(setError(error.message || 'Không thể lấy danh sách bài viết'));
@@ -96,16 +64,41 @@ const PostManagementPage = () => {
     };
 
     fetchPosts();
-  }, [dispatch]);
+  }, [dispatch, pagination.currentPage, pagination.pageSize, searchTerm, selectedUserId]);
 
-  const handleViewPost = (post) => {
-    setSelectedPost(post);
-    setShowPostDetail(true);
-  };
+  // Lấy danh sách người dùng cho dropdown
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getUsersForDropdown();
+        if (response.status === 'success') {
+          setUsers(response.data || []);
+        }
+      } catch (error) {
+        console.error('Lỗi khi lấy danh sách người dùng:', error);
+      }
+    };
 
-  const handleEditPost = (post) => {
-    // Trong thực tế, có thể mở form chỉnh sửa hoặc chuyển hướng đến trang chỉnh sửa
-    toast.info('Chức năng chỉnh sửa bài viết đang được phát triển');
+    fetchUsers();
+  }, []);
+
+  const handleViewPost = async (post) => {
+    dispatch(setLoading(true));
+    try {
+      // Lấy chi tiết bài viết từ API
+      const response = await getPostDetails(post.id);
+      if (response.status === 'success') {
+        setSelectedPost(response.data.post || post);
+        setShowPostDetail(true);
+      } else {
+        throw new Error(response.message || 'Không thể lấy chi tiết bài viết');
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy chi tiết bài viết:', error);
+      toast.error('Không thể lấy chi tiết bài viết');
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   const handleDeletePost = (post) => {
@@ -118,12 +111,22 @@ const PostManagementPage = () => {
 
     dispatch(setLoading(true));
     try {
-      // Trong môi trường thực tế, sẽ gọi API để xóa bài viết
-      // await deletePost(postToDelete.id);
+      // Gọi API để xóa bài viết
+      const response = await deletePost(postToDelete.id);
 
-      // Cập nhật state
-      setPosts(posts.filter(post => post.id !== postToDelete.id));
-      toast.success('Xóa bài viết thành công');
+      if (response.status === 'success') {
+        // Cập nhật state
+        setPosts(posts.filter(post => post.id !== postToDelete.id));
+        toast.success('Xóa bài viết thành công');
+
+        // Nếu đang xem chi tiết bài viết bị xóa, đóng modal
+        if (selectedPost && selectedPost.id === postToDelete.id) {
+          setShowPostDetail(false);
+          setSelectedPost(null);
+        }
+      } else {
+        throw new Error(response.message || 'Không thể xóa bài viết');
+      }
     } catch (error) {
       console.error('Lỗi khi xóa bài viết:', error);
       dispatch(setError(error.message || 'Không thể xóa bài viết'));
@@ -135,18 +138,27 @@ const PostManagementPage = () => {
     }
   };
 
-  const handleToggleHidePost = async (post) => {
+  const handleToggleVisibility = async (post) => {
     dispatch(setLoading(true));
     try {
-      // Trong môi trường thực tế, sẽ gọi API để ẩn/hiện bài viết
-      // await toggleHidePost(post.id);
+      // Gọi API để thay đổi trạng thái hiển thị bài viết
+      const response = await updatePostVisibility(post.id, !post.visible);
 
-      // Cập nhật state
-      setPosts(posts.map(p =>
-        p.id === post.id ? { ...p, isHidden: !p.isHidden } : p
-      ));
+      if (response.status === 'success') {
+        // Cập nhật state
+        setPosts(posts.map(p =>
+          p.id === post.id ? { ...p, visible: !p.visible } : p
+        ));
 
-      toast.success(post.isHidden ? 'Đã hiện bài viết' : 'Đã ẩn bài viết');
+        // Nếu đang xem chi tiết bài viết, cập nhật trạng thái
+        if (selectedPost && selectedPost.id === post.id) {
+          setSelectedPost({ ...selectedPost, visible: !selectedPost.visible });
+        }
+
+        toast.success(post.visible ? 'Đã ẩn bài viết' : 'Đã hiện bài viết');
+      } else {
+        throw new Error(response.message || 'Không thể thay đổi trạng thái bài viết');
+      }
     } catch (error) {
       console.error('Lỗi khi thay đổi trạng thái bài viết:', error);
       dispatch(setError(error.message || 'Không thể thay đổi trạng thái bài viết'));
@@ -159,6 +171,22 @@ const PostManagementPage = () => {
   const handleClosePostDetail = () => {
     setShowPostDetail(false);
     setSelectedPost(null);
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setPagination({...pagination, currentPage: 0}); // Reset về trang đầu tiên khi tìm kiếm
+  };
+
+  const handleUserFilter = (userId) => {
+    setSelectedUserId(userId);
+    setPagination({...pagination, currentPage: 0}); // Reset về trang đầu tiên khi lọc
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 0 && newPage < pagination.totalPages) {
+      setPagination({...pagination, currentPage: newPage});
+    }
   };
 
   if (loading && posts.length === 0) {
@@ -228,8 +256,8 @@ const PostManagementPage = () => {
               <span><i className="bi bi-hand-thumbs-up mr-1"></i> {selectedPost?.likeCount} lượt thích</span>
               <span><i className="bi bi-chat mr-1"></i> {selectedPost?.commentCount} bình luận</span>
               <span><i className="bi bi-share mr-1"></i> {selectedPost?.shareCount} chia sẻ</span>
-              {selectedPost?.reportCount > 0 && (
-                <span className="text-red-500"><i className="bi bi-flag-fill mr-1"></i> {selectedPost?.reportCount} báo cáo</span>
+              {selectedPost?.visible === false && (
+                <span className="text-red-500"><i className="bi bi-eye-slash mr-1"></i> Đã ẩn</span>
               )}
             </div>
           </div>
@@ -237,15 +265,15 @@ const PostManagementPage = () => {
           <div className="flex justify-between">
             <div>
               <button
-                onClick={() => handleToggleHidePost(selectedPost)}
+                onClick={() => handleToggleVisibility(selectedPost)}
                 className={`px-4 py-2 rounded-lg mr-3 ${
-                  selectedPost?.isHidden
+                  selectedPost?.visible === false
                     ? 'bg-green-600 hover:bg-green-700 text-white'
                     : 'bg-yellow-600 hover:bg-yellow-700 text-white'
                 }`}
               >
-                <i className={`bi ${selectedPost?.isHidden ? 'bi-eye' : 'bi-eye-slash'} mr-2`}></i>
-                {selectedPost?.isHidden ? 'Hiện bài viết' : 'Ẩn bài viết'}
+                <i className={`bi ${selectedPost?.visible === false ? 'bi-eye' : 'bi-eye-slash'} mr-2`}></i>
+                {selectedPost?.visible === false ? 'Hiện bài viết' : 'Ẩn bài viết'}
               </button>
             </div>
 
@@ -259,12 +287,88 @@ const PostManagementPage = () => {
           </div>
         </div>
       ) : (
-        <PostTable
-          posts={posts}
-          onView={handleViewPost}
-          onEdit={handleEditPost}
-          onDelete={handleDeletePost}
-        />
+        <div>
+          {/* Thanh tìm kiếm và lọc */}
+          <div className="mb-4 flex flex-wrap items-center gap-4">
+            <div className="flex-grow max-w-md relative">
+              <input
+                type="text"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Tìm kiếm bài viết..."
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+              <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+
+            <div className="w-64">
+              <select
+                className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={selectedUserId || ''}
+                onChange={(e) => handleUserFilter(e.target.value ? Number(e.target.value) : null)}
+              >
+                <option value="">Tất cả người dùng</option>
+                {users.map(user => (
+                  <option key={user.id} value={user.id}>
+                    {user.firstName} {user.lastName} (@{user.username})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <PostTable
+            posts={posts}
+            onView={handleViewPost}
+            onToggleVisibility={handleToggleVisibility}
+            onDelete={handleDeletePost}
+          />
+
+          {/* Phân trang */}
+          {pagination.totalPages > 0 && (
+            <div className="flex justify-center mt-6">
+              <nav className="flex items-center">
+                <button
+                  onClick={() => handlePageChange(Math.max(0, pagination.currentPage - 1))}
+                  disabled={pagination.currentPage === 0}
+                  className={`px-3 py-1 rounded-l-md border ${
+                    pagination.currentPage === 0
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-blue-600 hover:bg-blue-50'
+                  }`}
+                >
+                  <i className="bi bi-chevron-left"></i>
+                </button>
+
+                {[...Array(pagination.totalPages).keys()].map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-3 py-1 border-t border-b ${
+                      pagination.currentPage === page
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-blue-600 hover:bg-blue-50'
+                    }`}
+                  >
+                    {page + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => handlePageChange(Math.min(pagination.totalPages - 1, pagination.currentPage + 1))}
+                  disabled={pagination.currentPage === pagination.totalPages - 1}
+                  className={`px-3 py-1 rounded-r-md border ${
+                    pagination.currentPage === pagination.totalPages - 1
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-blue-600 hover:bg-blue-50'
+                  }`}
+                >
+                  <i className="bi bi-chevron-right"></i>
+                </button>
+              </nav>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Modal xác nhận xóa */}

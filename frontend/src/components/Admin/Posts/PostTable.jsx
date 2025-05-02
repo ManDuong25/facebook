@@ -1,53 +1,35 @@
 import React, { useState } from 'react';
 import { getAvatarUrl, getImageUrl } from '../../../utils/avatarUtils';
 
-const PostTable = ({ posts, onView, onEdit, onDelete }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('all'); // all, reported, hidden
+const PostTable = ({ posts, onView, onEdit, onDelete, onToggleVisibility }) => {
+  const [filter, setFilter] = useState('all'); // all, hidden, visible
 
-  // Lọc bài viết theo từ khóa tìm kiếm và bộ lọc
+  // Lọc bài viết theo trạng thái
   const filteredPosts = posts.filter(post => {
-    // Lọc theo từ khóa
-    const matchesSearch =
-      post.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.user?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      `${post.user?.firstName} ${post.user?.lastName}`.toLowerCase().includes(searchTerm.toLowerCase());
-
     // Lọc theo trạng thái
     let matchesFilter = true;
-    if (filter === 'reported') {
-      matchesFilter = post.reportCount > 0;
-    } else if (filter === 'hidden') {
-      matchesFilter = post.isHidden;
+    if (filter === 'hidden') {
+      matchesFilter = post.visible === false;
+    } else if (filter === 'visible') {
+      matchesFilter = post.visible === true;
     }
 
-    return matchesSearch && matchesFilter;
+    return matchesFilter;
   });
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      {/* Thanh tìm kiếm và bộ lọc */}
-      <div className="p-4 border-b flex flex-wrap gap-4 items-center">
-        <div className="relative flex-grow">
-          <input
-            type="text"
-            placeholder="Tìm kiếm bài viết..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <i className="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-        </div>
-
+      {/* Bộ lọc trạng thái */}
+      <div className="p-4 border-b flex flex-wrap gap-4 items-center justify-end">
         <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-600">Lọc:</span>
+          <span className="text-sm text-gray-600">Lọc theo trạng thái:</span>
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">Tất cả</option>
-            <option value="reported">Bị báo cáo</option>
+            <option value="visible">Đang hiển thị</option>
             <option value="hidden">Đã ẩn</option>
           </select>
         </div>
@@ -100,16 +82,26 @@ const PostTable = ({ posts, onView, onEdit, onDelete }) => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-900 line-clamp-2">
-                      {post.content || 'Không có nội dung'}
+                      {post.content ?
+                        (post.content.length > 100 ?
+                          post.content.substring(0, 100) + '...' :
+                          post.content) :
+                        'Không có nội dung'}
                     </div>
-                    {post.imageUrl && (
-                      <div className="mt-1">
+                    <div className="mt-1 flex space-x-2">
+                      {post.imageUrl && (
                         <span className="text-xs text-blue-600">
                           <i className="bi bi-image mr-1"></i>
-                          Có hình ảnh
+                          Hình ảnh
                         </span>
-                      </div>
-                    )}
+                      )}
+                      {post.videoUrl && (
+                        <span className="text-xs text-purple-600">
+                          <i className="bi bi-camera-video mr-1"></i>
+                          Video
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
@@ -121,19 +113,14 @@ const PostTable = ({ posts, onView, onEdit, onDelete }) => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-col space-y-1">
-                      {post.isHidden && (
+                      {post.visible === false && (
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                           Đã ẩn
                         </span>
                       )}
-                      {post.reportCount > 0 && (
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                          {post.reportCount} báo cáo
-                        </span>
-                      )}
-                      {!post.isHidden && post.reportCount === 0 && (
+                      {post.visible === true && (
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Bình thường
+                          Đang hiển thị
                         </span>
                       )}
                     </div>
@@ -147,11 +134,11 @@ const PostTable = ({ posts, onView, onEdit, onDelete }) => {
                       <i className="bi bi-eye"></i>
                     </button>
                     <button
-                      onClick={() => onEdit(post)}
-                      className="text-blue-600 hover:text-blue-900 mr-3"
-                      title="Chỉnh sửa"
+                      onClick={() => onToggleVisibility(post)}
+                      className={`${post.visible ? 'text-yellow-600 hover:text-yellow-900' : 'text-green-600 hover:text-green-900'} mr-3`}
+                      title={post.visible ? 'Ẩn bài viết' : 'Hiện bài viết'}
                     >
-                      <i className="bi bi-pencil"></i>
+                      <i className={`bi ${post.visible ? 'bi-eye-slash' : 'bi-eye'}`}></i>
                     </button>
                     <button
                       onClick={() => onDelete(post)}
@@ -174,26 +161,7 @@ const PostTable = ({ posts, onView, onEdit, onDelete }) => {
         </table>
       </div>
 
-      {/* Phân trang */}
-      <div className="px-6 py-3 flex items-center justify-between border-t">
-        <div className="text-sm text-gray-700">
-          Hiển thị <span className="font-medium">{filteredPosts.length}</span> trong tổng số <span className="font-medium">{posts.length}</span> bài viết
-        </div>
-        <div className="flex space-x-2">
-          <button className="px-3 py-1 border rounded text-sm disabled:opacity-50">
-            Trước
-          </button>
-          <button className="px-3 py-1 border rounded bg-blue-600 text-white text-sm">
-            1
-          </button>
-          <button className="px-3 py-1 border rounded text-sm">
-            2
-          </button>
-          <button className="px-3 py-1 border rounded text-sm">
-            Sau
-          </button>
-        </div>
-      </div>
+      {/* Phân trang được xử lý ở component cha (PostManagementPage) */}
     </div>
   );
 };

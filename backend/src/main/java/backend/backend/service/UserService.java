@@ -35,9 +35,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Kiểm tra xem email đã tồn tại chưa
+    // Kiểm tra xem email đã tồn tại chưa (không bao gồm tài khoản đã bị xóa)
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    // Kiểm tra xem email đã tồn tại chưa (bao gồm cả tài khoản đã bị xóa)
+    public boolean existsByEmailIncludeDeleted(String email) {
+        return userRepository.existsByEmailIncludeDeleted(email);
     }
 
     // Kiểm tra xem username đã tồn tại chưa
@@ -45,15 +50,15 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 
-    // Lấy user bằng ID, trả về null nếu không tìm thấy
+    // Lấy user bằng ID, trả về null nếu không tìm thấy hoặc đã bị xóa
     public User getUserById(Long id) {
-        Optional<User> userOpt = userRepository.findById(id);
+        Optional<User> userOpt = userRepository.findByIdAndDeletedAtIsNull(id);
         return userOpt.orElse(null);
     }
 
-    // Tìm user bằng ID
+    // Tìm user bằng ID (chỉ trả về user chưa bị xóa)
     public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.findByIdAndDeletedAtIsNull(id);
     }
 
     // Tìm user bằng username
@@ -66,9 +71,9 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    // Lấy tất cả user
+    // Lấy tất cả user chưa bị xóa
     public List<User> findAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllNotDeleted();
     }
 
     // Tìm kiếm người dùng theo tên, username, hoặc email
@@ -119,24 +124,29 @@ public class UserService {
         return results;
     }
 
-    // Xóa user theo ID
+    // Xóa mềm user theo ID
     public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
+        Optional<User> userOpt = userRepository.findById(id);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setDeletedAt(LocalDateTime.now());
+            userRepository.save(user);
+        }
     }
 
-    // Kiểm tra xem user có tồn tại không
+    // Kiểm tra xem user có tồn tại và chưa bị xóa không
     public boolean existsById(Long id) {
-        return userRepository.existsById(id);
+        return userRepository.findByIdAndDeletedAtIsNull(id).isPresent();
     }
 
-    // Lấy danh sách user có phân trang
+    // Lấy danh sách user có phân trang (chỉ lấy những user chưa bị xóa)
     public Page<User> findAllUsersWithPagination(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userRepository.findAllNotDeleted(pageable);
     }
 
-    // Đếm tổng số người dùng
+    // Đếm tổng số người dùng chưa bị xóa
     public long countAllUsers() {
-        return userRepository.count();
+        return userRepository.countByDeletedAtIsNull();
     }
 
     // Đếm số người dùng được tạo trong n ngày qua
