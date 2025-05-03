@@ -49,12 +49,10 @@ const ProfilePage = () => {
                     return;
                 }
 
-                console.log(`Fetching profile for user ID: ${userId}`);
                 const profileData = await getProfile(userId);
 
                 if (profileData) {
                     setUserProfile(profileData);
-                    console.log('Loaded user profile:', profileData);
                 } else {
                     setError('Không tìm thấy thông tin người dùng');
                 }
@@ -75,11 +73,9 @@ const ProfilePage = () => {
 
         try {
             setIsLoadingPosts(true);
-            console.log('Fetching posts for user ID:', userProfile.id);
 
             // Lấy dữ liệu bài viết từ API
             const postsData = await getPostsByUser(userProfile.id);
-            console.log('Raw posts data for profile:', postsData);
 
             // Kiểm tra dữ liệu trả về có phải là mảng không
             if (!Array.isArray(postsData)) {
@@ -105,7 +101,6 @@ const ProfilePage = () => {
                 return new Date(b.createdAt) - new Date(a.createdAt);
             });
 
-            console.log(`Profile posts processed: ${postsData.length} raw posts → ${uniquePosts.length} unique posts`);
             setUserPosts(sortedPosts);
         } catch (err) {
             console.error('Error fetching user posts:', err);
@@ -146,15 +141,6 @@ const ProfilePage = () => {
 
     // Check if this is the current user's profile
     const isOwnProfile = !urlUserId && currentUser && userProfile && currentUser.id === userProfile.id;
-
-    // Debug profile info
-    useEffect(() => {
-        console.log('ProfilePage Debug:');
-        console.log('- urlUserId:', urlUserId);
-        console.log('- currentUser ID:', currentUser?.id);
-        console.log('- isOwnProfile:', isOwnProfile);
-        console.log('- userProfile ID:', userProfile?.id);
-    }, [urlUserId, currentUser, isOwnProfile, userProfile]);
 
     return (
         <div>

@@ -14,8 +14,6 @@ const FriendRequests = ({ requests, currentUserId, onRequestUpdated }) => {
     const [error, setError] = useState(null);
     const [mutualFriends, setMutualFriends] = useState({});
 
-    console.log('Requests: ', requests);
-
     useEffect(() => {
         // Fetch mutual friends for each request
         const fetchMutualFriends = async () => {

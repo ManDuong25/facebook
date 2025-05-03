@@ -35,17 +35,13 @@ const ChatSidebar = ({
                 const loggedInUserId = 1;
                 // First try to get conversations from API
                 const response = await api.get(`http://localhost:8080/api/messages/conversations/${loggedInUserId}`);
-                console.log('Kết nối API thành công, dữ liệu:', response.data);
                 if (response.data && response.data.data && response.data.data.length > 0) {
                     setConversations(response.data.data);
                 } else {
-                    console.log('API trả về dữ liệu rỗng, sử dụng test data.');
-                    // Use test data instead
                     setConversations(testConversations);
                 }
             } catch (error) {
                 console.error('Lỗi khi kết nối đến API:', error);
-                console.log('Sử dụng test data thay thế.');
                 // Use test data if API fails
                 setConversations(testConversations);
             }

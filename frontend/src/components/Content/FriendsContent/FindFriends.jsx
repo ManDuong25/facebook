@@ -49,7 +49,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
 
             // Lấy danh sách ID từ suggestions
             const userIds = formattedSuggestions.map((user) => user.id);
-            console.log('Danh sách ID ban đầu cần kiểm tra:', userIds);
 
             try {
                 // Chuyển đổi currentUserId thành số nếu đang là chuỗi
@@ -57,13 +56,11 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
 
                 // Gọi API kiểm tra trạng thái kết bạn hàng loạt
                 const statusResults = await checkFriendshipStatusBatch(userId, userIds);
-                console.log('Kết quả trạng thái kết bạn ban đầu:', statusResults);
 
                 if (statusResults && statusResults.length > 0) {
                     // Cập nhật trạng thái kết bạn cho suggestions
                     const updatedSuggestions = formattedSuggestions.map((user) => {
                         const status = statusResults.find((s) => s.targetUserId === user.id);
-                        console.log(`Trạng thái ban đầu của user ${user.id} (${user.name}):`, status);
 
                         return {
                             ...user,
@@ -152,8 +149,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
             setSearchPerformed(true);
 
             try {
-                console.log('Đang tìm kiếm với từ khóa:', term);
-
                 // Lấy ID người dùng từ localStorage
                 const currentUser = JSON.parse(localStorage.getItem('user'));
                 const currentUserId = currentUser?.id;
@@ -166,15 +161,10 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
                     return;
                 }
 
-                console.log('ID người dùng hiện tại:', currentUserId);
                 // Đảm bảo không tìm kiếm chính mình
                 const results = await searchUsers(term, false);
 
-                console.log('Kết quả tìm kiếm gốc từ API:', results);
-
                 if (results && results.length > 0) {
-                    console.log('Tìm thấy kết quả:', results.length);
-
                     // Xử lý dữ liệu trước khi kiểm tra trạng thái kết bạn
                     const formattedResults = results
                         .filter((user) => user.id !== currentUserId) // Loại bỏ người dùng hiện tại
@@ -185,10 +175,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
                                     ? `${user.firstName} ${user.lastName}`.trim()
                                     : user.username || 'Người dùng không tên';
 
-                            console.log(
-                                `Người dùng: ${user.id}, Tên: ${displayName}, firstName: ${user.firstName}, lastName: ${user.lastName}`,
-                            );
-
                             return {
                                 ...user,
                                 name: displayName, // Đảm bảo thuộc tính name được đặt đúng
@@ -197,19 +183,16 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
 
                     // Kiểm tra trạng thái kết bạn với mỗi người dùng trong kết quả tìm kiếm
                     const userIds = formattedResults.map((user) => user.id);
-                    console.log('Danh sách ID cần kiểm tra:', userIds);
 
                     try {
                         // Chuyển đổi currentUserId thành số nếu đang là chuỗi
                         const userId = typeof currentUserId === 'string' ? parseInt(currentUserId, 10) : currentUserId;
 
                         const statusResults = await checkFriendshipStatusBatch(userId, userIds);
-                        console.log('Kết quả trạng thái kết bạn:', statusResults);
 
                         // Kết hợp thông tin trạng thái vào kết quả tìm kiếm
                         const enhancedResults = formattedResults.map((user) => {
                             const status = statusResults.find((s) => s.targetUserId === user.id);
-                            console.log(`Trạng thái kết bạn của user ${user.id} (${user.name}):`, status);
 
                             return {
                                 ...user,
@@ -218,8 +201,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
                                 receivedRequest: status?.status === 'RECEIVED',
                             };
                         });
-
-                        console.log('Kết quả cuối cùng để hiển thị:', enhancedResults);
 
                         // Fetch mutual friends for search results
                         await fetchMutualFriendsForSearchResults(enhancedResults);
@@ -239,7 +220,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
                         setSearchResults(resultsWithoutStatus);
                     }
                 } else {
-                    console.log('Không tìm thấy kết quả nào');
                     setSearchResults([]);
                 }
             } catch (err) {
@@ -301,7 +281,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
 
         try {
             const res = await sendFriendRequest(currentUserId, userId);
-            console.log(res);
             // Cập nhật trạng thái sau khi gửi lời mời
             if (isSearching) {
                 setSearchResults((prev) =>
@@ -331,8 +310,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
         }
 
         try {
-            console.log(`Đang tìm lời mời kết bạn giữa người gửi ID:${userId} và người nhận ID:${currentUserId}`);
-
             const resFriendRequest = await findFriendRequestId(userId, currentUserId);
 
             if (resFriendRequest) {
@@ -458,7 +435,6 @@ const FindFriends = ({ suggestions: initialSuggestions }) => {
 
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {console.log('Users to render in User Find: ', users)}
                 {users.map((user) => (
                     <div
                         key={user.id}

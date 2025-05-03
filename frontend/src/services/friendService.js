@@ -132,7 +132,6 @@ export const getFriendSuggestions = async (userId) => {
 // Tìm kiếm người dùng theo tên, username, hoặc email
 export const searchUsers = async (searchTerm, excludeCurrentUser = true) => {
     try {
-        console.log(`Frontend: Gửi yêu cầu tìm kiếm với từ khóa "${searchTerm}"`);
         const response = await axios.get(`${API_URL}/users/search`, {
             params: {
                 searchTerm,
@@ -140,38 +139,9 @@ export const searchUsers = async (searchTerm, excludeCurrentUser = true) => {
             },
         });
 
-        console.log('Frontend: Raw response from API:', response);
-        console.log('Frontend: Kết quả tìm kiếm data:', response.data);
-
         if (response.data && response.data.status === 'success' && Array.isArray(response.data.data)) {
-            console.log('Frontend: Số lượng kết quả tìm kiếm:', response.data.data.length);
-
-            // In thông tin chi tiết về từng người dùng
-            response.data.data.forEach((user, index) => {
-                console.log(`Frontend: User #${index + 1}:`, {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    username: user.username,
-                    fullName: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
-                });
-            });
-
             return response.data.data;
         } else if (Array.isArray(response.data)) {
-            console.log('Frontend: Response là mảng trực tiếp:', response.data.length);
-
-            // In thông tin chi tiết về từng người dùng
-            response.data.forEach((user, index) => {
-                console.log(`Frontend: User #${index + 1}:`, {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    username: user.username,
-                    fullName: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
-                });
-            });
-
             return response.data;
         } else {
             console.error('Frontend: Kết quả tìm kiếm không hợp lệ:', response.data);
@@ -190,10 +160,6 @@ export const searchUsers = async (searchTerm, excludeCurrentUser = true) => {
 // Kiểm tra trạng thái kết bạn với danh sách người dùng
 export const checkFriendshipStatusBatch = async (userId, userIds) => {
     try {
-        console.log('Frontend: Kiểm tra trạng thái bạn bè hàng loạt');
-        console.log('Frontend: userId:', userId);
-        console.log('Frontend: targetUserIds:', userIds);
-
         // Kiểm tra dữ liệu đầu vào
         if (!userId) {
             console.error('Frontend: userId không hợp lệ:', userId);
@@ -210,19 +176,14 @@ export const checkFriendshipStatusBatch = async (userId, userIds) => {
             targetUserIds: userIds,
         });
 
-        console.log('Frontend: Response từ server:', response);
-
         // Xử lý các trường hợp phản hồi khác nhau
         let statusResults = [];
 
         if (response.data && response.data.status === 'success' && Array.isArray(response.data.data)) {
-            console.log('Frontend: Trả về data từ ResponseObject');
             statusResults = response.data.data;
         } else if (Array.isArray(response.data)) {
-            console.log('Frontend: Trả về data dạng mảng trực tiếp');
             statusResults = response.data;
         } else if (response.data && Array.isArray(response.data.result)) {
-            console.log('Frontend: Trả về result từ response');
             statusResults = response.data.result;
         } else {
             console.error('Frontend: Kết quả kiểm tra trạng thái bạn bè không hợp lệ:', response.data);
@@ -230,19 +191,12 @@ export const checkFriendshipStatusBatch = async (userId, userIds) => {
             return [];
         }
 
-        // Debug: Log chi tiết trạng thái
-        console.log('Frontend: Số lượng kết quả trạng thái bạn bè:', statusResults.length);
-        statusResults.forEach((status) => {
-            console.log(`Frontend: User ${status.targetUserId} có trạng thái: ${status.status}`);
-        });
-
         // Đảm bảo tất cả userIds đều có trạng thái
         const completeResults = userIds.map((targetId) => {
             const existingStatus = statusResults.find((s) => s.targetUserId === targetId);
             if (existingStatus) {
                 return existingStatus;
             } else {
-                console.log(`Frontend: Không có trạng thái cho user ${targetId}, đặt mặc định là NONE`);
                 return { targetUserId: targetId, status: 'NONE' };
             }
         });
@@ -298,7 +252,6 @@ export const findFriendRequestId = async (senderId, receiverId) => {
                 receiverId,
             },
         });
-        console.log('Response from findFriendRequestId:', response.data);
         if (response.data && response.data.data) {
             return response.data.data;
         }

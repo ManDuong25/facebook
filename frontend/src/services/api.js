@@ -51,20 +51,16 @@ export const createPost = async (content, file, userId) => {
 // Hàm lấy danh sách bài viết
 export const getAllPosts = async () => {
     try {
-        console.log('[API] Fetching all posts from /api/posts');
         const response = await api.get('/api/posts');
 
         // Kiểm tra cấu trúc dữ liệu trả về từ API
-        console.log('[API] Posts API response:', response.data);
 
         // Kiểm tra xem response có đúng định dạng không
         if (response.data && response.data.data && Array.isArray(response.data.data)) {
             // Nếu API trả về định dạng { status, message, data } thì lấy data
-            console.log('[API] Posts extracted from API:', response.data.data);
             return response.data.data;
         } else if (Array.isArray(response.data)) {
             // Nếu API trả về trực tiếp mảng dữ liệu
-            console.log('[API] Posts array from API:', response.data);
             return response.data;
         } else {
             console.error('[API] Unexpected posts data format:', response.data);
@@ -86,20 +82,16 @@ export const getPostsByUser = async (userId) => {
     if (!userId) return [];
 
     try {
-        console.log(`[API] Fetching posts for user ID: ${userId}`);
         const response = await api.get(`/api/posts/user/${userId}`);
 
         // Kiểm tra cấu trúc dữ liệu trả về từ API
-        console.log(`[API] Posts for user ${userId} - API response:`, response.data);
 
         // Kiểm tra xem response có đúng định dạng không
         if (response.data && response.data.data && Array.isArray(response.data.data)) {
             // Nếu API trả về định dạng { status, message, data } thì lấy data
-            console.log(`[API] Posts extracted for user ${userId}:`, response.data.data);
             return response.data.data;
         } else if (Array.isArray(response.data)) {
             // Nếu API trả về trực tiếp mảng dữ liệu
-            console.log(`[API] Posts array for user ${userId}:`, response.data);
             return response.data;
         } else {
             console.error(`[API] Unexpected posts data format for user ${userId}:`, response.data);

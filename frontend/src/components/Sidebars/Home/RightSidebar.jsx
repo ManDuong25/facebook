@@ -79,12 +79,10 @@ const RightSidebar = () => {
             }
 
             const response = await getFriends(currentUser.id);
-            console.log('Friend response:', response);
 
             if (response && Array.isArray(response)) {
                 setFriends(response);
                 // Log the response, not the state (state won't update until next render)
-                console.log('Friends set to:', response);
             } else {
                 console.error('Invalid friends data received:', response);
                 // Fallback to test data if the response is invalid
@@ -102,7 +100,6 @@ const RightSidebar = () => {
     const openChatWithFriend = (friend) => {
         // Convert friend data to conversation format
         // If friend from API doesn't have the required fields, adapt it
-        console.log('Friend ID: ', friend.id);
         const conversation = {
             id: friend.id,
             name: `${friend.firstName || ''} ${friend.lastName || ''}`.trim() || friend.name || 'Unknown',

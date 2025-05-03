@@ -19,13 +19,6 @@ const CoverPhoto = ({ coverPhotoUrl, onEditCover, isOwnProfile }) => {
         setImgError(false);
         const processedUrl = getCoverUrl(coverPhotoUrl);
         setDisplayUrl(processedUrl);
-
-        console.log('CoverPhoto Component:');
-        console.log('- Original coverPhotoUrl:', coverPhotoUrl);
-        console.log('- Processed displayUrl:', processedUrl);
-        console.log('- isOwnProfile prop:', isOwnProfile);
-        console.log('- currentUser from Redux:', currentUser);
-        console.log('- Edit button should be visible:', isOwnProfile);
     }, [coverPhotoUrl, isOwnProfile, currentUser]);
 
     // Xử lý khi người dùng nhấn nút chỉnh sửa ảnh bìa
@@ -43,10 +36,6 @@ const CoverPhoto = ({ coverPhotoUrl, onEditCover, isOwnProfile }) => {
             return;
         }
 
-        console.log('Selected cover photo file:', selectedFile.name);
-        console.log('File size:', Math.round(selectedFile.size / 1024) + ' KB');
-        console.log('File type:', selectedFile.type);
-
         setIsLoading(true);
 
         // Tạo URL tạm thời để hiển thị preview ngay lập tức
@@ -57,7 +46,6 @@ const CoverPhoto = ({ coverPhotoUrl, onEditCover, isOwnProfile }) => {
             // Ensure onEditCover is a function
             if (typeof onEditCover === 'function') {
                 await onEditCover(selectedFile);
-                console.log('Cover photo uploaded successfully');
             } else {
                 throw new Error('onEditCover callback is not provided');
             }

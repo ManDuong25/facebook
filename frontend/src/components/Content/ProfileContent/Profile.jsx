@@ -39,15 +39,6 @@ const Profile = ({
     const currentUserId = JSON.parse(localStorage.getItem('user')).id;
     const isOwnProfile = userProfile?.id === currentUserId;
 
-    // Debug userProfile data
-    useEffect(() => {
-        console.log('Profile Component:');
-        console.log('- userProfile:', userProfile);
-        console.log('- Cover Photo URL:', userProfile?.coverPhotoUrl);
-        console.log('- Posts:', posts);
-        console.log('- isLoading:', isLoading);
-    }, [userProfile, posts, isLoading]);
-
     // Fetch bài viết đã chia sẻ
     useEffect(() => {
         const fetchSharedPosts = async () => {
@@ -56,7 +47,6 @@ const Profile = ({
             try {
                 setIsLoadingSharedPosts(true);
                 const data = await getSharedPostsByUser(userProfile.id);
-                console.log('Shared posts:', data);
                 setSharedPosts(data);
             } catch (error) {
                 console.error('Error fetching shared posts:', error);
@@ -82,8 +72,6 @@ const Profile = ({
 
     // Hàm wrapper để xử lý cập nhật avatar
     const handleAvatarUpdate = (newAvatarUrl) => {
-        console.log('Avatar đã được cập nhật:', newAvatarUrl);
-        // Gọi callback từ component cha nếu có
         if (onAvatarUpdate) {
             onAvatarUpdate(newAvatarUrl);
         }
@@ -93,13 +81,10 @@ const Profile = ({
     const handleCoverPhotoUpdate = async (coverFile) => {
         if (!coverFile || !userProfile?.id) return;
 
-        console.log('Cập nhật ảnh bìa:', coverFile);
-        console.log('User ID:', userProfile.id);
         setIsUploadingCover(true);
 
         try {
             const newCoverUrl = await uploadCoverPhoto(userProfile.id, coverFile);
-            console.log('Cover photo uploaded successfully, new URL:', newCoverUrl);
 
             // Cập nhật state qua callback
             if (onCoverUpdate) {
@@ -240,7 +225,6 @@ const Profile = ({
                                     posts.map((post) => {
                                         // Kiểm tra bài viết có hợp lệ và có nội dung không
                                         if (!post || (!post.content && !post.imageUrl && !post.videoUrl)) {
-                                            console.log('Skipping invalid post:', post);
                                             return null;
                                         }
                                         return <PostItem key={`post-${post.id}`} post={post} />;

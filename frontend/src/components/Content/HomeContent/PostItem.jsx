@@ -167,7 +167,6 @@ const PostItem = ({ post, isSharedPost = false }) => {
 
     // Xử lý khi chia sẻ thành công từ dialog
     const handleShareSuccess = (result) => {
-        console.log('Chia sẻ thành công:', result);
         setSharesCount(sharesCount + 1);
         setShowShareDialog(false);
     };

@@ -54,7 +54,7 @@ function Header() {
                     const response = await axios.get(`http://localhost:8080/api/users/${user.id}`);
 
                     if (response.data && response.data.data) {
-                        console.log('[HEADER] Latest user data from API:', response.data.data);
+                        '[HEADER] Latest user data from API:', response.data.data;
 
                         // Cập nhật Redux store và localStorage với dữ liệu mới từ API
                         dispatch(updateUser(response.data.data));
@@ -70,14 +70,10 @@ function Header() {
 
     // Debug log để xem thông tin avatar
     useEffect(() => {
-        console.log('[HEADER] User data:', user);
         if (user && user.avatar) {
-            console.log('[HEADER] Raw avatar URL:', user.avatar);
             const avatarUrl = getAvatarUrl(user.avatar);
-            console.log('[HEADER] Processed avatar URL:', avatarUrl);
             setProcessedAvatarUrl(avatarUrl);
         } else {
-            console.log('[HEADER] No avatar found in user data');
         }
     }, [user]);
 
@@ -91,7 +87,6 @@ function Header() {
         handleImageError(e);
 
         // Log ra thông tin chi tiết sau khi xử lý lỗi
-        console.log('[HEADER] Image URL after error handling:', e.target.src);
     };
 
     const rightIcons = ['bi-grid-3x3-gap', 'bi-messenger', 'bi-bell'];

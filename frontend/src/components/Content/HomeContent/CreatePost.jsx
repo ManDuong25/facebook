@@ -23,7 +23,6 @@ const ActionButton = ({ icon, color, label }) => (
 const CreatePost = ({ onPostCreated }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const user = useSelector((state) => state.auth.user);
-    console.log('Nguoi dung dang dang nhap: ', user);
 
     const handlePostCreated = (newPost) => {
         // Đóng modal

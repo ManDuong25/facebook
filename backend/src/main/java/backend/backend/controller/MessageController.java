@@ -57,24 +57,31 @@ public class MessageController {
         try {
             System.out.println("📩 Nhận tin nhắn từ client: " + chatMsg);
 
-            // Lấy đối tượng User từ DB dựa trên senderId
+            // Lấy đối tượng User từ DB dựa trên senderId và receiverId
             User sender = userService.findById(chatMsg.getSenderId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new RuntimeException("Sender not found"));
+            User receiver = userService.findById(chatMsg.getReceiverId())
+                    .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-            // Tạo đối tượng Message (chỉ hỗ trợ chat 1-1)
+            // Tạo đối tượng Message
             Message message = new Message();
             message.setSender(sender);
+            message.setReceiver(receiver);
             message.setContent(chatMsg.getContent());
             message.setType(MessageType.valueOf(chatMsg.getType()));
 
-            // Nếu cần, có thể set receiver từ thông tin khác (ví dụ: từ MessageRequest) nếu
-            // mở rộng chức năng
+            // Lưu tin nhắn vào database
             Message savedMessage = messageService.saveMessage(message);
 
-            // Broadcast tới tất cả client subscribe /topic/messages (hoặc thay đổi theo
-            // kênh riêng nếu cần)
-            messagingTemplate.convertAndSend("/topic/messages", savedMessage);
-            System.out.println("gửi tin nhắn tới /topic/messages: " + savedMessage);
+            // Gửi tin nhắn đến người nhận cụ thể
+            String destination = "/topic/messages/" + chatMsg.getReceiverId();
+            messagingTemplate.convertAndSend(destination, savedMessage);
+
+            // Gửi tin nhắn đến người gửi để xác nhận
+            String senderDestination = "/topic/messages/" + chatMsg.getSenderId();
+            messagingTemplate.convertAndSend(senderDestination, savedMessage);
+
+            System.out.println("✅ Đã gửi tin nhắn tới " + destination + ": " + savedMessage);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -15,7 +15,6 @@ const PostList = () => {
             setLoading(true);
             try {
                 const postsData = await getAllPosts();
-                console.log('Kết nối API thành công! Số lượng bài viết:', postsData?.length);
 
                 // Kiểm tra và loại bỏ các bài viết trùng lặp theo ID
                 if (Array.isArray(postsData)) {
@@ -32,12 +31,6 @@ const PostList = () => {
 
                     // Chuyển Map thành mảng bài viết duy nhất
                     const uniquePosts = Array.from(uniquePostsMap.values());
-                    console.log(
-                        '✅ Đã xử lý bài viết trùng lặp. Số lượng ban đầu:',
-                        postsData.length,
-                        'Số lượng sau xử lý:',
-                        uniquePosts.length,
-                    );
 
                     // Sắp xếp bài viết theo thời gian (mới nhất lên đầu)
                     const sortedPosts = uniquePosts.sort((a, b) => {
@@ -46,7 +39,7 @@ const PostList = () => {
                         return dateB - dateA;
                     });
 
-                    console.log('✅ Đã sắp xếp bài viết theo thời gian mới nhất');
+                    ('✅ Đã sắp xếp bài viết theo thời gian mới nhất');
                     dispatch(setPosts(sortedPosts));
                 } else {
                     console.error('❌ Dữ liệu trả về không phải là mảng:', postsData);
@@ -55,7 +48,6 @@ const PostList = () => {
                 }
             } catch (error) {
                 console.error('❌ Lỗi khi kết nối API:', error);
-                console.log('Chi tiết lỗi:', error.response);
                 setError('Không thể tải bài viết');
                 dispatch(setPosts([]));
             } finally {

@@ -72,7 +72,6 @@ const FriendsContent = ({ userId }) => {
     const fetchDataFriends = async (userId) => {
         try {
             const res = await getFriends(userId);
-            console.log('Friends: ', res);
             setFriends(res);
             return true;
         } catch (err) {
@@ -85,7 +84,6 @@ const FriendsContent = ({ userId }) => {
     const fetchDataFriendRequests = async (userId) => {
         try {
             const res = await getPendingRequestsReceived(userId);
-            console.log('Friend request: ', res);
             if (res && res.EC == 0) {
                 setFriendRequests(res.data);
                 return true;
@@ -103,7 +101,7 @@ const FriendsContent = ({ userId }) => {
     const fetchDataFriendSuggestion = async (userId) => {
         try {
             const res = await getFriendSuggestions(userId);
-            console.log('Friend suggestion: ', res);
+            'Friend suggestion: ', res;
             setSuggestedFriends(res);
             return true;
         } catch (err) {

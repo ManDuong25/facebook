@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { getAvatarUrl, handleImageError } from '../../utils/avatarUtils';
 import { getCurrentUser } from '../../services/authService';
 import { sendMessage, getMessagesBetweenUsers } from '../../services/messageService';
+import websocketService from '../../services/websocketService';
 
 const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
     const [messages, setMessages] = useState([]);
@@ -12,6 +13,75 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
     const messagesEndRef = useRef(null);
     const loggedInUser = getCurrentUser();
     const loggedInUserId = loggedInUser?.id;
+
+    useEffect(() => {
+        const connectWebSocket = async () => {
+            try {
+                await websocketService.connect(() => {
+                    console.log('WebSocket connected');
+
+                    // Subscribe to user-specific topic
+                    const userTopic = `/topic/messages/${loggedInUserId}`;
+                    websocketService.subscribe(userTopic, (message) => {
+                        console.log('Received message:', message);
+                        if (message.senderId === conversation.id || message.receiverId === conversation.id) {
+                            setMessages((prevMessages) => {
+                                // Kiểm tra xem tin nhắn đã tồn tại chưa (dựa vào ID hoặc nội dung)
+                                const messageExists = prevMessages.some(
+                                    (msg) =>
+                                        msg.id === message.id ||
+                                        (msg.pending &&
+                                            msg.content === message.content &&
+                                            msg.senderId === message.senderId),
+                                );
+
+                                // Đảm bảo sentAt luôn có giá trị
+                                const messageSentAt = message.sentAt || new Date().toISOString();
+
+                                if (messageExists) {
+                                    // Nếu tin nhắn đã tồn tại, cập nhật nó thay vì thêm mới
+                                    return prevMessages.map((msg) =>
+                                        msg.id === message.id ||
+                                        (msg.pending &&
+                                            msg.content === message.content &&
+                                            msg.senderId === message.senderId)
+                                            ? {
+                                                  ...msg,
+                                                  id: message.id,
+                                                  pending: false,
+                                                  timestamp: formatMessageTime(messageSentAt),
+                                                  sentAt: messageSentAt,
+                                              }
+                                            : msg,
+                                    );
+                                } else {
+                                    // Nếu là tin nhắn mới, thêm vào danh sách
+                                    return [
+                                        ...prevMessages,
+                                        {
+                                            id: message.id,
+                                            senderId: message.senderId,
+                                            content: message.content,
+                                            timestamp: formatMessageTime(messageSentAt),
+                                            sentAt: messageSentAt,
+                                        },
+                                    ];
+                                }
+                            });
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error('Failed to connect to WebSocket:', error);
+            }
+        };
+
+        connectWebSocket();
+
+        return () => {
+            websocketService.disconnect();
+        };
+    }, [conversation.id, loggedInUserId]);
 
     // Fetch previous messages when the conversation changes
     useEffect(() => {
@@ -34,15 +104,15 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
 
             // Fetch messages between the logged-in user and the conversation partner
             const response = await getMessagesBetweenUsers(loggedInUserId, receiverId);
-            console.log('Tin nhan giua 2 nguoi: ', response);
 
             if (response.status === 'success' && response.data) {
                 // Format the messages for display
                 const formattedMessages = response.data.map((msg) => ({
                     id: msg.id,
-                    senderId: msg.senderId, // Use senderId directly from the response
+                    senderId: msg.senderId,
                     content: msg.content,
                     timestamp: formatMessageTime(msg.sentAt),
+                    sentAt: msg.sentAt,
                 }));
 
                 setMessages(formattedMessages);
@@ -67,6 +137,7 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
 
             // Check if date is valid
             if (isNaN(date.getTime())) {
+                console.error('Invalid date:', timestamp);
                 return timestamp; // Return original string if can't parse
             }
 
@@ -92,7 +163,7 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
             // Otherwise show full date
             return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
         } catch (e) {
-            console.error('Error formatting timestamp:', e);
+            console.error('Error formatting timestamp:', e, 'Original timestamp:', timestamp);
             return timestamp; // Return original string on error
         }
     };
@@ -109,49 +180,34 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
             setIsSending(true);
 
             // Create a new message object to add to UI immediately
-            const tempId = Date.now(); // Temporary ID for tracking this message
+            const tempId = Date.now();
             const now = new Date();
             const newMsg = {
-                id: tempId, // Temporary ID until response from server
+                id: tempId,
                 senderId: loggedInUserId,
                 content: newMessage,
-                timestamp: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                timestamp: formatMessageTime(now.toISOString()),
+                sentAt: now.toISOString(),
                 pending: true,
             };
 
             // Add to UI
-            setMessages([...messages, newMsg]);
+            setMessages((prevMessages) => [...prevMessages, newMsg]);
             setNewMessage('');
 
             // Get receiver ID from conversation
             const receiverId = conversation.id;
 
-            // Send to backend API
-            const response = await sendMessage(loggedInUserId, receiverId, newMessage.trim());
-            console.log('Send message response:', response);
+            // Send message via WebSocket only
+            websocketService.send('/app/chat', {
+                senderId: loggedInUserId,
+                receiverId: receiverId,
+                content: newMessage.trim(),
+                type: 'CHAT',
+            });
 
-            // Update message with the ID from the server if needed
-            if (response.status === 'success') {
-                setMessages((prevMessages) =>
-                    prevMessages.map((msg) =>
-                        msg.id === tempId
-                            ? {
-                                  ...msg,
-                                  id: response.data.id || msg.id,
-                                  pending: false,
-                              }
-                            : msg,
-                    ),
-                );
-
-                // Optionally refetch messages to ensure everything is in sync
-                // await fetchMessages();
-            } else {
-                // If response is not success, mark as failed
-                setMessages((prevMessages) =>
-                    prevMessages.map((msg) => (msg.id === tempId ? { ...msg, failed: true, pending: false } : msg)),
-                );
-            }
+            // The message will be updated when we receive it back from the server
+            // through the WebSocket subscription
         } catch (error) {
             console.error('Failed to send message:', error);
             // Mark the message as failed
@@ -236,7 +292,7 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
                                         />
                                     )}
                                     <div
-                                        className={`max-w-[70%] p-2 rounded-lg ${
+                                        className={`max-w-[70%] p-2 rounded-lg group relative ${
                                             message.senderId === loggedInUserId
                                                 ? 'bg-blue-500 text-white rounded-br-none'
                                                 : 'bg-white text-gray-800 rounded-bl-none'
@@ -246,7 +302,9 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
                                     >
                                         <p className="text-sm">{message.content}</p>
                                         <div className="flex justify-between items-center mt-1">
-                                            <span className="text-xs opacity-70">{message.timestamp}</span>
+                                            <span className="text-xs opacity-0 group-hover:opacity-70 transition-opacity duration-200">
+                                                {message.timestamp || formatMessageTime(message.sentAt)}
+                                            </span>
                                             {message.pending && (
                                                 <span className="text-xs opacity-70">
                                                     <i className="bi bi-clock"></i>

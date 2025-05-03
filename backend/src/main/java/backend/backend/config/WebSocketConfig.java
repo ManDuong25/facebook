@@ -12,8 +12,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(@SuppressWarnings("null") StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:5173") // Chỉ định frontend
-                .withSockJS();
+                .setAllowedOriginPatterns("http://localhost:5173") // Sử dụng setAllowedOriginPatterns thay vì
+                                                                   // setAllowedOrigins
+                .withSockJS()
+                .setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js");
     }
 
     @Override

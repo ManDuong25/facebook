@@ -7,36 +7,29 @@ import images from '../assets/images';
  * @returns {string} - URL đã được xử lý để hiển thị
  */
 export const getImageUrl = (url, defaultImage = images.avatarJpg) => {
-  console.log("[AVATAR_UTILS] getImageUrl input:", url);
-  
-  // Kiểm tra nếu url rỗng hoặc null/undefined, trả về ảnh mặc định
-  if (!url) {
-    console.log("[AVATAR_UTILS] Returning default image:", defaultImage);
-    return defaultImage;
-  }
-  
-  // Nếu là File object hoặc Blob
-  if (url instanceof File || url instanceof Blob) {
-    console.log("[AVATAR_UTILS] URL is File/Blob, creating object URL");
-    return URL.createObjectURL(url);
-  }
-  
-  // Nếu đã là URL đầy đủ thì không cần thêm baseURL
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    console.log("[AVATAR_UTILS] URL already has protocol, returning as is:", url);
-    return url;
-  }
-  
-  // Đảm bảo url bắt đầu bằng dấu '/'
-  const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
-  console.log("[AVATAR_UTILS] Normalized URL:", normalizedUrl);
-  
-  // Dùng địa chỉ cố định thay vì biến môi trường
-  const API_BASE_URL = 'http://localhost:8080';
-  // Thêm baseURL cho đường dẫn relative
-  const fullUrl = `${API_BASE_URL}${normalizedUrl}`;
-  console.log("[AVATAR_UTILS] Final URL from getImageUrl:", fullUrl);
-  return fullUrl;
+    // Kiểm tra nếu url rỗng hoặc null/undefined, trả về ảnh mặc định
+    if (!url) {
+        return defaultImage;
+    }
+
+    // Nếu là File object hoặc Blob
+    if (url instanceof File || url instanceof Blob) {
+        return URL.createObjectURL(url);
+    }
+
+    // Nếu đã là URL đầy đủ thì không cần thêm baseURL
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url;
+    }
+
+    // Đảm bảo url bắt đầu bằng dấu '/'
+    const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
+
+    // Dùng địa chỉ cố định thay vì biến môi trường
+    const API_BASE_URL = 'http://localhost:8080';
+    // Thêm baseURL cho đường dẫn relative
+    const fullUrl = `${API_BASE_URL}${normalizedUrl}`;
+    return fullUrl;
 };
 
 /**
@@ -45,11 +38,9 @@ export const getImageUrl = (url, defaultImage = images.avatarJpg) => {
  * @param {string} defaultImage - Ảnh mặc định để hiển thị khi lỗi
  */
 export const handleImageError = (event, defaultImage = images.avatarJpg) => {
-  console.log("[AVATAR_UTILS] Image error occurred for:", event.target.src);
-  console.log("[AVATAR_UTILS] Setting default image:", defaultImage);
-  event.target.src = defaultImage;
-  // Dừng sự kiện để không có vòng lặp vô hạn nếu hình mặc định cũng lỗi
-  event.onerror = null;
+    event.target.src = defaultImage;
+    // Dừng sự kiện để không có vòng lặp vô hạn nếu hình mặc định cũng lỗi
+    event.onerror = null;
 };
 
 /**
@@ -59,25 +50,20 @@ export const handleImageError = (event, defaultImage = images.avatarJpg) => {
  * @returns {string} - URL đã được xử lý
  */
 export const getAvatarUrl = (avatarPath, defaultAvatar = images.avatarJpg) => {
-  console.log("[AVATAR_UTILS] getAvatarUrl input:", avatarPath);
-  
-  // Nếu không có đường dẫn, trả về ảnh mặc định
-  if (!avatarPath) {
-    console.log("[AVATAR_UTILS] No avatar path, returning default:", defaultAvatar);
-    return defaultAvatar;
-  }
-  
-  // Phát hiện và bỏ qua giá trị cứng "avatar1.png" từ dữ liệu mẫu
-  if (avatarPath === "avatar1.png" || avatarPath === "/avatar1.png") {
-    console.log("[AVATAR_UTILS] Detected hardcoded avatar1.png, returning default image");
-    return defaultAvatar;
-  }
-  
-  // Profile đang dùng phương pháp này và nó hoạt động
-  // Đồng nhất xử lý: dùng getImageUrl cho mọi trường hợp
-  const result = getImageUrl(avatarPath, defaultAvatar);
-  console.log("[AVATAR_UTILS] getAvatarUrl result:", result);
-  return result;
+    // Nếu không có đường dẫn, trả về ảnh mặc định
+    if (!avatarPath) {
+        return defaultAvatar;
+    }
+
+    // Phát hiện và bỏ qua giá trị cứng "avatar1.png" từ dữ liệu mẫu
+    if (avatarPath === 'avatar1.png' || avatarPath === '/avatar1.png') {
+        return defaultAvatar;
+    }
+
+    // Profile đang dùng phương pháp này và nó hoạt động
+    // Đồng nhất xử lý: dùng getImageUrl cho mọi trường hợp
+    const result = getImageUrl(avatarPath, defaultAvatar);
+    return result;
 };
 
 /**
@@ -87,8 +73,6 @@ export const getAvatarUrl = (avatarPath, defaultAvatar = images.avatarJpg) => {
  * @returns {string} - URL đã được xử lý
  */
 export const getCoverUrl = (coverPath, defaultCover = images.defaultCover) => {
-  console.log("[AVATAR_UTILS] getCoverUrl input:", coverPath);
-  const result = getImageUrl(coverPath, defaultCover);
-  console.log("[AVATAR_UTILS] getCoverUrl result:", result);
-  return result;
-}; 
+    const result = getImageUrl(coverPath, defaultCover);
+    return result;
+};

@@ -30,7 +30,7 @@ const FriendsList = ({ friends, onFriendRemoved }) => {
             setProcessingIds((prevIds) => [...prevIds, friendId]);
 
             const currentUserId = JSON.parse(localStorage.getItem('user')).id;
-            console.log('currentUserId: ', currentUserId);
+            'currentUserId: ', currentUserId;
             if (!currentUserId) {
                 toast.error('Không tìm thấy thông tin người dùng');
                 return;
@@ -55,8 +55,6 @@ const FriendsList = ({ friends, onFriendRemoved }) => {
             setProcessingIds((prevIds) => prevIds.filter((id) => id !== friendId));
         }
     };
-
-    console.log('Friends in FriendsList:', friends); // Kiểm tra dữ liệu bạn bè
 
     return (
         <div>

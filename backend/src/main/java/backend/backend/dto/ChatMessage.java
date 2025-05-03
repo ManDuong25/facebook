@@ -1,11 +1,16 @@
 package backend.backend.dto;
 
+import lombok.Data;
+
+@Data
 public class ChatMessage {
     private Long senderId;
+    private Long receiverId;
     private String content;
     private String type; // VD: "CHAT"
 
-    public ChatMessage() {}
+    public ChatMessage() {
+    }
 
     public Long getSenderId() {
         return senderId;
@@ -13,6 +18,14 @@ public class ChatMessage {
 
     public void setSenderId(Long senderId) {
         this.senderId = senderId;
+    }
+
+    public Long getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
     }
 
     public String getContent() {
@@ -31,4 +44,3 @@ public class ChatMessage {
         this.type = type;
     }
 }
-
