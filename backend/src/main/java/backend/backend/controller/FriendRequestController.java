@@ -3,9 +3,11 @@ package backend.backend.controller;
 import backend.backend.model.FriendRequest;
 import backend.backend.model.ResponseObject;
 import backend.backend.model.User;
+import backend.backend.model.Friend;
 import backend.backend.service.FriendRequestService;
 import backend.backend.service.FriendService;
 import backend.backend.service.UserService;
+import backend.backend.controller.WebSocketController;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -31,6 +33,9 @@ public class FriendRequestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private WebSocketController webSocketController;
 
     // Gửi yêu cầu kết bạn
     @PostMapping
@@ -113,8 +118,13 @@ public class FriendRequestController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
 
-            // Chấp nhận lời mời
-            friendService.acceptFriendRequest(requestId);
+            // Chấp nhận lời mời và lấy thông tin friendship mới
+            Friend newFriendship = friendService.acceptFriendRequest(requestId);
+
+            // Gửi thông báo realtime cho cả hai người dùng
+            webSocketController.notifyNewFriendship(request.getSender().getId(), newFriendship);
+            webSocketController.notifyNewFriendship(request.getReceiver().getId(), newFriendship);
+
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Chấp nhận lời mời kết bạn thành công");
             response.put("EC", 0);

@@ -55,11 +55,23 @@ const FriendsSection = ({ preview = true, userId }) => {
                     <h2 className="text-xl font-bold">Bạn bè</h2>
                     <p className="text-sm text-gray-500">{friends.length} người bạn</p>
                 </div>
-                {preview && (
-                    <Link to="/friends" className="text-blue-500 hover:bg-gray-100 px-2 py-1 rounded transition">
-                        Xem tất cả bạn bè
+                <div className="flex gap-2">
+                    {preview && (
+                        <Link
+                            to="/friends?tab=all"
+                            className="text-blue-500 hover:bg-gray-100 px-2 py-1 rounded transition"
+                        >
+                            Xem tất cả bạn bè
+                        </Link>
+                    )}
+                    <Link
+                        to="/friends?tab=all"
+                        className="text-blue-500 hover:bg-gray-100 px-2 py-1 rounded transition flex items-center gap-1"
+                    >
+                        <i className="bi bi-three-dots"></i>
+                        <span>Tùy chỉnh nhiều hơn</span>
                     </Link>
-                )}
+                </div>
             </div>
 
             {isLoading ? (

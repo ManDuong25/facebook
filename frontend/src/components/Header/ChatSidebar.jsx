@@ -3,7 +3,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import images from '../../assets/images';
 import api from '../../services/apiConfig';
 import { getAvatarUrl, handleImageError as globalHandleImageError } from '../../utils/avatarUtils';
-import testConversations from '../../data/testConversations';
+import { useSelector } from 'react-redux';
 
 // Define the constant directly here
 const MAX_CHAT_WINDOWS = 4;
@@ -17,38 +17,43 @@ const ChatSidebar = ({
 }) => {
     const [conversations, setConversations] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const defaultAvatar = images.avatarJpg;
-    const defaultConversation = [
-        {
-            id: 0,
-            name: 'Người dùng mặc định',
-            avatar: null, // Use null instead of defaultAvatar to test our utility function
-            message: 'Chào bạn! Hãy bắt đầu cuộc trò chuyện!',
-            time: 'Vừa xong',
-            online: true,
-        },
-    ];
+    const [loading, setLoading] = useState(true);
+    const user = useSelector((state) => state.auth.user);
 
     useEffect(() => {
         const fetchChats = async () => {
+            if (!user?.id) return;
+
+            setLoading(true);
             try {
-                const loggedInUserId = 1;
-                // First try to get conversations from API
-                const response = await api.get(`http://localhost:8080/api/messages/conversations/${loggedInUserId}`);
-                if (response.data && response.data.data && response.data.data.length > 0) {
-                    setConversations(response.data.data);
-                } else {
-                    setConversations(testConversations);
+                // Fetch all conversations for the current user
+                const response = await api.get(`http://localhost:8080/api/messages/conversations/${user.id}`);
+
+                if (response.data && response.data.data) {
+                    // Transform the data to match our conversation format
+                    const formattedConversations = response.data.data.map((conv) => ({
+                        id: conv.id,
+                        name: conv.name,
+                        avatar: conv.avatar,
+                        message: conv.lastMessage?.content || '',
+                        time: conv.lastMessage?.createdAt
+                            ? new Date(conv.lastMessage.createdAt).toLocaleTimeString()
+                            : '',
+                        online: conv.online || false,
+                        userId: conv.userId,
+                    }));
+
+                    setConversations(formattedConversations);
                 }
             } catch (error) {
                 console.error('Lỗi khi kết nối đến API:', error);
-                // Use test data if API fails
-                setConversations(testConversations);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchChats();
-    }, []);
+    }, [user?.id]);
 
     // Filter conversations based on search term
     const filteredConversations = conversations.filter((conv) =>
@@ -91,36 +96,46 @@ const ChatSidebar = ({
             </div>
 
             <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-                {filteredConversations.map((conv) => (
-                    <div
-                        key={conv.id}
-                        onClick={() => onSelectConversation && onSelectConversation(conv)}
-                        className={`flex items-center justify-between px-3 py-2 hover:bg-gray-100 cursor-pointer ${
-                            selectedConversation?.id === conv.id ? 'bg-gray-200' : ''
-                        }`}
-                    >
-                        <div className="flex items-center gap-3">
-                            <div className="relative w-10 h-10">
-                                <img
-                                    src={getAvatarUrl(conv.avatar)}
-                                    alt={conv.name}
-                                    className="w-10 h-10 rounded-full object-cover"
-                                    onError={(e) => globalHandleImageError(e)}
-                                />
-                                {conv.online && (
-                                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
-                                )}
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-sm font-semibold leading-5">{conv.name}</span>
-                                {conv.message && (
-                                    <span className="text-xs text-gray-500 leading-4">{conv.message}</span>
-                                )}
-                            </div>
-                        </div>
-                        <span className="text-xs text-gray-400">{conv.time}</span>
+                {loading ? (
+                    <div className="flex items-center justify-center h-full">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                     </div>
-                ))}
+                ) : filteredConversations.length === 0 ? (
+                    <div className="flex items-center justify-center h-full text-gray-500">
+                        Không tìm thấy cuộc trò chuyện nào
+                    </div>
+                ) : (
+                    filteredConversations.map((conv) => (
+                        <div
+                            key={conv.id}
+                            onClick={() => onSelectConversation && onSelectConversation(conv)}
+                            className={`flex items-center justify-between px-3 py-2 hover:bg-gray-100 cursor-pointer ${
+                                selectedConversation?.id === conv.id ? 'bg-gray-200' : ''
+                            }`}
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="relative w-10 h-10">
+                                    <img
+                                        src={getAvatarUrl(conv.avatar)}
+                                        alt={conv.name}
+                                        className="w-10 h-10 rounded-full object-cover"
+                                        onError={(e) => globalHandleImageError(e)}
+                                    />
+                                    {conv.online && (
+                                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
+                                    )}
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-semibold leading-5">{conv.name}</span>
+                                    {conv.message && (
+                                        <span className="text-xs text-gray-500 leading-4">{conv.message}</span>
+                                    )}
+                                </div>
+                            </div>
+                            <span className="text-xs text-gray-400">{conv.time}</span>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );

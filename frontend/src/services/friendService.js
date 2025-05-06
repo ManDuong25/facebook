@@ -104,6 +104,10 @@ export const removeFriend = async (user1Id, user2Id) => {
 
 // Kiểm tra trạng thái kết bạn giữa 2 người dùng
 export const checkFriendshipStatus = async (user1Id, user2Id) => {
+    if (!user1Id || !user2Id) {
+        throw new Error('Required parameters user1Id and user2Id must be present');
+    }
+
     try {
         const response = await axios.get(`${API_URL}/friend-requests/status`, {
             params: {

@@ -64,11 +64,8 @@ public class MessageController {
                     .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
             // Tạo đối tượng Message
-            Message message = new Message();
-            message.setSender(sender);
-            message.setReceiver(receiver);
-            message.setContent(chatMsg.getContent());
-            message.setType(MessageType.valueOf(chatMsg.getType()));
+            Message message = new Message(sender, receiver, chatMsg.getContent(),
+                    MessageType.valueOf(chatMsg.getType()));
 
             // Lưu tin nhắn vào database
             Message savedMessage = messageService.saveMessage(message);

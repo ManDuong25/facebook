@@ -106,6 +106,26 @@ const Profile = ({
         }
     };
 
+    // Thêm hàm xử lý khi chia sẻ bài viết thành công
+    const handleShareSuccess = () => {
+        // Làm mới danh sách bài viết đã chia sẻ
+        const fetchSharedPosts = async () => {
+            if (!userProfile?.id) return;
+
+            try {
+                setIsLoadingSharedPosts(true);
+                const data = await getSharedPostsByUser(userProfile.id);
+                setSharedPosts(data);
+            } catch (error) {
+                console.error('Error fetching shared posts:', error);
+            } finally {
+                setIsLoadingSharedPosts(false);
+            }
+        };
+
+        fetchSharedPosts();
+    };
+
     return (
         <div className="w-full min-h-screen bg-gray-100">
             <div className="bg-white shadow">
@@ -146,7 +166,7 @@ const Profile = ({
                         onEditDetails={isOwnProfile ? handleEditProfile : null}
                     />
                     <PhotosSection isOwnProfile={isOwnProfile} />
-                    <FriendsSection userId={userProfile?.id} />
+                    <FriendsSection userId={userProfile?.id} preview={false} />
                 </div>
 
                 <div className="flex-1">
@@ -206,14 +226,17 @@ const Profile = ({
                                 {isLoadingSharedPosts ? (
                                     <div className="text-center py-4">Đang tải bài viết đã chia sẻ...</div>
                                 ) : sharedPosts && sharedPosts.length > 0 ? (
-                                    sharedPosts.map((post) => (
+                                    sharedPosts.map((post, index) => (
                                         <SharedPostItem
-                                            key={`shared-${post.id}`}
+                                            key={`shared-${post.id}-${post.shareId}-${
+                                                post.sharedAt || Date.now()
+                                            }-${index}`}
                                             share={{
                                                 post: post,
                                                 user: userProfile,
-                                                sharedAt: post.createdAt, // Dùng tạm createdAt vì API chưa trả về sharedAt
+                                                sharedAt: post.sharedAt,
                                             }}
+                                            onShareSuccess={handleShareSuccess}
                                         />
                                     ))
                                 ) : null}
@@ -244,8 +267,8 @@ const Profile = ({
                         </>
                     )}
                     {activeTab === 'about' && <AboutSection userId={userProfile?.id || '1'} />}
-                    {activeTab === 'friends' && <FriendsSection />}
-                    {activeTab === 'photos' && <PhotosSection />}
+                    {activeTab === 'friends' && <FriendsSection userId={userProfile?.id} preview={false} />}
+                    {activeTab === 'photos' && <PhotosSection isOwnProfile={isOwnProfile} />}
                 </div>
             </div>
         </div>

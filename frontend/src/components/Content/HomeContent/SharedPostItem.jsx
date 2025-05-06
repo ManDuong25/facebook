@@ -29,7 +29,7 @@ const ActionButton = ({ icon, label, onClick, active, activeIcon }) => (
     </button>
 );
 
-const SharedPostItem = ({ share }) => {
+const SharedPostItem = ({ share, onShareSuccess }) => {
     const { post, user, sharedAt } = share;
     const formattedDate = sharedAt ? formatDistanceToNow(new Date(sharedAt), { addSuffix: true, locale: vi }) : '';
 
@@ -167,6 +167,10 @@ const SharedPostItem = ({ share }) => {
     const handleShareSuccess = (result) => {
         setSharesCount(sharesCount + 1);
         setShowShareDialog(false);
+        // Gọi callback để cập nhật danh sách bài viết
+        if (onShareSuccess) {
+            onShareSuccess(result);
+        }
     };
 
     return (
@@ -282,6 +286,7 @@ SharedPostItem.propTypes = {
         user: PropTypes.object.isRequired,
         sharedAt: PropTypes.string,
     }).isRequired,
+    onShareSuccess: PropTypes.func,
 };
 
 export default SharedPostItem;

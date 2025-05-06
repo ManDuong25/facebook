@@ -39,12 +39,10 @@ public class UserController {
         try {
             if (paginate) {
                 // Sử dụng phân trang
-                org.springframework.data.domain.Pageable pageable =
-                    org.springframework.data.domain.PageRequest.of(
+                org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(
                         page,
                         size,
-                        org.springframework.data.domain.Sort.by("createdAt").descending()
-                    );
+                        org.springframework.data.domain.Sort.by("createdAt").descending());
 
                 org.springframework.data.domain.Page<User> usersPage = userService.findAllUsersWithPagination(pageable);
 
@@ -141,8 +139,9 @@ public class UserController {
             // Trong môi trường thực tế, bạn nên lấy ID người dùng từ token xác thực
             // Long loggedInUserId = getUserIdFromAuthentication();
             // if (!id.equals(loggedInUserId)) {
-            //     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-            //             .body(new ResponseObject("failed", "You can only update your own profile", null));
+            // return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            // .body(new ResponseObject("failed", "You can only update your own profile",
+            // null));
             // }
 
             // Ghi log để debug
@@ -239,9 +238,11 @@ public class UserController {
             // Trong môi trường thực tế, bạn nên lấy ID người dùng từ token xác thực
             // Long loggedInUserId = getUserIdFromAuthentication();
             // if (!userId.equals(loggedInUserId)) {
-            //     System.out.println("Access denied - User attempting to modify another user's avatar");
-            //     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-            //             .body(new ResponseObject("failed", "You can only update your own avatar", null));
+            // System.out.println("Access denied - User attempting to modify another user's
+            // avatar");
+            // return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            // .body(new ResponseObject("failed", "You can only update your own avatar",
+            // null));
             // }
 
             // Ghi log để debug
@@ -350,9 +351,11 @@ public class UserController {
             // Trong môi trường thực tế, bạn nên lấy ID người dùng từ token xác thực
             // Long loggedInUserId = getUserIdFromAuthentication();
             // if (!userId.equals(loggedInUserId)) {
-            //     System.out.println("Access denied - User attempting to modify another user's cover photo");
-            //     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-            //             .body(new ResponseObject("failed", "You can only update your own cover photo", null));
+            // System.out.println("Access denied - User attempting to modify another user's
+            // cover photo");
+            // return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            // .body(new ResponseObject("failed", "You can only update your own cover
+            // photo", null));
             // }
 
             // Ghi log để debug

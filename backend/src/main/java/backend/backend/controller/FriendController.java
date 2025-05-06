@@ -24,6 +24,9 @@ public class FriendController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private WebSocketController webSocketController;
+
     // Get all friends of a user
     @GetMapping("/{userId}")
     public ResponseEntity<?> getFriends(@PathVariable Long userId) {
@@ -41,7 +44,13 @@ public class FriendController {
         try {
             Long user1Id = Long.valueOf(request.get("user1Id").toString());
             Long user2Id = Long.valueOf(request.get("user2Id").toString());
-            return ResponseEntity.ok(friendService.createFriendship(user1Id, user2Id));
+            Friend newFriendship = friendService.createFriendship(user1Id, user2Id);
+
+            // Gửi thông báo realtime cho cả hai người dùng
+            webSocketController.notifyNewFriendship(user1Id, newFriendship);
+            webSocketController.notifyNewFriendship(user2Id, newFriendship);
+
+            return ResponseEntity.ok(newFriendship);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("message", "Error creating friendship: " + e.getMessage()));

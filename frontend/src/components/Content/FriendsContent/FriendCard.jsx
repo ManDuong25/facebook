@@ -51,13 +51,6 @@ const FriendCard = ({ friend, onRemove }) => {
                             <i className="bi bi-person-fill mr-2"></i>
                             Xem trang cá nhân
                         </Link>
-                        <Link
-                            to={`/messages/${friend.id}`}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md w-full text-left"
-                        >
-                            <i className="bi bi-chat-left-text-fill mr-2"></i>
-                            Nhắn tin
-                        </Link>
                         <button
                             className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 rounded-md w-full text-left"
                             onClick={handleRemoveFriend}

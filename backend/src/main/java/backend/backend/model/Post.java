@@ -1,6 +1,5 @@
 package backend.backend.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +8,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "posts")
@@ -45,11 +48,18 @@ public class Post {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @Transient // Không lưu vào database
+    private Long shareId;
+
+    @Transient // Không lưu vào database
+    private LocalDateTime sharedAt;
+
     // Getters and Setters
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -57,6 +67,7 @@ public class Post {
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -64,6 +75,7 @@ public class Post {
     public String getContent() {
         return content;
     }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -71,6 +83,7 @@ public class Post {
     public String getImageUrl() {
         return imageUrl;
     }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
@@ -78,6 +91,7 @@ public class Post {
     public String getVideoUrl() {
         return videoUrl;
     }
+
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
     }
@@ -85,6 +99,7 @@ public class Post {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
@@ -92,6 +107,7 @@ public class Post {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
+
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -99,6 +115,7 @@ public class Post {
     public Boolean getVisible() {
         return visible;
     }
+
     public void setVisible(Boolean visible) {
         this.visible = visible;
     }
@@ -106,8 +123,25 @@ public class Post {
     public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
+
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public Long getShareId() {
+        return shareId;
+    }
+
+    public void setShareId(Long shareId) {
+        this.shareId = shareId;
+    }
+
+    public LocalDateTime getSharedAt() {
+        return sharedAt;
+    }
+
+    public void setSharedAt(LocalDateTime sharedAt) {
+        this.sharedAt = sharedAt;
     }
 
     // Phương thức tiện ích để kiểm tra xem bài viết đã bị xóa chưa

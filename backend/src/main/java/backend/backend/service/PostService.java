@@ -51,12 +51,50 @@ public class PostService {
         return posts;
     }
 
-    // Lấy tất cả bài viết có visible=true và chưa bị xóa (cho người dùng thông thường)
+    // Lấy tất cả bài viết có visible=true và chưa bị xóa (cho người dùng thông
+    // thường)
     public List<Post> getAllVisiblePosts() {
-        List<Post> posts = postRepository.findByVisibleTrueAndDeletedAtIsNull();
-        // Sắp xếp bài viết theo thời gian tạo mới nhất
-        posts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
-        return posts;
+        List<Post> result = new ArrayList<>();
+
+        // Lấy tất cả bài viết gốc
+        List<Post> originalPosts = postRepository.findByVisibleTrueAndDeletedAtIsNull();
+        result.addAll(originalPosts);
+
+        // Lấy tất cả bài viết đã chia sẻ
+        List<Share> shares = shareRepository.findAll();
+        shares.stream()
+                .map(share -> {
+                    Post post = share.getPost();
+                    if (post.getVisible() != null && post.getVisible() && post.getDeletedAt() == null) {
+                        // Tạo bản sao của bài viết
+                        Post sharedPost = new Post();
+                        sharedPost.setId(post.getId());
+                        sharedPost.setUser(post.getUser());
+                        sharedPost.setContent(post.getContent());
+                        sharedPost.setImageUrl(post.getImageUrl());
+                        sharedPost.setVideoUrl(post.getVideoUrl());
+                        sharedPost.setVisible(post.getVisible());
+                        sharedPost.setCreatedAt(post.getCreatedAt());
+                        sharedPost.setUpdatedAt(post.getUpdatedAt());
+                        sharedPost.setDeletedAt(post.getDeletedAt());
+                        // Thêm thông tin share
+                        sharedPost.setShareId(share.getId());
+                        sharedPost.setSharedAt(share.getSharedAt());
+                        return sharedPost;
+                    }
+                    return null;
+                })
+                .filter(post -> post != null)
+                .forEach(result::add);
+
+        // Sắp xếp tất cả bài viết theo thời gian mới nhất
+        result.sort((p1, p2) -> {
+            LocalDateTime time1 = p1.getSharedAt() != null ? p1.getSharedAt() : p1.getCreatedAt();
+            LocalDateTime time2 = p2.getSharedAt() != null ? p2.getSharedAt() : p2.getCreatedAt();
+            return time2.compareTo(time1);
+        });
+
+        return result;
     }
 
     // Lấy bài viết theo id
@@ -73,7 +111,8 @@ public class PostService {
         return Optional.empty();
     }
 
-    // Lấy bài viết của 1 user và sắp xếp theo thời gian tạo mới nhất (cho admin) - bao gồm cả bài viết đã xóa
+    // Lấy bài viết của 1 user và sắp xếp theo thời gian tạo mới nhất (cho admin) -
+    // bao gồm cả bài viết đã xóa
     public List<Post> getPostsByUser(User user) {
         return postRepository.findByUserOrderByCreatedAtDesc(user);
     }
@@ -83,12 +122,14 @@ public class PostService {
         return postRepository.findByUserAndDeletedAtIsNullOrderByCreatedAtDesc(user);
     }
 
-    // Lấy bài viết có visible=true và chưa bị xóa của 1 user (cho người dùng thông thường)
+    // Lấy bài viết có visible=true và chưa bị xóa của 1 user (cho người dùng thông
+    // thường)
     public List<Post> getVisiblePostsByUser(User user) {
         return postRepository.findByUserAndVisibleTrueAndDeletedAtIsNullOrderByCreatedAtDesc(user);
     }
 
-    // Lấy danh sách bài viết có phân trang và tìm kiếm (bao gồm cả bài viết đã xóa - chỉ dùng cho admin cấp cao)
+    // Lấy danh sách bài viết có phân trang và tìm kiếm (bao gồm cả bài viết đã xóa
+    // - chỉ dùng cho admin cấp cao)
     public Page<Post> getPosts(Long userId, String searchTerm, int page, int size, String sortBy, String sortDir) {
         Sort sort = Sort.by(sortDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -105,7 +146,8 @@ public class PostService {
     }
 
     // Lấy danh sách bài viết chưa bị xóa mềm có phân trang và tìm kiếm
-    public Page<Post> getNotDeletedPosts(Long userId, String searchTerm, int page, int size, String sortBy, String sortDir) {
+    public Page<Post> getNotDeletedPosts(Long userId, String searchTerm, int page, int size, String sortBy,
+            String sortDir) {
         Sort sort = Sort.by(sortDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
 
@@ -135,26 +177,63 @@ public class PostService {
     // Lấy bài viết đã chia sẻ của 1 user (bao gồm cả bài viết đã ẩn và đã xóa)
     public List<Post> getSharedPostsByUser(User user) {
         List<Share> shares = shareRepository.findByUser(user);
-        List<Post> sharedPosts = shares.stream()
-                .map(Share::getPost)
-                .collect(Collectors.toList());
 
-        // Sắp xếp bài viết theo thời gian tạo mới nhất
-        sharedPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
-        return sharedPosts;
+        // Sắp xếp bài viết theo thời gian chia sẻ mới nhất
+        shares.sort(Comparator.comparing(Share::getSharedAt).reversed());
+
+        // Thêm shareId và sharedAt vào mỗi bài viết
+        return shares.stream()
+                .map(share -> {
+                    Post post = share.getPost();
+                    // Tạo một bản sao của bài viết để tránh ảnh hưởng đến bài viết gốc
+                    Post sharedPost = new Post();
+                    sharedPost.setId(post.getId());
+                    sharedPost.setUser(post.getUser());
+                    sharedPost.setContent(post.getContent());
+                    sharedPost.setImageUrl(post.getImageUrl());
+                    sharedPost.setVideoUrl(post.getVideoUrl());
+                    sharedPost.setVisible(post.getVisible());
+                    sharedPost.setCreatedAt(post.getCreatedAt());
+                    sharedPost.setUpdatedAt(post.getUpdatedAt());
+                    sharedPost.setDeletedAt(post.getDeletedAt());
+                    // Thêm thông tin share
+                    sharedPost.setShareId(share.getId());
+                    sharedPost.setSharedAt(share.getSharedAt());
+                    return sharedPost;
+                })
+                .collect(Collectors.toList());
     }
 
-    // Lấy bài viết đã chia sẻ của 1 user (chỉ lấy bài viết có visible=true và chưa bị xóa)
+    // Lấy bài viết đã chia sẻ của 1 user (chỉ lấy bài viết có visible=true và chưa
+    // bị xóa)
     public List<Post> getVisibleSharedPostsByUser(User user) {
         List<Share> shares = shareRepository.findByUser(user);
-        List<Post> sharedPosts = shares.stream()
-                .map(Share::getPost)
+
+        // Sắp xếp bài viết theo thời gian chia sẻ mới nhất
+        shares.sort(Comparator.comparing(Share::getSharedAt).reversed());
+
+        // Thêm shareId và sharedAt vào mỗi bài viết và lọc theo điều kiện
+        return shares.stream()
+                .map(share -> {
+                    Post post = share.getPost();
+                    // Tạo một bản sao của bài viết để tránh ảnh hưởng đến bài viết gốc
+                    Post sharedPost = new Post();
+                    sharedPost.setId(post.getId());
+                    sharedPost.setUser(post.getUser());
+                    sharedPost.setContent(post.getContent());
+                    sharedPost.setImageUrl(post.getImageUrl());
+                    sharedPost.setVideoUrl(post.getVideoUrl());
+                    sharedPost.setVisible(post.getVisible());
+                    sharedPost.setCreatedAt(post.getCreatedAt());
+                    sharedPost.setUpdatedAt(post.getUpdatedAt());
+                    sharedPost.setDeletedAt(post.getDeletedAt());
+                    // Thêm thông tin share
+                    sharedPost.setShareId(share.getId());
+                    sharedPost.setSharedAt(share.getSharedAt());
+                    return sharedPost;
+                })
                 .filter(post -> post.getVisible() != null && post.getVisible() && post.getDeletedAt() == null)
                 .collect(Collectors.toList());
-
-        // Sắp xếp bài viết theo thời gian tạo mới nhất
-        sharedPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
-        return sharedPosts;
     }
 
     // Lấy tất cả bài viết và bài viết đã chia sẻ của 1 user

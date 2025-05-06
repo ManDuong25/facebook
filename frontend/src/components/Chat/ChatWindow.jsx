@@ -141,27 +141,11 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
                 return timestamp; // Return original string if can't parse
             }
 
-            // Get today's date at midnight for comparison
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            // If the message is from today, show only time
-            if (date >= today) {
-                return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            }
-
-            // If the message is from this year, show date without year
-            const thisYear = new Date().getFullYear();
-            if (date.getFullYear() === thisYear) {
-                return (
-                    date.toLocaleDateString([], { month: 'short', day: 'numeric' }) +
-                    ' ' +
-                    date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                );
-            }
-
-            // Otherwise show full date
-            return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+            // Format time in 24-hour format
+            return date.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit',
+            });
         } catch (e) {
             console.error('Error formatting timestamp:', e, 'Original timestamp:', timestamp);
             return timestamp; // Return original string on error
@@ -191,6 +175,8 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
                 pending: true,
             };
 
+            console.log(newMsg);
+
             // Add to UI
             setMessages((prevMessages) => [...prevMessages, newMsg]);
             setNewMessage('');
@@ -204,6 +190,7 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
                 receiverId: receiverId,
                 content: newMessage.trim(),
                 type: 'CHAT',
+                sentAt: now.toISOString(),
             });
 
             // The message will be updated when we receive it back from the server
@@ -302,7 +289,7 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
                                     >
                                         <p className="text-sm">{message.content}</p>
                                         <div className="flex justify-between items-center mt-1">
-                                            <span className="text-xs opacity-0 group-hover:opacity-70 transition-opacity duration-200">
+                                            <span className="text-xs opacity-70">
                                                 {message.timestamp || formatMessageTime(message.sentAt)}
                                             </span>
                                             {message.pending && (

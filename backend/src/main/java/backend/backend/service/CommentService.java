@@ -44,7 +44,8 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    // Lấy danh sách bình luận của bài viết (dùng cho API GET /api/comments?postId={postId})
+    // Lấy danh sách bình luận của bài viết (dùng cho API GET
+    // /api/comments?postId={postId})
     public List<Comment> getCommentsByPost(Long postId) {
         Post post = postService.getPostById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));

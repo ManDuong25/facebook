@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
@@ -36,7 +37,7 @@ public class CommentController {
     public ResponseEntity<?> getCommentById(@PathVariable Long id) {
         Optional<Comment> commentOpt = commentService.getCommentById(id);
         return commentOpt.map(ResponseEntity::ok)
-                         .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Cập nhật bình luận

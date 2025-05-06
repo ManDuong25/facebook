@@ -127,15 +127,10 @@ public class FriendService {
         User user2 = userRepository.findById(user2Id)
                 .orElseThrow(() -> new IllegalArgumentException("Người dùng 2 không tồn tại."));
 
-        // Luôn lưu với user1_id < user2_id để đảm bảo tính nhất quán (lưu một chiều)
+        // Tạo mối quan hệ bạn bè mới
         Friend friendship = new Friend();
-        if (user1Id < user2Id) {
-            friendship.setUser1(user1);
-            friendship.setUser2(user2);
-        } else {
-            friendship.setUser1(user2);
-            friendship.setUser2(user1);
-        }
+        friendship.setUser1(user1);
+        friendship.setUser2(user2);
         friendship.setSince(LocalDateTime.now());
 
         return friendRepository.save(friendship);

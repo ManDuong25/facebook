@@ -5,6 +5,7 @@ import { useChat } from '../../../contexts/ChatContext';
 import testConversations from '../../../data/testConversations';
 import { getFriends } from '~/services/friendService';
 import { getCurrentUser } from '~/services/authService';
+import websocketService from '~/services/websocketService';
 
 const ads = [
     {
@@ -64,7 +65,39 @@ const RightSidebar = () => {
 
     useEffect(() => {
         fetchFriends();
+        setupWebSocket();
+
+        // Cleanup WebSocket subscription when component unmounts
+        return () => {
+            websocketService.unsubscribe(`/topic/friends/${getCurrentUser()?.id}`);
+        };
     }, []);
+
+    const setupWebSocket = async () => {
+        try {
+            await websocketService.connect();
+            const currentUser = getCurrentUser();
+            if (currentUser?.id) {
+                websocketService.subscribe(`/topic/friends/${currentUser.id}`, (newFriend) => {
+                    console.log('Received new friend notification:', newFriend);
+                    setFriends((prevFriends) => {
+                        // Xác định người dùng nào là bạn mới (không phải người dùng hiện tại)
+                        const newFriendUser = newFriend.user1.id === currentUser.id ? newFriend.user2 : newFriend.user1;
+
+                        // Kiểm tra xem bạn bè đã tồn tại trong danh sách chưa
+                        const exists = prevFriends.some((friend) => friend.id === newFriendUser.id);
+                        if (!exists) {
+                            console.log('Adding new friend to list:', newFriendUser);
+                            return [...prevFriends, newFriendUser];
+                        }
+                        return prevFriends;
+                    });
+                });
+            }
+        } catch (error) {
+            console.error('Error setting up WebSocket:', error);
+        }
+    };
 
     const fetchFriends = async () => {
         try {

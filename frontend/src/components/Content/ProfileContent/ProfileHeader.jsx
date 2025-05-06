@@ -112,7 +112,7 @@ const ProfileHeader = ({ userProfile, isOwnProfile, onAvatarUpdate }) => {
     // For debugging purposes, calculate if this should be user's own profile
     const calculatedIsOwnProfile = !!(currentUser && userProfile && currentUser.id === userProfile.id);
     // Use either passed prop or calculated value
-    const shouldShowEditButtons = isOwnProfile || calculatedIsOwnProfile;
+    const shouldShowEditButtons = isOwnProfile;
 
     return (
         <>

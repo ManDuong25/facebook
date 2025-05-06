@@ -72,7 +72,7 @@ const CoverPhoto = ({ coverPhotoUrl, onEditCover, isOwnProfile }) => {
     // For debugging purposes, calculate if this should be user's own profile
     const calculatedIsOwnProfile = !!(currentUser && currentUser.id);
     // Use either passed prop or calculated value
-    const shouldShowEditButton = isOwnProfile || calculatedIsOwnProfile;
+    const shouldShowEditButton = isOwnProfile;
 
     return (
         <div
