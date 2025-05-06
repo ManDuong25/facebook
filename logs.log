@@ -16407,3 +16407,11 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2025-05-06T07:44:28.203-07:00  WARN 19984 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
 2025-05-06T07:44:28.205-07:00  WARN 19984 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
 2025-05-06T07:44:37.612-07:00  INFO 19984 --- [MessageBroker-4] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[3 current WS(3)-HttpStream(0)-HttpPoll(0), 30 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(30)-CONNECTED(30)-DISCONNECT(7)], stompBrokerRelay[null], inboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 405], outboundChannel[pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 81], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 4, completed tasks = 553]
+2025-05-06T07:46:20.805-07:00  WARN 19984 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
+2025-05-06T07:46:20.806-07:00  WARN 19984 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
+2025-05-06T07:47:31.950-07:00  WARN 19984 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
+2025-05-06T07:47:31.953-07:00  WARN 19984 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
+2025-05-06T07:47:32.216-07:00  WARN 19984 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
+2025-05-06T07:47:32.241-07:00  WARN 19984 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
+2025-05-06T07:47:44.258-07:00  WARN 19984 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-06T07:47:44.260-07:00  WARN 19984 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
