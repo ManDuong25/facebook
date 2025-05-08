@@ -31,22 +31,23 @@ public class Notification {
     private NotificationType type;
 
     private String content;
-    
+
     // ID tham chiếu (có thể là ID của bài viết, lời mời kết bạn, v.v.)
     private Long referenceId;
-    
+
     private Boolean isRead = false;
-    
+
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-    
+
     // Loại thông báo
     public enum NotificationType {
-        FRIEND_REQUEST,    // Lời mời kết bạn
-        FRIEND_ACCEPT,     // Chấp nhận lời mời kết bạn
-        POST_LIKE,         // Thích bài viết
-        POST_COMMENT,      // Bình luận bài viết
-        POST_SHARE,        // Chia sẻ bài viết
-        MESSAGE            // Tin nhắn mới
+        FRIEND_REQUEST, // Lời mời kết bạn
+        FRIEND_ACCEPT, // Chấp nhận lời mời kết bạn
+        POST_LIKE, // Thích bài viết
+        POST_COMMENT, // Bình luận bài viết
+        POST_SHARE, // Chia sẻ bài viết
+        MESSAGE, // Tin nhắn mới
+        CREATE_POST // Tạo bài viết mới
     }
 }

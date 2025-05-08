@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { uploadAvatar } from '../../../services/profileService.js';
+import { getFriends } from '../../../services/friendService.js';
 import images from '../../../assets/images';
 import { useSelector } from 'react-redux';
 import { getAvatarUrl, handleImageError as globalHandleImageError } from '../../../utils/avatarUtils';
@@ -12,9 +13,27 @@ const ProfileHeader = ({ userProfile, isOwnProfile, onAvatarUpdate }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [error, setError] = useState(null);
+    const [friendCount, setFriendCount] = useState(0);
 
     // Get the current user from Redux for validation
     const currentUser = useSelector((state) => state.auth.user);
+
+    // Fetch friend count when userProfile changes
+    useEffect(() => {
+        const fetchFriendCount = async () => {
+            if (userProfile?.id) {
+                try {
+                    const friends = await getFriends(userProfile.id);
+                    setFriendCount(friends.length);
+                } catch (error) {
+                    console.error('Error fetching friend count:', error);
+                    setFriendCount(0);
+                }
+            }
+        };
+
+        fetchFriendCount();
+    }, [userProfile?.id]);
 
     // Cleanup previewUrl when component unmounts
     useEffect(() => {
@@ -34,6 +53,12 @@ const ProfileHeader = ({ userProfile, isOwnProfile, onAvatarUpdate }) => {
     const handleFileSelect = (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
+        // Kiểm tra loại file
+        if (!file.type.match(/^image\/(jpeg|png)$/)) {
+            setError('Chỉ chấp nhận file ảnh định dạng .jpg hoặc .png');
+            return;
+        }
 
         if (file.size > 10 * 1024 * 1024) {
             setError('Ảnh đại diện không được vượt quá 10MB');
@@ -169,7 +194,7 @@ const ProfileHeader = ({ userProfile, isOwnProfile, onAvatarUpdate }) => {
                                     type="file"
                                     style={{ display: 'none' }}
                                     onChange={handleFileSelect}
-                                    accept="image/*"
+                                    accept=".jpg,.jpeg,.png"
                                 />
                             </>
                         )}
@@ -186,7 +211,7 @@ const ProfileHeader = ({ userProfile, isOwnProfile, onAvatarUpdate }) => {
                 <div className="flex-1 flex items-center">
                     <div className="flex flex-col">
                         <h1 className="text-[32px] font-bold">{userProfile?.name || 'User'}</h1>
-                        <p className="text-gray-500">{userProfile?.friendsCount || 0} người bạn</p>
+                        <p className="text-gray-500">{friendCount} người bạn</p>
                     </div>
                 </div>
             </div>

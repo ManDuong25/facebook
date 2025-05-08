@@ -106,7 +106,8 @@ public class AuthController {
             // Tìm người dùng theo email (không bao gồm tài khoản đã bị xóa)
             Optional<User> userOpt = userService.findByEmail(email);
 
-            // Kiểm tra xem email có tồn tại trong hệ thống không (bao gồm cả tài khoản đã bị xóa)
+            // Kiểm tra xem email có tồn tại trong hệ thống không (bao gồm cả tài khoản đã
+            // bị xóa)
             // Nếu email tồn tại nhưng userOpt.isEmpty(), có nghĩa là tài khoản đã bị xóa
             boolean emailExists = userService.existsByEmailIncludeDeleted(email);
 
@@ -133,7 +134,8 @@ public class AuthController {
             // Kiểm tra tài khoản có bị khóa không
             if (user.getIsBlocked() != null && user.getIsBlocked()) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(Map.of("message", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết."));
+                        .body(Map.of("message",
+                                "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết."));
             }
 
             // Trả về thông tin người dùng đã đăng nhập (không bao gồm mật khẩu)
@@ -150,6 +152,39 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("message", "Lỗi khi đăng nhập: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody Map<String, String> passwordData) {
+        try {
+            Long userId = Long.parseLong(passwordData.get("userId"));
+            String currentPassword = passwordData.get("currentPassword");
+            String newPassword = passwordData.get("newPassword");
+
+            // Find user by ID
+            Optional<User> userOpt = userService.findById(userId);
+            if (userOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "Không tìm thấy người dùng"));
+            }
+
+            User user = userOpt.get();
+
+            // Verify current password
+            if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("message", "Mật khẩu hiện tại không chính xác"));
+            }
+
+            // Update password
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userService.saveUser(user);
+
+            return ResponseEntity.ok(Map.of("message", "Đổi mật khẩu thành công"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Lỗi khi đổi mật khẩu: " + e.getMessage()));
         }
     }
 }

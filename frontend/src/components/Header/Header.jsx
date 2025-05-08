@@ -221,6 +221,13 @@ function Header() {
                             />
                         </div>
                         <div
+                            onClick={() => navigate('/change-password')}
+                            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition cursor-pointer text-gray-600"
+                            title="Đổi mật khẩu"
+                        >
+                            <i className="bi bi-lock text-[22px]"></i>
+                        </div>
+                        <div
                             onClick={handleLogout}
                             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-100 transition cursor-pointer text-red-500"
                             title="Đăng xuất"

@@ -33,7 +33,10 @@ function App() {
                         <Route path="/register" element={<RouteProtected layout={null} component={RegisterPage} />} />
 
                         {/* Route admin login - Sử dụng RouteAdminLogin thay vì RouteProtected */}
-                        <Route path="/admin/login" element={<RouteAdminLogin layout={null} component={AdminLoginPage} />} />
+                        <Route
+                            path="/admin/login"
+                            element={<RouteAdminLogin layout={null} component={AdminLoginPage} />}
+                        />
 
                         {/* Admin routes */}
                         {adminRoutes.map((route, i) => {

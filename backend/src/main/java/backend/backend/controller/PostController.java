@@ -2,8 +2,10 @@ package backend.backend.controller;
 
 import backend.backend.model.Post;
 import backend.backend.model.User;
+import backend.backend.model.Notification;
 import backend.backend.service.PostService;
 import backend.backend.service.UserService;
+import backend.backend.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,9 @@ public class PostController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     private static final String UPLOAD_DIR = "uploads/";
 
@@ -75,12 +80,22 @@ public class PostController {
         post.setUpdatedAt(LocalDateTime.now());
 
         Post created = postService.createPost(post);
+
+        // Tạo thông báo cho bài viết mới
+        String notificationContent = user.getUsername() + " vừa tạo một bài viết";
+        notificationService.createNotification(
+                userId,
+                Notification.NotificationType.CREATE_POST,
+                created.getId(),
+                notificationContent);
+
         return ResponseEntity.ok(created);
     }
 
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts() {
-        // Sử dụng getAllVisiblePosts() để chỉ lấy bài viết có visible=true và chưa bị xóa
+        // Sử dụng getAllVisiblePosts() để chỉ lấy bài viết có visible=true và chưa bị
+        // xóa
         return ResponseEntity.ok(postService.getAllVisiblePosts());
     }
 
@@ -90,7 +105,8 @@ public class PostController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        // Sử dụng getVisiblePostsByUser() để chỉ lấy bài viết có visible=true và chưa bị xóa
+        // Sử dụng getVisiblePostsByUser() để chỉ lấy bài viết có visible=true và chưa
+        // bị xóa
         return ResponseEntity.ok(postService.getVisiblePostsByUser(user));
     }
 
@@ -100,7 +116,8 @@ public class PostController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        // Sử dụng getVisibleSharedPostsByUser() để chỉ lấy bài viết có visible=true và chưa bị xóa
+        // Sử dụng getVisibleSharedPostsByUser() để chỉ lấy bài viết có visible=true và
+        // chưa bị xóa
         return ResponseEntity.ok(postService.getVisibleSharedPostsByUser(user));
     }
 

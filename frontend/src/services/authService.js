@@ -82,3 +82,20 @@ export const isTokenExpired = (token) => {
         return true;
     }
 };
+
+// Đổi mật khẩu
+export const changePassword = async (userId, currentPassword, newPassword) => {
+    try {
+        const response = await axios.post(`${API_URL}/auth/change-password`, {
+            userId,
+            currentPassword,
+            newPassword,
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data.message || 'Lỗi khi đổi mật khẩu');
+        }
+        throw new Error('Lỗi kết nối đến máy chủ');
+    }
+};
