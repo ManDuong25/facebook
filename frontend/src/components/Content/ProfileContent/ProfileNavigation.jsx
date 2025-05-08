@@ -11,7 +11,7 @@ const ProfileNavigation = ({ activeTab, onTabChange, isOwnProfile }) => {
         { id: 'checkins', label: 'Check in' },
     ];
 
-    // Lọc các tab chỉ hiển thị cho chủ tài khoản nếu cần
+    // Lọc các tab chỉ để hiển thị cho chủ tài khoản nếu cần
     const visibleTabs = isOwnProfile
         ? tabs
         : tabs.filter((tab) => ['posts', 'about', 'friends', 'photos'].includes(tab.id));

@@ -41,7 +41,7 @@ public class DataLoader implements CommandLineRunner {
             admin.setIsAdmin(true); // Đặt quyền admin
 
             User user1 = new User();
-            user1.setUsername("john_doe");
+            user1.setUsername(" ");
             user1.setEmail("john@example.com");
             user1.setPassword(passwordEncoder.encode("password123"));
             user1.setAvatar("avatar1.png");

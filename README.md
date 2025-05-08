@@ -136,7 +136,7 @@ This is a Facebook clone project built with Spring Boot (Backend) and React (Fro
 
 ### Tính năng
 
-- Xác thực người dùng (Đăng ký/Đăng nhập)
+- Xác thực người dùng (Đăng ký / Đăng nhập)
 - Tạo, Chỉnh sửa và Xóa bài viết
 - Chia sẻ bài viết
 - Quản lý bạn bè
