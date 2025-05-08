@@ -84,10 +84,12 @@ public class PostController {
         // Tạo thông báo cho bài viết mới
         String notificationContent = user.getUsername() + " vừa tạo một bài viết";
         notificationService.createNotification(
-                userId,
-                Notification.NotificationType.CREATE_POST,
-                created.getId(),
-                notificationContent);
+                userId, // sender
+                userId, // receiver (trong trường hợp này là chính người đăng)
+                notificationContent,
+                created, // post
+                null // share
+        );
 
         return ResponseEntity.ok(created);
     }

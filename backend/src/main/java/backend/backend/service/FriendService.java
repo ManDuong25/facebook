@@ -188,12 +188,14 @@ public class FriendService {
         friendRequestRepository.save(request);
 
         // Gửi thông báo cho người gửi lời mời
+        String notificationContent = request.getReceiver().getUsername() + " đã chấp nhận lời mời kết bạn của bạn";
         notificationService.createNotification(
-                request.getSender().getId(),
-                Notification.NotificationType.FRIEND_ACCEPT,
-                request.getId(),
-                request.getReceiver().getFirstName() + " " + request.getReceiver().getLastName()
-                        + " đã chấp nhận lời mời kết bạn của bạn");
+                request.getReceiver().getId(), // sender
+                request.getSender().getId(), // receiver
+                notificationContent,
+                null, // post
+                null // share
+        );
 
         // Tạo mối quan hệ bạn bè
         return createFriendship(request.getSender().getId(), request.getReceiver().getId());

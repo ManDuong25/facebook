@@ -166,13 +166,17 @@ CREATE TABLE friends (
 -- --------------------------------------------------
 CREATE TABLE notifications (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    type ENUM('FRIEND_REQUEST', 'FRIEND_ACCEPT', 'POST_LIKE', 'POST_COMMENT', 'POST_SHARE', 'MESSAGE') NOT NULL,
-    content VARCHAR(255) NULL,
-    reference_id BIGINT NULL,
+    content VARCHAR(255) NOT NULL,
+    sender_id BIGINT NOT NULL,
+    receiver_id BIGINT NOT NULL,
+    post_id BIGINT NULL,
+    share_id BIGINT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_notifications_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT fk_notifications_sender FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_notifications_receiver FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_notifications_post FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE SET NULL,
+    CONSTRAINT fk_notifications_share FOREIGN KEY (share_id) REFERENCES shares(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------

@@ -58,13 +58,14 @@ public class FriendRequestService {
         FriendRequest savedRequest = friendRequestRepository.save(request);
 
         // Tạo thông báo cho người nhận với tham số content
-        String notificationContent = "Bạn có một lời mời kết bạn mới từ " + sender.getFirstName() + " "
-                + sender.getLastName();
+        String notificationContent = "Bạn có một lời mời kết bạn mới từ " + sender.getUsername();
         notificationService.createNotification(
-                receiver.getId(),
-                Notification.NotificationType.FRIEND_REQUEST,
-                savedRequest.getId(),
-                notificationContent);
+                senderId, // sender
+                receiverId, // receiver
+                notificationContent,
+                null, // post
+                null // share
+        );
 
         return savedRequest;
     }

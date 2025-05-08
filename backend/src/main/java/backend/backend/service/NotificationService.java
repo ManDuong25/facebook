@@ -1,25 +1,17 @@
 package backend.backend.service;
 
+import backend.backend.dto.NotificationDTO;
 import backend.backend.model.Notification;
 import backend.backend.model.Post;
-import backend.backend.model.PostLike;
+import backend.backend.model.Share;
 import backend.backend.model.User;
 import backend.backend.repository.NotificationRepository;
-import backend.backend.repository.PostLikeRepository;
-import backend.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationService {
@@ -28,78 +20,80 @@ public class NotificationService {
     private NotificationRepository notificationRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    /**
-     * Tạo thông báo mới
-     */
-    public Notification createNotification(Long userId, Notification.NotificationType type, Long referenceId,
-            String content) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại."));
+    public Notification createNotification(Long senderId, Long receiverId, String content, Post post, Share share) {
+        User sender = userService.getUserById(senderId);
+        User receiver = userService.getUserById(receiverId);
+
+        if (sender == null || receiver == null) {
+            return null;
+        }
 
         Notification notification = new Notification();
-        notification.setUser(user);
-        notification.setType(type);
-        notification.setReferenceId(referenceId);
         notification.setContent(content);
+        notification.setSender(sender);
+        notification.setReceiver(receiver);
+        notification.setPost(post);
+        notification.setShare(share);
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
 
         return notificationRepository.save(notification);
     }
 
-    /**
-     * Lấy tất cả thông báo của một người dùng
-     */
-    public List<Notification> getNotificationsByUserId(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại."));
-
-        return notificationRepository.findByUserOrderByCreatedAtDesc(user);
+    public List<NotificationDTO> getNotificationsByReceiverId(Long receiverId) {
+        return notificationRepository.findByReceiverIdOrderByCreatedAtDesc(receiverId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    /**
-     * Đánh dấu thông báo đã đọc
-     */
+    public List<NotificationDTO> getUnreadNotificationsByReceiverId(Long receiverId) {
+        return notificationRepository.findByReceiverIdAndIsReadFalseOrderByCreatedAtDesc(receiverId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public long countUnreadNotifications(Long receiverId) {
+        return notificationRepository.countByReceiverIdAndIsReadFalse(receiverId);
+    }
+
     public Notification markAsRead(Long notificationId) {
-        Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new IllegalArgumentException("Thông báo không tồn tại."));
-
-        notification.setIsRead(true);
-        return notificationRepository.save(notification);
+        Notification notification = notificationRepository.findById(notificationId).orElse(null);
+        if (notification != null) {
+            notification.setIsRead(true);
+            return notificationRepository.save(notification);
+        }
+        return null;
     }
 
-    /**
-     * Đánh dấu tất cả thông báo của một người dùng đã đọc
-     */
-    public void markAllAsRead(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại."));
-
-        List<Notification> notifications = notificationRepository.findByUserAndIsRead(user, false);
+    public void markAllAsRead(Long receiverId) {
+        List<Notification> notifications = notificationRepository
+                .findByReceiverIdAndIsReadFalseOrderByCreatedAtDesc(receiverId);
         notifications.forEach(notification -> notification.setIsRead(true));
-
         notificationRepository.saveAll(notifications);
     }
 
-    /**
-     * Đếm số thông báo chưa đọc
-     */
-    public long countUnreadNotifications(Long userId) {
-        User user = new User();
-        user.setId(userId);
+    private NotificationDTO convertToDTO(Notification notification) {
+        NotificationDTO dto = new NotificationDTO();
+        dto.setId(notification.getId());
+        dto.setContent(notification.getContent());
+        dto.setSenderId(notification.getSender().getId());
+        dto.setSenderName(notification.getSender().getUsername());
+        dto.setReceiverId(notification.getReceiver().getId());
+        dto.setReceiverName(notification.getReceiver().getUsername());
+        dto.setIsRead(notification.getIsRead());
+        dto.setCreatedAt(notification.getCreatedAt());
 
-        return notificationRepository.countByUserAndIsRead(user, false);
-    }
+        if (notification.getPost() != null) {
+            dto.setPostId(notification.getPost().getId());
+        }
+        if (notification.getShare() != null) {
+            dto.setShareId(notification.getShare().getId());
+        }
 
-    /**
-     * Xóa thông báo
-     */
-    public void deleteNotification(Long notificationId) {
-        Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new IllegalArgumentException("Thông báo không tồn tại."));
-
-        notificationRepository.delete(notification);
+        return dto;
     }
 }
