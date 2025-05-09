@@ -79,7 +79,6 @@ const RightSidebar = () => {
             const currentUser = getCurrentUser();
             if (currentUser?.id) {
                 websocketService.subscribe(`/topic/friends/${currentUser.id}`, (newFriend) => {
-                    console.log('Received new friend notification:', newFriend);
                     setFriends((prevFriends) => {
                         // Xác định người dùng nào là bạn mới (không phải người dùng hiện tại)
                         const newFriendUser = newFriend.user1.id === currentUser.id ? newFriend.user2 : newFriend.user1;
@@ -87,7 +86,6 @@ const RightSidebar = () => {
                         // Kiểm tra xem bạn bè đã tồn tại trong danh sách chưa
                         const exists = prevFriends.some((friend) => friend.id === newFriendUser.id);
                         if (!exists) {
-                            console.log('Adding new friend to list:', newFriendUser);
                             return [...prevFriends, newFriendUser];
                         }
                         return prevFriends;

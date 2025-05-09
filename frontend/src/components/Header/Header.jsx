@@ -4,10 +4,14 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser, logout } from '../../redux/features/authSlice';
 import ChatSidebar from './ChatSidebar';
+import NotificationDropdown from './NotificationDropdown';
 import { useChat } from '../../contexts/ChatContext';
 import images from '../../assets/images';
 import { getAvatarUrl, handleImageError } from '../../utils/avatarUtils';
 import axios from 'axios';
+import { getUnreadNotificationCount } from '../../services/notificationService';
+import websocketService from '../../services/websocketService';
+import { toast } from 'react-toastify';
 
 function Header() {
     const [activeTab, setActiveTab] = useState('home');
@@ -20,6 +24,8 @@ function Header() {
     // Thêm state để lưu trữ URL avatar sau khi xử lý
     const [processedAvatarUrl, setProcessedAvatarUrl] = useState('');
     const [avatarError, setAvatarError] = useState(null);
+    const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
+    const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
 
     // Use chat context instead of local state
     const {
@@ -100,8 +106,17 @@ function Header() {
                 setActiveRightIcon('bi-messenger');
                 setShowChatSidebar(true);
             }
+        } else if (icon === 'bi-bell') {
+            if (activeRightIcon === 'bi-bell') {
+                setActiveRightIcon('');
+                setShowNotificationDropdown(false);
+            } else {
+                setActiveRightIcon('bi-bell');
+                setShowNotificationDropdown(true);
+            }
         } else {
             setShowChatSidebar(false);
+            setShowNotificationDropdown(false);
             if (activeRightIcon === icon) {
                 setActiveRightIcon('');
             } else {
@@ -153,8 +168,62 @@ function Header() {
         setActiveRightIcon('');
     };
 
+    // Fetch unread notification count
+    useEffect(() => {
+        if (user?.id) {
+            const fetchUnreadCount = async () => {
+                try {
+                    const count = await getUnreadNotificationCount(user.id);
+                    setUnreadNotificationCount(count);
+                } catch (error) {
+                    console.error('Error fetching unread notification count:', error);
+                }
+            };
+            fetchUnreadCount();
+        }
+    }, [user?.id]);
+
+    // Subscribe to WebSocket notifications
+    useEffect(() => {
+        if (user?.id) {
+            const topic = `/topic/notifications/${user.id}`;
+
+            const handleNewNotification = async (notification) => {
+                // Luôn cập nhật số lượng thông báo chưa đọc
+                try {
+                    const count = await getUnreadNotificationCount(user.id);
+                    setUnreadNotificationCount(count);
+                } catch (error) {
+                    console.error('Error fetching unread notification count:', error);
+                }
+                // Chỉ hiển thị toast khi dropdown đang đóng
+                if (!showNotificationDropdown) {
+                    toast.info(notification.content, {
+                        position: 'top-right',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                }
+            };
+
+            // Subscribe to notifications
+            websocketService.subscribe(topic, handleNewNotification);
+
+            // Cleanup subscription when component unmounts
+            return () => {
+                // Chỉ unsubscribe khi component thực sự unmount (không phải khi chuyển trang)
+                if (!document.querySelector('.header-container')) {
+                    websocketService.unsubscribe(topic);
+                }
+            };
+        }
+    }, [user?.id, showNotificationDropdown]);
+
     return (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+        <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md header-container">
             <nav className="w-full">
                 <div className="flex items-center h-14 w-full">
                     <div className="hidden lg:flex lg:w-1/4 px-4 items-center gap-3">
@@ -201,11 +270,16 @@ function Header() {
                             <div
                                 key={icon}
                                 onClick={() => handleRightIconClick(icon)}
-                                className={`w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#e4e6eb] transition cursor-pointer ${
+                                className={`w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#e4e6eb] transition cursor-pointer relative ${
                                     activeRightIcon === icon ? 'text-blue-500' : 'text-gray-600'
                                 }`}
                             >
                                 <i className={`bi ${icon} text-[22px]`}></i>
+                                {icon === 'bi-bell' && unreadNotificationCount > 0 && (
+                                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">
+                                        {unreadNotificationCount}
+                                    </div>
+                                )}
                             </div>
                         ))}
                         <div
@@ -244,6 +318,12 @@ function Header() {
                     selectedConversation={selectedConversation}
                     activeConversationsCount={activeConversations.length}
                     onMaxChatWindowsChange={handleMaxChatWindowsChange}
+                />
+            )}
+            {showNotificationDropdown && (
+                <NotificationDropdown
+                    onClose={() => setShowNotificationDropdown(false)}
+                    onNotificationCountChange={(count) => setUnreadNotificationCount(count)}
                 />
             )}
         </div>

@@ -38,9 +38,11 @@ export const createPost = async (content, file, userId) => {
         formData.append('content', content || '');
         formData.append('userId', userId || '');
         if (file) formData.append('file', file);
+
         const response = await api.post('/api/posts', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
+
         return response.data;
     } catch (error) {
         console.error('Failed to create post:', error);

@@ -138,6 +138,11 @@ class WebSocketService {
         }
     }
 
+    // Kiểm tra xem đã đăng ký topic chưa
+    isSubscribed(topic) {
+        return this.subscriptions[topic] !== undefined;
+    }
+
     unsubscribe(topic) {
         if (this.subscriptions[topic]) {
             try {

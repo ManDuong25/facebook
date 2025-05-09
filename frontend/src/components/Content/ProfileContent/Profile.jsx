@@ -66,9 +66,7 @@ const Profile = ({
         setViewMode(mode);
     };
 
-    const handleEditProfile = () => {
-        console.log('Edit profile');
-    };
+    const handleEditProfile = () => {};
 
     // Hàm wrapper để xử lý cập nhật avatar
     const handleAvatarUpdate = (newAvatarUrl) => {

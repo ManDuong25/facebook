@@ -17,11 +17,9 @@ const CreatePostModal = ({ onClose, onPostCreated }) => {
     // Lấy tên hiển thị người dùng
     const getUserDisplayName = () => {
         if (!user) return 'Người dùng';
-        if (user.name) return user.name;
         if (user.firstName && user.lastName) return `${user.firstName} ${user.lastName}`;
         if (user.firstName) return user.firstName;
         if (user.lastName) return user.lastName;
-        if (user.username) return user.username;
         return 'Người dùng';
     };
 
@@ -29,6 +27,9 @@ const CreatePostModal = ({ onClose, onPostCreated }) => {
         if (content.trim() || selectedFile) {
             try {
                 setIsPosting(true);
+                // Lấy thông tin người dùng đầy đủ từ Redux store
+                const userDisplayName = getUserDisplayName();
+
                 // Truyền thêm userId của người dùng đang đăng nhập
                 const postData = await createPostApi(content, selectedFile, user.id);
 

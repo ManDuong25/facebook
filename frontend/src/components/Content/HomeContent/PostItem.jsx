@@ -92,6 +92,7 @@ const PostItem = ({ post, isSharedPost = false }) => {
         try {
             setErrorMessage('');
             const commentsData = await getComments(post.id);
+            console.log(commentsData);
             setComments(commentsData || []);
         } catch (error) {
             console.error('Lỗi khi lấy bình luận:', error);
@@ -215,7 +216,7 @@ const PostItem = ({ post, isSharedPost = false }) => {
     };
 
     // Điều chỉnh giao diện dựa trên việc hiển thị bài viết đầy đủ hoặc bài viết đã chia sẻ
-    const username = post?.user?.username || post?.user?.firstName || 'Người dùng';
+    const name = post?.user?.firstName + ' ' + post?.user?.lastName || post?.user?.username || 'Người dùng';
     const createdAt = post?.createdAt
         ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: vi })
         : '';
@@ -238,7 +239,7 @@ const PostItem = ({ post, isSharedPost = false }) => {
                         onError={(e) => handleImageError(e)}
                     />
                     <div>
-                        <h6 className={`m-0 font-bold ${isSharedPost ? 'text-xs' : 'text-sm'}`}>{username}</h6>
+                        <h6 className={`m-0 font-bold ${isSharedPost ? 'text-xs' : 'text-sm'}`}>{name}</h6>
                         <small className="text-xs text-gray-500">{createdAt}</small>
                     </div>
                 </div>
@@ -355,7 +356,7 @@ const PostItem = ({ post, isSharedPost = false }) => {
                                     ) : (
                                         <div className="bg-gray-100 p-2 rounded-lg">
                                             <p className="text-sm font-semibold">
-                                                {comment.user?.username || 'Người dùng'}
+                                                {comment.user?.firstName + ' ' + comment.user?.lastName || 'Người dùng'}
                                             </p>
                                             <p className="text-sm">{comment.content}</p>
                                             {currentUser && comment.user?.id === currentUser.id && (
@@ -405,7 +406,7 @@ PostItem.propTypes = {
         createdAt: PropTypes.string,
         user: PropTypes.shape({
             id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-            username: PropTypes.string,
+            name: PropTypes.string,
             avatar: PropTypes.string,
         }),
     }),
