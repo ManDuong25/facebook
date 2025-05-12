@@ -9,6 +9,7 @@ import backend.backend.model.Friend;
 import backend.backend.model.User;
 import backend.backend.service.FriendService;
 import backend.backend.service.UserService;
+import backend.backend.model.Notification;
 
 @Controller
 public class WebSocketController {
@@ -46,5 +47,23 @@ public class WebSocketController {
             // Gửi thông báo với thông tin đầy đủ
             messagingTemplate.convertAndSend("/topic/friends/" + userId, completeFriend);
         }
+    }
+
+    // Phương thức để gửi thông báo realtime khi có bài post mới
+    public void notifyNewPost(Long receiverId, Notification notification) {
+        messagingTemplate.convertAndSend("/topic/notifications/" + receiverId, notification);
+    }
+
+    public void notifyNewComment(Long receiverId, Notification notification) {
+        messagingTemplate.convertAndSend("/topic/notifications/" + receiverId, notification);
+    }
+
+    // Phương thức để gửi thông báo realtime khi có like mới
+    public void notifyNewLike(Long receiverId, Notification notification) {
+        messagingTemplate.convertAndSend("/topic/notifications/" + receiverId, notification);
+    }
+
+    public void notifyNewShare(Long receiverId, Notification notification) {
+        messagingTemplate.convertAndSend("/topic/notifications/" + receiverId, notification);
     }
 }

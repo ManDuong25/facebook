@@ -32,14 +32,14 @@ CREATE TABLE users (
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------
--- 2. Bảng phòng chat nhóm (chat_rooms)
+-- 2. Bảng phòng chat (chat_rooms)
 -- --------------------------------------------------
 CREATE TABLE chat_rooms (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    created_by BIGINT NOT NULL,
+    avatar VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_creator FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------
@@ -49,13 +49,30 @@ CREATE TABLE chat_room_members (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     room_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
+    role ENUM('ADMIN', 'MEMBER') DEFAULT 'MEMBER',
     joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_seen_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_room_members_room FOREIGN KEY (room_id) REFERENCES chat_rooms(id) ON DELETE CASCADE,
     CONSTRAINT fk_room_members_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------
--- 4. Bảng tin nhắn (messages) - Chat 1-1 & Chat nhóm
+-- 4. Bảng tin nhắn trong phòng chat (chat_room_messages)
+-- --------------------------------------------------
+CREATE TABLE chat_room_messages (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    room_id BIGINT NOT NULL,
+    sender_id BIGINT NOT NULL,
+    content TEXT NOT NULL,
+    message_type ENUM('TEXT', 'IMAGE', 'FILE', 'STICKER') DEFAULT 'TEXT',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    CONSTRAINT fk_messages_room FOREIGN KEY (room_id) REFERENCES chat_rooms(id) ON DELETE CASCADE,
+    CONSTRAINT fk_messages_sender FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------
+-- 5. Bảng tin nhắn (messages) - Chat 1-1 & Chat nhóm
 -- --------------------------------------------------
 CREATE TABLE messages (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

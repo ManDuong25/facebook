@@ -6,6 +6,12 @@ const ChatContext = createContext();
 // Define the constant directly here instead of importing from chatConstants
 const MAX_CHAT_WINDOWS = 4;
 
+// Define chat types
+export const CHAT_TYPES = {
+    PRIVATE: 'PRIVATE',
+    GROUP: 'GROUP',
+};
+
 export const ChatProvider = ({ children }) => {
     const [activeConversations, setActiveConversations] = useState([]);
     const [selectedConversation, setSelectedConversation] = useState(null);
@@ -24,26 +30,32 @@ export const ChatProvider = ({ children }) => {
 
     // Handle conversation selection
     const handleSelectConversation = (conversation) => {
+        // Đảm bảo conversation có type
+        const conversationWithType = {
+            ...conversation,
+            type: conversation.type || CHAT_TYPES.PRIVATE, // Mặc định là PRIVATE nếu không có type
+        };
+
         // Check if conversation is already active
-        const isAlreadyActive = activeConversations.some((conv) => conv.id === conversation.id);
+        const isAlreadyActive = activeConversations.some((conv) => conv.id === conversationWithType.id);
 
         // If already active, bring it to the front by removing and adding to the end
         if (isAlreadyActive) {
-            const updatedConversations = activeConversations.filter((conv) => conv.id !== conversation.id);
-            setActiveConversations([...updatedConversations, conversation]);
+            const updatedConversations = activeConversations.filter((conv) => conv.id !== conversationWithType.id);
+            setActiveConversations([...updatedConversations, conversationWithType]);
         } else {
             // If we already have MAX_CHAT_WINDOWS chat windows, remove the oldest one
             if (activeConversations.length >= maxChatWindows) {
                 const updatedConversations = [...activeConversations.slice(1)];
-                setActiveConversations([...updatedConversations, conversation]);
+                setActiveConversations([...updatedConversations, conversationWithType]);
             } else {
                 // Otherwise just add the new conversation
-                setActiveConversations((prev) => [...prev, conversation]);
+                setActiveConversations((prev) => [...prev, conversationWithType]);
             }
         }
 
         // Set as selected conversation
-        setSelectedConversation(conversation);
+        setSelectedConversation(conversationWithType);
     };
 
     // Handle closing a chat window
@@ -65,6 +77,7 @@ export const ChatProvider = ({ children }) => {
                 handleSelectConversation,
                 handleCloseChat,
                 handleMaxChatWindowsChange,
+                CHAT_TYPES,
             }}
         >
             {children}

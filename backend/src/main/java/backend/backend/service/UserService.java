@@ -1,6 +1,8 @@
 package backend.backend.service;
 
+import backend.backend.model.Post;
 import backend.backend.model.User;
+import backend.backend.repository.PostRepository;
 import backend.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     // Lưu user mới hoặc cập nhật user đã tồn tại
     public User saveUser(User user) {
@@ -49,6 +54,11 @@ public class UserService {
     public User getUserById(Long id) {
         Optional<User> userOpt = userRepository.findByIdAndDeletedAtIsNull(id);
         return userOpt.orElse(null);
+    }
+
+    public User getUserByPostId(Long postId) {
+        Optional<Post> postOpt = postRepository.findById(postId);
+        return postOpt.map(Post::getUser).orElse(null);
     }
 
     // Tìm user bằng ID (chỉ trả về user chưa bị xóa)
@@ -150,11 +160,9 @@ public class UserService {
         return userRepository.countByCreatedAtAfter(startDate);
     }
 
-
-
     // Xử lý lưu ảnh đại diện (nếu có)
     public String saveAvatar(MultipartFile file) {
-        if (file == null || file.isEmpty()) {  // Kiểm tra null để tránh lỗi
+        if (file == null || file.isEmpty()) { // Kiểm tra null để tránh lỗi
             System.out.println("Avatar file is null or empty");
             return null;
         }
@@ -216,7 +224,7 @@ public class UserService {
 
                 // Phương pháp 2: Sử dụng streams
                 try (java.io.InputStream inputStream = file.getInputStream();
-                     java.io.FileOutputStream outputStream = new java.io.FileOutputStream(destFile)) {
+                        java.io.FileOutputStream outputStream = new java.io.FileOutputStream(destFile)) {
                     byte[] buffer = new byte[8192];
                     int bytesRead;
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
@@ -264,11 +272,13 @@ public class UserService {
                 // Lấy tên file từ URL
                 String oldFilename = oldAvatarUrl.substring(oldAvatarUrl.lastIndexOf("/") + 1);
                 String rootDir = System.getProperty("user.dir");
-                File oldFile = new File(rootDir + File.separator + "uploads" + File.separator + "avatars" + File.separator + oldFilename);
+                File oldFile = new File(rootDir + File.separator + "uploads" + File.separator + "avatars"
+                        + File.separator + oldFilename);
 
                 if (oldFile.exists()) {
                     boolean deleted = oldFile.delete();
-                    System.out.println("Deleting old avatar file: " + oldFile.getAbsolutePath() + " - Success: " + deleted);
+                    System.out.println(
+                            "Deleting old avatar file: " + oldFile.getAbsolutePath() + " - Success: " + deleted);
                 } else {
                     System.out.println("Old avatar file not found: " + oldFile.getAbsolutePath());
                 }
@@ -360,7 +370,7 @@ public class UserService {
 
                 // Phương pháp 2: Sử dụng streams
                 try (java.io.InputStream inputStream = file.getInputStream();
-                     java.io.FileOutputStream outputStream = new java.io.FileOutputStream(destFile)) {
+                        java.io.FileOutputStream outputStream = new java.io.FileOutputStream(destFile)) {
                     byte[] buffer = new byte[8192];
                     int bytesRead;
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
@@ -408,11 +418,13 @@ public class UserService {
                 // Lấy tên file từ URL
                 String oldFilename = oldCoverUrl.substring(oldCoverUrl.lastIndexOf("/") + 1);
                 String rootDir = System.getProperty("user.dir");
-                File oldFile = new File(rootDir + File.separator + "uploads" + File.separator + "covers" + File.separator + oldFilename);
+                File oldFile = new File(rootDir + File.separator + "uploads" + File.separator + "covers"
+                        + File.separator + oldFilename);
 
                 if (oldFile.exists()) {
                     boolean deleted = oldFile.delete();
-                    System.out.println("Deleting old cover file: " + oldFile.getAbsolutePath() + " - Success: " + deleted);
+                    System.out.println(
+                            "Deleting old cover file: " + oldFile.getAbsolutePath() + " - Success: " + deleted);
                 } else {
                     System.out.println("Old cover file not found: " + oldFile.getAbsolutePath());
                 }
@@ -439,6 +451,5 @@ public class UserService {
             throw new RuntimeException("Failed to update cover photo: " + e.getMessage());
         }
     }
-
 
 }

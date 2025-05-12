@@ -40,4 +40,16 @@ public class NotificationController {
         notificationService.markAllAsRead(userId);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{notificationId}")
+    public ResponseEntity<?> deleteNotification(@PathVariable Long notificationId) {
+        notificationService.deleteNotification(notificationId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<?> deleteAllNotifications(@PathVariable Long userId) {
+        notificationService.deleteAllNotifications(userId);
+        return ResponseEntity.ok().build();
+    }
 }
