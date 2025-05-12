@@ -468,3 +468,1341 @@ This generated password is for development use only. Your security configuration
 2025-05-12T04:25:59.668-07:00  WARN 17612 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
 2025-05-12T04:25:59.953-07:00  WARN 17612 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
 2025-05-12T04:25:59.954-07:00  WARN 17612 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:04:30.692-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:04:30.697-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:04:30.781-07:00  INFO 7104 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-12T07:04:30.782-07:00  INFO 7104 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-12T07:04:32.148-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:04:32.309-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 147 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:04:33.050-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:04:33.308-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:04:33.326-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:04:33.327-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:04:33.398-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:04:33.398-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2615 ms
+2025-05-12T07:04:33.660-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:04:33.756-07:00  INFO 7104 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-05-12T07:04:33.845-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:04:34.304-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:04:34.356-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-12T07:04:34.549-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1aeb0882
+2025-05-12T07:04:34.553-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-12T07:04:34.610-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:04:34.616-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:04:34.646-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:04:36.343-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:04:36.761-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:04:37.367-07:00  INFO 7104 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-12T07:04:43.660-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:04:43.705-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 9c66a35d-348a-4bab-bd0a-3778d0653758
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:04:43.721-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:04:44.874-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:04:44.901-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:04:44.903-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@b1ce44]]
+2025-05-12T07:04:44.907-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:04:44.960-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:04:45.004-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 15.241 seconds (process running for 15.874)
+2025-05-12T07:05:44.904-07:00  INFO 7104 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-05-12T07:09:37.806-07:00  INFO 7104 --- [http-nio-8080-exec-7] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T07:09:37.821-07:00  INFO 7104 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T07:09:37.906-07:00  INFO 7104 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed initialization in 85 ms
+2025-05-12T07:09:38.607-07:00  WARN 7104 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:09:38.651-07:00  WARN 7104 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:09:39.706-07:00  WARN 7104 --- [http-nio-8080-exec-4] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T07:09:39.799-07:00  WARN 7104 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:09:39.800-07:00  WARN 7104 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:09:56.047-07:00  WARN 7104 --- [http-nio-8080-exec-2] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:09:56.049-07:00  WARN 7104 --- [http-nio-8080-exec-2] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:09:57.463-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:09:57.467-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:12:10.151-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:12:10.169-07:00  INFO 7104 --- [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:12:10.242-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:12:10.253-07:00  INFO 7104 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:12:10.253-07:00  INFO 7104 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@b1ce44]]
+2025-05-12T07:12:10.254-07:00  INFO 7104 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:12:10.272-07:00  INFO 7104 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:12:10.293-07:00  INFO 7104 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-12T07:12:10.315-07:00  INFO 7104 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-12T07:12:10.712-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:12:10.714-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:12:11.662-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:12:11.758-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:12:12.013-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:12:12.081-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:12:12.083-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:12:12.084-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:12:12.121-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:12:12.122-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1402 ms
+2025-05-12T07:12:12.236-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:12:12.248-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:12:12.347-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:12:12.352-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-05-12T07:12:12.384-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4e12622a
+2025-05-12T07:12:12.385-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-05-12T07:12:12.414-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:12:12.443-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:12:12.447-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:12:12.880-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:12:13.102-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:12:13.660-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:12:13.666-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 2ea242ee-5ee2-4a2e-8eec-431f1ec74a4a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:12:13.668-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:12:13.808-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:12:13.816-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:12:13.817-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@29e5be0b]]
+2025-05-12T07:12:13.819-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:12:13.825-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:12:13.830-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 3.192 seconds (process running for 464.7)
+2025-05-12T07:12:13.839-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:12:56.108-07:00  INFO 7104 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T07:12:56.109-07:00  INFO 7104 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T07:12:56.112-07:00  INFO 7104 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-12T07:12:56.155-07:00  WARN 7104 --- [http-nio-8080-exec-1] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T07:12:56.202-07:00  WARN 7104 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:12:56.204-07:00  WARN 7104 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:13:03.694-07:00  WARN 7104 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:13:03.695-07:00  WARN 7104 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:13:13.826-07:00  INFO 7104 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-05-12T07:13:44.850-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:13:44.853-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:13:49.541-07:00  WARN 7104 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:13:49.543-07:00  WARN 7104 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:14:13.188-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:14:13.191-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:14:15.533-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:14:15.535-07:00  WARN 7104 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:14:33.312-07:00  WARN 7104 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:14:33.313-07:00  WARN 7104 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:14:50.087-07:00  WARN 7104 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:14:50.095-07:00  WARN 7104 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:17:33.691-07:00  WARN 7104 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:17:33.694-07:00  WARN 7104 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:17:36.325-07:00  WARN 7104 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:17:36.328-07:00  WARN 7104 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:19:31.103-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:19:31.159-07:00  INFO 7104 --- [Thread-9] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:19:31.235-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:19:31.246-07:00  INFO 7104 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:19:31.248-07:00  INFO 7104 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@29e5be0b]]
+2025-05-12T07:19:31.249-07:00  INFO 7104 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:19:31.265-07:00  INFO 7104 --- [Thread-9] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:19:31.290-07:00  INFO 7104 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-05-12T07:19:31.297-07:00  INFO 7104 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-05-12T07:19:31.950-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:19:31.951-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:19:32.524-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:19:32.596-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:19:32.733-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:19:32.777-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:19:32.778-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:19:32.780-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:19:32.815-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:19:32.816-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 859 ms
+2025-05-12T07:19:32.888-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:19:32.893-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:19:32.919-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:19:32.922-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-05-12T07:19:32.931-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@31dcef5b
+2025-05-12T07:19:32.932-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-05-12T07:19:32.934-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:19:32.938-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:19:32.940-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:19:33.237-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:19:33.398-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:19:33.748-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:19:33.754-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e8892fbb-b196-4ebb-bd70-d8f7baec8c5c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:19:33.758-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:19:33.886-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:19:33.894-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:19:33.895-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@54639855]]
+2025-05-12T07:19:33.896-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:19:33.903-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:19:33.908-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 2.027 seconds (process running for 904.778)
+2025-05-12T07:19:33.916-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:20:09.953-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:20:09.955-07:00  INFO 7104 --- [Thread-15] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:20:10.033-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:20:10.036-07:00  INFO 7104 --- [Thread-15] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:20:10.036-07:00  INFO 7104 --- [Thread-15] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@54639855]]
+2025-05-12T07:20:10.037-07:00  INFO 7104 --- [Thread-15] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:20:10.039-07:00  INFO 7104 --- [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:20:10.040-07:00  INFO 7104 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-05-12T07:20:10.044-07:00  INFO 7104 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2025-05-12T07:20:10.158-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:20:10.160-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:20:10.943-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:20:11.034-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 89 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:20:11.231-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:20:11.255-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:20:11.259-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:20:11.271-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:20:11.310-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:20:11.312-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1149 ms
+2025-05-12T07:20:11.429-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:20:11.435-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:20:11.460-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:20:11.463-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-05-12T07:20:11.484-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4e768e23
+2025-05-12T07:20:11.486-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-05-12T07:20:11.488-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:20:11.488-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:20:11.488-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:20:11.825-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:20:11.990-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:20:12.411-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:20:12.420-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: c9889d16-836b-475a-bf51-2784eb0cf46f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:20:12.423-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:20:12.572-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:20:12.580-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:20:12.587-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@19570bb8]]
+2025-05-12T07:20:12.588-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:20:12.593-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:20:12.597-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 2.475 seconds (process running for 943.467)
+2025-05-12T07:20:12.605-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:21:12.596-07:00  INFO 7104 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-05-12T07:22:24.668-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:22:24.670-07:00  INFO 7104 --- [Thread-19] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:22:24.729-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:22:24.731-07:00  INFO 7104 --- [Thread-19] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:22:24.731-07:00  INFO 7104 --- [Thread-19] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@19570bb8]]
+2025-05-12T07:22:24.732-07:00  INFO 7104 --- [Thread-19] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:22:24.735-07:00  INFO 7104 --- [Thread-19] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:22:24.736-07:00  INFO 7104 --- [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2025-05-12T07:22:24.738-07:00  INFO 7104 --- [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2025-05-12T07:22:24.828-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:22:24.831-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:22:25.370-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:22:25.463-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 90 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:22:25.623-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:22:25.655-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:22:25.660-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:22:25.662-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:22:25.705-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:22:25.715-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 880 ms
+2025-05-12T07:22:25.790-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:22:25.801-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:22:25.823-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:22:25.826-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2025-05-12T07:22:25.834-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6c88edb
+2025-05-12T07:22:25.835-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2025-05-12T07:22:25.838-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:22:25.839-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:22:25.841-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:22:26.091-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:22:26.202-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:22:26.592-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:22:26.601-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 94c16ee7-f042-4c8c-b5e0-533217ee352a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:22:26.603-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:22:26.788-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:22:26.796-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:22:26.797-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@d86a28a]]
+2025-05-12T07:22:26.799-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:22:26.811-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:22:26.815-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 2.019 seconds (process running for 1077.684)
+2025-05-12T07:22:26.824-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:22:54.745-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:22:54.750-07:00  INFO 7104 --- [Thread-23] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:22:54.808-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:22:54.810-07:00  INFO 7104 --- [Thread-23] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:22:54.810-07:00  INFO 7104 --- [Thread-23] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@d86a28a]]
+2025-05-12T07:22:54.811-07:00  INFO 7104 --- [Thread-23] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:22:54.813-07:00  INFO 7104 --- [Thread-23] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:22:54.814-07:00  INFO 7104 --- [Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2025-05-12T07:22:54.816-07:00  INFO 7104 --- [Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2025-05-12T07:22:54.905-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:22:54.906-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:22:55.208-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:22:55.267-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:22:55.395-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:22:55.414-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:22:55.415-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:22:55.416-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:22:55.436-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:22:55.437-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 529 ms
+2025-05-12T07:22:55.483-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:22:55.487-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:22:55.577-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:22:55.599-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2025-05-12T07:22:55.605-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@52645e2d
+2025-05-12T07:22:55.606-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2025-05-12T07:22:55.607-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:22:55.608-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:22:55.609-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:22:55.968-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:22:56.166-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:22:56.544-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:22:56.549-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 3c567b2d-d6e4-4bf2-a39f-f87126ab968d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:22:56.552-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:22:56.654-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:22:56.660-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:22:56.661-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2db03d27]]
+2025-05-12T07:22:56.662-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:22:56.669-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:22:56.671-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 1.791 seconds (process running for 1107.541)
+2025-05-12T07:22:56.685-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:23:11.344-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:23:11.347-07:00  INFO 7104 --- [Thread-27] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:23:11.408-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:23:11.409-07:00  INFO 7104 --- [Thread-27] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:23:11.409-07:00  INFO 7104 --- [Thread-27] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2db03d27]]
+2025-05-12T07:23:11.410-07:00  INFO 7104 --- [Thread-27] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:23:11.413-07:00  INFO 7104 --- [Thread-27] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:23:11.414-07:00  INFO 7104 --- [Thread-27] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2025-05-12T07:23:11.417-07:00  INFO 7104 --- [Thread-27] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2025-05-12T07:23:11.504-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:23:11.505-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:23:11.759-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:23:11.819-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:23:11.931-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:23:11.949-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:23:11.950-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:23:11.951-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:23:11.970-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:23:11.970-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 463 ms
+2025-05-12T07:23:12.009-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:23:12.011-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:23:12.021-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:23:12.023-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2025-05-12T07:23:12.026-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4e2802e1
+2025-05-12T07:23:12.026-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2025-05-12T07:23:12.026-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:23:12.027-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:23:12.028-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:23:12.210-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:23:12.318-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:23:12.621-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:23:12.628-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: d2427351-23e2-4d51-a638-a3a8e4f52e44
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:23:12.631-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:23:12.732-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:23:12.738-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:23:12.738-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@49103ffa]]
+2025-05-12T07:23:12.739-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:23:12.743-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:23:12.748-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 1.267 seconds (process running for 1123.618)
+2025-05-12T07:23:12.755-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:24:12.756-07:00  INFO 7104 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-05-12T07:24:32.746-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:24:32.747-07:00  INFO 7104 --- [Thread-31] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:24:32.812-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:24:32.812-07:00  INFO 7104 --- [Thread-31] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:24:32.812-07:00  INFO 7104 --- [Thread-31] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@49103ffa]]
+2025-05-12T07:24:32.812-07:00  INFO 7104 --- [Thread-31] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:24:32.816-07:00  INFO 7104 --- [Thread-31] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:24:32.817-07:00  INFO 7104 --- [Thread-31] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2025-05-12T07:24:32.818-07:00  INFO 7104 --- [Thread-31] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+2025-05-12T07:24:32.898-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:24:32.898-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:24:33.196-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:24:33.250-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:24:33.355-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:24:33.372-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:24:33.374-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:24:33.374-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:24:33.389-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:24:33.390-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 492 ms
+2025-05-12T07:24:33.420-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:24:33.424-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:24:33.434-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:24:33.436-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2025-05-12T07:24:33.439-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection com.mysql.cj.jdbc.ConnectionImpl@71dcf09d
+2025-05-12T07:24:33.440-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2025-05-12T07:24:33.441-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:24:33.442-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:24:33.444-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-8)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:24:33.601-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:24:33.728-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:24:33.986-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:24:33.986-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 50314863-94e0-40f1-978e-f89004426460
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:24:33.994-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:24:34.068-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:24:34.073-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:24:34.074-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7f58f4b3]]
+2025-05-12T07:24:34.075-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:24:34.079-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:24:34.081-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 1.203 seconds (process running for 1204.951)
+2025-05-12T07:24:34.087-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:24:35.559-07:00  INFO 7104 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:24:35.562-07:00  INFO 7104 --- [Thread-35] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:24:35.651-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:24:35.654-07:00  INFO 7104 --- [Thread-35] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:24:35.654-07:00  INFO 7104 --- [Thread-35] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7f58f4b3]]
+2025-05-12T07:24:35.655-07:00  INFO 7104 --- [Thread-35] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:24:35.659-07:00  INFO 7104 --- [Thread-35] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:24:35.660-07:00  INFO 7104 --- [Thread-35] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
+2025-05-12T07:24:35.664-07:00  INFO 7104 --- [Thread-35] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
+2025-05-12T07:24:35.797-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 7104 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:24:35.797-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:24:36.133-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:24:36.188-07:00  INFO 7104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:24:36.321-07:00  INFO 7104 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:24:36.338-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:24:36.338-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:24:36.338-07:00  INFO 7104 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:24:36.357-07:00  INFO 7104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:24:36.357-07:00  INFO 7104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 555 ms
+2025-05-12T07:24:36.386-07:00  INFO 7104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:24:36.396-07:00  INFO 7104 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:24:36.397-07:00  INFO 7104 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:24:36.397-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Starting...
+2025-05-12T07:24:36.406-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1f521672
+2025-05-12T07:24:36.406-07:00  INFO 7104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Start completed.
+2025-05-12T07:24:36.406-07:00  WARN 7104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:24:36.411-07:00  WARN 7104 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:24:36.412-07:00  INFO 7104 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-9)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:24:36.591-07:00  INFO 7104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:24:36.711-07:00  INFO 7104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:24:36.958-07:00  WARN 7104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:24:36.964-07:00  WARN 7104 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 28b1c83f-0ebd-48e9-bdbe-042044dfdbb3
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:24:36.966-07:00  INFO 7104 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:24:37.061-07:00  INFO 7104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:24:37.068-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:24:37.068-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6ea4f7c9]]
+2025-05-12T07:24:37.068-07:00  INFO 7104 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:24:37.068-07:00  INFO 7104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:24:37.076-07:00  INFO 7104 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 1.32 seconds (process running for 1207.946)
+2025-05-12T07:24:37.078-07:00  INFO 7104 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:24:43.519-07:00  INFO 7104 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T07:24:43.519-07:00  INFO 7104 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T07:24:43.521-07:00  INFO 7104 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-12T07:24:43.781-07:00  WARN 7104 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:24:43.782-07:00  WARN 7104 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:24:45.418-07:00  WARN 7104 --- [http-nio-8080-exec-1] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T07:24:45.469-07:00  WARN 7104 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:24:45.471-07:00  WARN 7104 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:25:33.180-07:00  INFO 7104 --- [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:25:33.301-07:00  INFO 7104 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:25:33.306-07:00  INFO 7104 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:25:33.307-07:00  INFO 7104 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6ea4f7c9]]
+2025-05-12T07:25:33.309-07:00  INFO 7104 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:25:33.317-07:00  INFO 7104 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:25:33.320-07:00  INFO 7104 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown initiated...
+2025-05-12T07:25:33.326-07:00  INFO 7104 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown completed.
+2025-05-12T07:25:44.220-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 5948 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:25:44.226-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:25:44.346-07:00  INFO 5948 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-12T07:25:44.351-07:00  INFO 5948 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-12T07:25:45.818-07:00  INFO 5948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:25:46.038-07:00  INFO 5948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 203 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:25:46.937-07:00  INFO 5948 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:25:47.298-07:00  INFO 5948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:25:47.329-07:00  INFO 5948 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:25:47.329-07:00  INFO 5948 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:25:47.420-07:00  INFO 5948 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:25:47.421-07:00  INFO 5948 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3070 ms
+2025-05-12T07:25:47.764-07:00  INFO 5948 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:25:47.890-07:00  INFO 5948 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-05-12T07:25:47.961-07:00  INFO 5948 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:25:48.527-07:00  INFO 5948 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:25:48.584-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-12T07:25:48.889-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@74653b15
+2025-05-12T07:25:48.900-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-12T07:25:48.990-07:00  WARN 5948 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:25:49.000-07:00  WARN 5948 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:25:49.064-07:00  INFO 5948 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:25:50.568-07:00  INFO 5948 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:25:50.794-07:00  INFO 5948 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:25:51.271-07:00  INFO 5948 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-12T07:25:56.744-07:00  WARN 5948 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:25:56.782-07:00  WARN 5948 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: aa64216f-7960-4de6-bc13-a7160b9025eb
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:25:56.798-07:00  INFO 5948 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:25:57.747-07:00  INFO 5948 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:25:57.775-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:25:57.778-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4d87ec30]]
+2025-05-12T07:25:57.778-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:25:57.830-07:00  INFO 5948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:25:57.844-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 14.281 seconds (process running for 14.782)
+2025-05-12T07:26:01.351-07:00  INFO 5948 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T07:26:01.352-07:00  INFO 5948 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T07:26:01.354-07:00  INFO 5948 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-12T07:26:03.803-07:00  WARN 5948 --- [http-nio-8080-exec-10] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T07:26:57.780-07:00  INFO 5948 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 15, active threads = 0, queued tasks = 0, completed tasks = 15], outboundChannel[pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 1], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 2, completed tasks = 14]
+2025-05-12T07:28:03.614-07:00  INFO 5948 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:28:03.623-07:00  INFO 5948 --- [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:28:03.700-07:00  INFO 5948 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:28:03.717-07:00  INFO 5948 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:28:03.724-07:00  INFO 5948 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4d87ec30]]
+2025-05-12T07:28:03.728-07:00  INFO 5948 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:28:03.744-07:00  INFO 5948 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:28:03.758-07:00  INFO 5948 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-12T07:28:03.798-07:00  INFO 5948 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-12T07:28:03.937-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 5948 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:28:03.939-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:28:05.027-07:00  INFO 5948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:28:05.153-07:00  INFO 5948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 124 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:28:05.451-07:00  INFO 5948 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:28:05.487-07:00  INFO 5948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:28:05.489-07:00  INFO 5948 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:28:05.491-07:00  INFO 5948 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:28:05.532-07:00  INFO 5948 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:28:05.533-07:00  INFO 5948 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1590 ms
+2025-05-12T07:28:05.649-07:00  INFO 5948 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:28:05.655-07:00  INFO 5948 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:28:05.686-07:00  INFO 5948 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:28:05.688-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-05-12T07:28:05.698-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2947ef96
+2025-05-12T07:28:05.699-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-05-12T07:28:05.702-07:00  WARN 5948 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:28:05.704-07:00  WARN 5948 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:28:05.705-07:00  INFO 5948 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:28:06.217-07:00  INFO 5948 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:28:06.507-07:00  INFO 5948 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:28:07.211-07:00  WARN 5948 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:28:07.220-07:00  WARN 5948 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 15881d73-d478-4fba-9dd1-82a6b071340d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:28:07.222-07:00  INFO 5948 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:28:07.725-07:00  INFO 5948 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:28:07.733-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:28:07.734-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2ae6dbd2]]
+2025-05-12T07:28:07.735-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:28:07.742-07:00  INFO 5948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:28:07.747-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 3.869 seconds (process running for 144.685)
+2025-05-12T07:28:07.761-07:00  INFO 5948 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:28:09.163-07:00  INFO 5948 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:28:09.165-07:00  INFO 5948 --- [Thread-8] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:28:09.210-07:00  INFO 5948 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:28:09.218-07:00  INFO 5948 --- [Thread-8] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:28:09.218-07:00  INFO 5948 --- [Thread-8] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2ae6dbd2]]
+2025-05-12T07:28:09.218-07:00  INFO 5948 --- [Thread-8] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:28:09.218-07:00  INFO 5948 --- [Thread-8] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:28:09.218-07:00  INFO 5948 --- [Thread-8] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-05-12T07:28:09.225-07:00  INFO 5948 --- [Thread-8] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-05-12T07:28:09.307-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 5948 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:28:09.308-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:28:09.728-07:00  INFO 5948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:28:09.814-07:00  INFO 5948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 77 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:28:09.993-07:00  INFO 5948 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:28:10.012-07:00  INFO 5948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:28:10.013-07:00  INFO 5948 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:28:10.014-07:00  INFO 5948 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:28:10.045-07:00  INFO 5948 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:28:10.047-07:00  INFO 5948 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 734 ms
+2025-05-12T07:28:10.251-07:00  INFO 5948 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:28:10.258-07:00  INFO 5948 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:28:10.281-07:00  INFO 5948 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:28:10.295-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-05-12T07:28:10.309-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2903cb12
+2025-05-12T07:28:10.310-07:00  INFO 5948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-05-12T07:28:10.313-07:00  WARN 5948 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:28:10.314-07:00  WARN 5948 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:28:10.317-07:00  INFO 5948 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:28:10.821-07:00  INFO 5948 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:28:10.981-07:00  INFO 5948 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:28:11.566-07:00  WARN 5948 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:28:11.578-07:00  WARN 5948 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 69d84ebe-df65-4e77-bac8-6edfd2e4dc23
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:28:11.578-07:00  INFO 5948 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:28:11.778-07:00  INFO 5948 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:28:11.790-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:28:11.792-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@5c701afb]]
+2025-05-12T07:28:11.792-07:00  INFO 5948 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:28:11.801-07:00  INFO 5948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:28:11.801-07:00  INFO 5948 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 2.523 seconds (process running for 148.743)
+2025-05-12T07:28:11.816-07:00  INFO 5948 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:28:40.617-07:00  INFO 5948 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T07:28:40.624-07:00  INFO 5948 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T07:28:40.630-07:00  INFO 5948 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2025-05-12T07:28:42.346-07:00  WARN 5948 --- [http-nio-8080-exec-9] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T07:29:11.806-07:00  INFO 5948 --- [MessageBroker-5] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 15, active threads = 0, queued tasks = 0, completed tasks = 15], outboundChannel[pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 1], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 2, completed tasks = 8]
+2025-05-12T07:29:17.572-07:00  WARN 5948 --- [http-nio-8080-exec-2] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:29:17.585-07:00  WARN 5948 --- [http-nio-8080-exec-2] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:29:19.311-07:00  WARN 5948 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:29:19.312-07:00  WARN 5948 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:33:09.270-07:00  WARN 5948 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:33:09.273-07:00  WARN 5948 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:33:10.512-07:00  WARN 5948 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:33:10.516-07:00  WARN 5948 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:38:47.849-07:00  INFO 5948 --- [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:38:47.928-07:00  INFO 5948 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:38:47.942-07:00  INFO 5948 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:38:47.944-07:00  INFO 5948 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@5c701afb]]
+2025-05-12T07:38:47.945-07:00  INFO 5948 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:38:47.963-07:00  INFO 5948 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:38:47.990-07:00  INFO 5948 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-05-12T07:38:47.999-07:00  INFO 5948 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2025-05-12T07:39:12.880-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 14244 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:39:12.909-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:39:13.077-07:00  INFO 14244 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-12T07:39:13.078-07:00  INFO 14244 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-12T07:39:15.364-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:39:15.577-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 180 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:39:16.905-07:00  INFO 14244 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:39:17.340-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:39:17.367-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:39:17.368-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:39:17.457-07:00  INFO 14244 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:39:17.458-07:00  INFO 14244 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4375 ms
+2025-05-12T07:39:17.809-07:00  INFO 14244 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:39:17.924-07:00  INFO 14244 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-05-12T07:39:17.993-07:00  INFO 14244 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:39:18.604-07:00  INFO 14244 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:39:18.643-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-12T07:39:18.868-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7cc30b15
+2025-05-12T07:39:18.868-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-12T07:39:18.955-07:00  WARN 14244 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:39:18.965-07:00  WARN 14244 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:39:19.008-07:00  INFO 14244 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:39:20.426-07:00  INFO 14244 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:39:20.659-07:00  INFO 14244 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:39:21.088-07:00  INFO 14244 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-12T07:39:27.328-07:00  WARN 14244 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:39:27.376-07:00  WARN 14244 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 1673bc70-4bed-4429-859e-1276694477cb
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:39:27.382-07:00  INFO 14244 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:39:28.623-07:00  INFO 14244 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:39:28.665-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:39:28.665-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@91e02f3]]
+2025-05-12T07:39:28.665-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:39:28.790-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:39:28.809-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 17.353 seconds (process running for 18.079)
+2025-05-12T07:40:08.631-07:00  INFO 14244 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T07:40:08.634-07:00  INFO 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T07:40:08.640-07:00  INFO 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2025-05-12T07:40:09.444-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:40:09.496-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:40:10.518-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:40:10.519-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:40:14.213-07:00  WARN 14244 --- [http-nio-8080-exec-1] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T07:40:14.270-07:00  WARN 14244 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:40:14.270-07:00  WARN 14244 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:40:28.670-07:00  INFO 14244 --- [MessageBroker-4] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[2 current WS(2)-HttpStream(0)-HttpPoll(0), 3 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(3)-CONNECTED(3)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 42], outboundChannel[pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 4], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 3, completed tasks = 4]
+2025-05-12T07:54:11.668-07:00  WARN 14244 --- [http-nio-8080-exec-2] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:54:11.686-07:00  WARN 14244 --- [http-nio-8080-exec-2] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:54:16.313-07:00  WARN 14244 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:54:16.314-07:00  WARN 14244 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:54:42.253-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:54:42.254-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:54:45.059-07:00  WARN 14244 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:54:45.061-07:00  WARN 14244 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:56:52.251-07:00  INFO 14244 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:56:52.312-07:00  INFO 14244 --- [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:56:52.388-07:00  INFO 14244 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:56:52.403-07:00  INFO 14244 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:56:52.404-07:00  INFO 14244 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@91e02f3]]
+2025-05-12T07:56:52.405-07:00  INFO 14244 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:56:52.418-07:00  INFO 14244 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:56:52.444-07:00  INFO 14244 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-12T07:56:52.479-07:00  INFO 14244 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-12T07:56:52.795-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 14244 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:56:52.797-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:56:53.499-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:56:53.594-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:56:53.997-07:00  INFO 14244 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:56:54.076-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:56:54.081-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:56:54.083-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:56:54.129-07:00  INFO 14244 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:56:54.129-07:00  INFO 14244 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1328 ms
+2025-05-12T07:56:54.226-07:00  INFO 14244 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:56:54.235-07:00  INFO 14244 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:56:54.264-07:00  INFO 14244 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:56:54.264-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-05-12T07:56:54.285-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7b819b70
+2025-05-12T07:56:54.286-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-05-12T07:56:54.289-07:00  WARN 14244 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:56:54.291-07:00  WARN 14244 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:56:54.293-07:00  INFO 14244 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:56:54.692-07:00  INFO 14244 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:56:54.878-07:00  INFO 14244 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:56:55.384-07:00  WARN 14244 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:56:55.406-07:00  WARN 14244 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: ae9d274d-fe3e-48ec-bc05-436fe8decc4f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:56:55.410-07:00  INFO 14244 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:56:55.592-07:00  INFO 14244 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:56:55.595-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:56:55.595-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1c5f3ba0]]
+2025-05-12T07:56:55.595-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:56:55.595-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:56:55.615-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 2.87 seconds (process running for 1064.883)
+2025-05-12T07:56:55.618-07:00  INFO 14244 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:57:55.602-07:00  INFO 14244 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-05-12T07:58:13.379-07:00  INFO 14244 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T07:58:13.384-07:00  INFO 14244 --- [Thread-9] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T07:58:13.460-07:00  INFO 14244 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T07:58:13.460-07:00  INFO 14244 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T07:58:13.460-07:00  INFO 14244 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@1c5f3ba0]]
+2025-05-12T07:58:13.460-07:00  INFO 14244 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T07:58:13.460-07:00  INFO 14244 --- [Thread-9] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:58:13.460-07:00  INFO 14244 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-05-12T07:58:13.460-07:00  INFO 14244 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-05-12T07:58:13.577-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 14244 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T07:58:13.577-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T07:58:14.011-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T07:58:14.073-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 13 JPA repository interfaces.
+2025-05-12T07:58:14.177-07:00  INFO 14244 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T07:58:14.194-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T07:58:14.194-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T07:58:14.194-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T07:58:14.236-07:00  INFO 14244 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T07:58:14.241-07:00  INFO 14244 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 664 ms
+2025-05-12T07:58:14.374-07:00  INFO 14244 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T07:58:14.378-07:00  INFO 14244 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T07:58:14.397-07:00  INFO 14244 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T07:58:14.400-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-05-12T07:58:14.403-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4e69fa59
+2025-05-12T07:58:14.403-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-05-12T07:58:14.411-07:00  WARN 14244 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T07:58:14.413-07:00  WARN 14244 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T07:58:14.414-07:00  INFO 14244 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T07:58:14.660-07:00  INFO 14244 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T07:58:14.811-07:00  INFO 14244 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T07:58:15.244-07:00  WARN 14244 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T07:58:15.250-07:00  WARN 14244 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e06745d5-60a6-4dd3-8235-60003a621f22
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T07:58:15.253-07:00  INFO 14244 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T07:58:15.404-07:00  INFO 14244 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T07:58:15.411-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T07:58:15.413-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@432d2e7c]]
+2025-05-12T07:58:15.415-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T07:58:15.420-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T07:58:15.424-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 1.88 seconds (process running for 1144.693)
+2025-05-12T07:58:15.433-07:00  INFO 14244 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T07:58:47.436-07:00  INFO 14244 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T07:58:47.436-07:00  INFO 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T07:58:47.440-07:00  INFO 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-05-12T07:58:49.336-07:00  WARN 14244 --- [http-nio-8080-exec-9] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T07:58:58.214-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:58:58.220-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:58:59.675-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T07:58:59.679-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T07:59:15.414-07:00  INFO 14244 --- [MessageBroker-6] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[2 current WS(2)-HttpStream(0)-HttpPoll(0), 2 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(2)-CONNECTED(2)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 39], outboundChannel[pool size = 6, active threads = 0, queued tasks = 0, completed tasks = 6], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 3, completed tasks = 6]
+2025-05-12T08:00:19.594-07:00  WARN 14244 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:00:19.596-07:00  WARN 14244 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:00:26.230-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:00:26.232-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:00:35.133-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:00:35.134-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:00:51.534-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:00:51.536-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:01:06.157-07:00  WARN 14244 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:01:06.159-07:00  WARN 14244 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:01:07.427-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:01:07.429-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:01:16.832-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:01:16.833-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:01:45.090-07:00  INFO 14244 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T08:01:45.142-07:00  INFO 14244 --- [Thread-13] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T08:01:45.230-07:00  INFO 14244 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T08:01:45.240-07:00  INFO 14244 --- [Thread-13] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T08:01:45.241-07:00  INFO 14244 --- [Thread-13] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@432d2e7c]]
+2025-05-12T08:01:45.243-07:00  INFO 14244 --- [Thread-13] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T08:01:45.253-07:00  INFO 14244 --- [Thread-13] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:01:45.266-07:00  INFO 14244 --- [Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-05-12T08:01:45.275-07:00  INFO 14244 --- [Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2025-05-12T08:01:45.670-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 14244 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T08:01:45.673-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T08:01:46.477-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T08:01:46.726-07:00  INFO 14244 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 244 ms. Found 13 JPA repository interfaces.
+2025-05-12T08:01:47.166-07:00  INFO 14244 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T08:01:47.233-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T08:01:47.236-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T08:01:47.281-07:00  INFO 14244 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T08:01:47.348-07:00  INFO 14244 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T08:01:47.350-07:00  INFO 14244 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1670 ms
+2025-05-12T08:01:47.479-07:00  INFO 14244 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T08:01:47.487-07:00  INFO 14244 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T08:01:47.536-07:00  INFO 14244 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T08:01:47.549-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-05-12T08:01:47.598-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1b4542df
+2025-05-12T08:01:47.599-07:00  INFO 14244 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-05-12T08:01:47.603-07:00  WARN 14244 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T08:01:47.606-07:00  WARN 14244 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T08:01:47.609-07:00  INFO 14244 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T08:01:48.113-07:00  INFO 14244 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T08:01:48.767-07:00  INFO 14244 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:01:49.197-07:00  WARN 14244 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T08:01:49.202-07:00  WARN 14244 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 005ecfce-0638-4ae0-ae98-20d3b363b38a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T08:01:49.204-07:00  INFO 14244 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T08:01:49.327-07:00  INFO 14244 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T08:01:49.344-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T08:01:49.345-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6ae92362]]
+2025-05-12T08:01:49.346-07:00  INFO 14244 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T08:01:49.354-07:00  INFO 14244 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T08:01:49.358-07:00  INFO 14244 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 3.776 seconds (process running for 1358.627)
+2025-05-12T08:01:49.367-07:00  INFO 14244 --- [http-nio-8080-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T08:01:49.368-07:00  INFO 14244 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T08:01:49.368-07:00  INFO 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T08:01:49.370-07:00  INFO 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-12T08:01:49.445-07:00  WARN 14244 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:01:49.448-07:00  WARN 14244 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:01:50.386-07:00  WARN 14244 --- [http-nio-8080-exec-10] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T08:01:50.438-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:01:50.440-07:00  WARN 14244 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:01:57.531-07:00  WARN 14244 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:01:57.532-07:00  WARN 14244 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:02:49.356-07:00  INFO 14244 --- [MessageBroker-6] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[2 current WS(2)-HttpStream(0)-HttpPoll(0), 6 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(6)-CONNECTED(6)-DISCONNECT(2)], stompBrokerRelay[null], inboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 108], outboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 22], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 3, completed tasks = 15]
+2025-05-12T08:02:51.740-07:00  WARN 14244 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:02:51.742-07:00  WARN 14244 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:02:53.309-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:02:53.311-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:02:53.353-07:00  WARN 14244 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:02:53.355-07:00  WARN 14244 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:29.794-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:29.795-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:31.154-07:00  WARN 14244 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:31.156-07:00  WARN 14244 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:31.200-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:31.202-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:36.108-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:36.109-07:00  WARN 14244 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:38.938-07:00  WARN 14244 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:38.940-07:00  WARN 14244 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:42.881-07:00  WARN 14244 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:42.882-07:00  WARN 14244 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:42.912-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:42.920-07:00  WARN 14244 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:47.545-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:47.546-07:00  WARN 14244 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:03:51.628-07:00  WARN 14244 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:03:51.629-07:00  WARN 14244 --- [http-nio-8080-exec-3] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:04:23.493-07:00  INFO 14244 --- [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T08:04:23.538-07:00  INFO 14244 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T08:04:23.553-07:00  INFO 14244 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T08:04:23.553-07:00  INFO 14244 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6ae92362]]
+2025-05-12T08:04:23.553-07:00  INFO 14244 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T08:04:23.553-07:00  INFO 14244 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:04:23.553-07:00  INFO 14244 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2025-05-12T08:04:23.553-07:00  INFO 14244 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2025-05-12T08:04:30.552-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 2132 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T08:04:30.568-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T08:04:30.791-07:00  INFO 2132 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-12T08:04:30.796-07:00  INFO 2132 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-12T08:04:32.273-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T08:04:32.528-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 237 ms. Found 13 JPA repository interfaces.
+2025-05-12T08:04:33.757-07:00  INFO 2132 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T08:04:34.119-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T08:04:34.146-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T08:04:34.147-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T08:04:34.251-07:00  INFO 2132 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T08:04:34.253-07:00  INFO 2132 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3436 ms
+2025-05-12T08:04:34.771-07:00  INFO 2132 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T08:04:34.921-07:00  INFO 2132 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-05-12T08:04:35.037-07:00  INFO 2132 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T08:04:36.007-07:00  INFO 2132 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T08:04:36.083-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-12T08:04:36.369-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@50e634d9
+2025-05-12T08:04:36.376-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-12T08:04:36.471-07:00  WARN 2132 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T08:04:36.490-07:00  WARN 2132 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T08:04:36.568-07:00  INFO 2132 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T08:04:38.192-07:00  INFO 2132 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T08:04:38.723-07:00  INFO 2132 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:04:39.085-07:00  INFO 2132 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-12T08:04:46.501-07:00  WARN 2132 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T08:04:46.546-07:00  WARN 2132 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: bde17ffb-5c01-4618-b5d9-8a1b7f12396c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T08:04:46.564-07:00  INFO 2132 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T08:04:47.602-07:00  INFO 2132 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T08:04:47.647-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T08:04:47.650-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6e1407f0]]
+2025-05-12T08:04:47.655-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T08:04:47.726-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T08:04:47.743-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 18.003 seconds (process running for 18.556)
+2025-05-12T08:04:56.312-07:00  INFO 2132 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T08:04:56.313-07:00  INFO 2132 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T08:04:56.317-07:00  INFO 2132 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-05-12T08:04:57.081-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:04:57.106-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:04:59.352-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:04:59.354-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:04:59.500-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:04:59.507-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:05:06.452-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:05:06.454-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:05:21.287-07:00  WARN 2132 --- [http-nio-8080-exec-9] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T08:05:21.360-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:05:21.362-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:05:32.690-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:05:32.692-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:05:39.226-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:05:39.228-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:05:47.644-07:00  INFO 2132 --- [MessageBroker-3] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[2 current WS(2)-HttpStream(0)-HttpPoll(0), 4 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(4)-CONNECTED(4)-DISCONNECT(2)], stompBrokerRelay[null], inboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 69], outboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 25], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 3, completed tasks = 11]
+2025-05-12T08:06:44.262-07:00  INFO 2132 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T08:06:44.268-07:00  INFO 2132 --- [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T08:06:44.327-07:00  INFO 2132 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T08:06:44.335-07:00  INFO 2132 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T08:06:44.336-07:00  INFO 2132 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6e1407f0]]
+2025-05-12T08:06:44.337-07:00  INFO 2132 --- [Thread-5] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T08:06:44.346-07:00  INFO 2132 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:06:44.361-07:00  INFO 2132 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-12T08:06:44.380-07:00  INFO 2132 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-12T08:06:44.593-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 2132 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T08:06:44.595-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T08:06:45.415-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T08:06:45.529-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 13 JPA repository interfaces.
+2025-05-12T08:06:45.774-07:00  INFO 2132 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T08:06:45.835-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T08:06:45.835-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T08:06:45.835-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T08:06:45.870-07:00  INFO 2132 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T08:06:45.870-07:00  INFO 2132 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1271 ms
+2025-05-12T08:06:45.993-07:00  INFO 2132 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T08:06:45.998-07:00  INFO 2132 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T08:06:46.037-07:00  INFO 2132 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T08:06:46.039-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-05-12T08:06:46.052-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@63de222e
+2025-05-12T08:06:46.054-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-05-12T08:06:46.054-07:00  WARN 2132 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T08:06:46.054-07:00  WARN 2132 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T08:06:46.054-07:00  INFO 2132 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T08:06:46.399-07:00  INFO 2132 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T08:06:46.613-07:00  INFO 2132 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:06:47.243-07:00  WARN 2132 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T08:06:47.253-07:00  WARN 2132 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: b859ec70-4986-42eb-90a5-ef3136461609
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T08:06:47.260-07:00  INFO 2132 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T08:06:47.428-07:00  INFO 2132 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T08:06:47.486-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T08:06:47.530-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@518b3ebb]]
+2025-05-12T08:06:47.557-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T08:06:47.590-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T08:06:47.602-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 3.06 seconds (process running for 138.414)
+2025-05-12T08:06:47.613-07:00  INFO 2132 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T08:06:54.344-07:00  INFO 2132 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T08:06:54.346-07:00  INFO 2132 --- [Thread-9] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T08:06:54.406-07:00  INFO 2132 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T08:06:54.408-07:00  INFO 2132 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T08:06:54.409-07:00  INFO 2132 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@518b3ebb]]
+2025-05-12T08:06:54.410-07:00  INFO 2132 --- [Thread-9] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T08:06:54.412-07:00  INFO 2132 --- [Thread-9] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:06:54.413-07:00  INFO 2132 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-05-12T08:06:54.416-07:00  INFO 2132 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-05-12T08:06:54.535-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 2132 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T08:06:54.537-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T08:06:55.021-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T08:06:55.110-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 86 ms. Found 13 JPA repository interfaces.
+2025-05-12T08:06:55.349-07:00  INFO 2132 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T08:06:55.379-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T08:06:55.381-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T08:06:55.382-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T08:06:55.407-07:00  INFO 2132 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T08:06:55.408-07:00  INFO 2132 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 867 ms
+2025-05-12T08:06:55.466-07:00  INFO 2132 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T08:06:55.471-07:00  INFO 2132 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T08:06:55.490-07:00  INFO 2132 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T08:06:55.492-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-05-12T08:06:55.498-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@12a48078
+2025-05-12T08:06:55.499-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-05-12T08:06:55.501-07:00  WARN 2132 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T08:06:55.504-07:00  WARN 2132 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T08:06:55.505-07:00  INFO 2132 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T08:06:55.785-07:00  INFO 2132 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T08:06:55.952-07:00  INFO 2132 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:06:56.412-07:00  WARN 2132 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T08:06:56.420-07:00  WARN 2132 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 1bac7e32-faa1-45f1-a059-5378a58727ea
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T08:06:56.422-07:00  INFO 2132 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T08:06:56.681-07:00  INFO 2132 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T08:06:56.688-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T08:06:56.689-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4c9f27b7]]
+2025-05-12T08:06:56.691-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T08:06:56.696-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T08:06:56.700-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 2.208 seconds (process running for 147.513)
+2025-05-12T08:06:56.716-07:00  INFO 2132 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T08:07:04.239-07:00  INFO 2132 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T08:07:04.241-07:00  INFO 2132 --- [Thread-13] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T08:07:04.314-07:00  INFO 2132 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T08:07:04.316-07:00  INFO 2132 --- [Thread-13] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T08:07:04.317-07:00  INFO 2132 --- [Thread-13] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@4c9f27b7]]
+2025-05-12T08:07:04.318-07:00  INFO 2132 --- [Thread-13] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T08:07:04.321-07:00  INFO 2132 --- [Thread-13] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:07:04.323-07:00  INFO 2132 --- [Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-05-12T08:07:04.326-07:00  INFO 2132 --- [Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2025-05-12T08:07:04.439-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 2132 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T08:07:04.441-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T08:07:04.970-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T08:07:05.035-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 62 ms. Found 13 JPA repository interfaces.
+2025-05-12T08:07:05.237-07:00  INFO 2132 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T08:07:05.265-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T08:07:05.267-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T08:07:05.269-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T08:07:05.308-07:00  INFO 2132 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T08:07:05.309-07:00  INFO 2132 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 861 ms
+2025-05-12T08:07:05.420-07:00  INFO 2132 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T08:07:05.423-07:00  INFO 2132 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T08:07:05.431-07:00  INFO 2132 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T08:07:05.433-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-05-12T08:07:05.439-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@51f84a2e
+2025-05-12T08:07:05.440-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-05-12T08:07:05.442-07:00  WARN 2132 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T08:07:05.443-07:00  WARN 2132 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T08:07:05.444-07:00  INFO 2132 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T08:07:05.655-07:00  INFO 2132 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T08:07:05.833-07:00  INFO 2132 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:07:06.318-07:00  WARN 2132 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T08:07:06.339-07:00  WARN 2132 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 6ff2388f-63b0-4aeb-ba21-bf3e52aab51d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T08:07:06.341-07:00  INFO 2132 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T08:07:06.473-07:00  INFO 2132 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T08:07:06.479-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T08:07:06.480-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@323f6fe2]]
+2025-05-12T08:07:06.481-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T08:07:06.487-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T08:07:06.492-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 2.087 seconds (process running for 157.304)
+2025-05-12T08:07:06.501-07:00  INFO 2132 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T08:07:07.904-07:00  INFO 2132 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-05-12T08:07:07.906-07:00  INFO 2132 --- [Thread-17] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-12T08:07:07.961-07:00  INFO 2132 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-12T08:07:07.962-07:00  INFO 2132 --- [Thread-17] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-05-12T08:07:07.963-07:00  INFO 2132 --- [Thread-17] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@323f6fe2]]
+2025-05-12T08:07:07.963-07:00  INFO 2132 --- [Thread-17] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-05-12T08:07:07.965-07:00  INFO 2132 --- [Thread-17] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:07:07.966-07:00  INFO 2132 --- [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2025-05-12T08:07:07.969-07:00  INFO 2132 --- [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2025-05-12T08:07:08.054-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Starting BackendApplication using Java 17.0.14 with PID 2132 (D:\Work Space\VS_CODE\SPRING BOOT\facebook\backend\target\classes started by mansh in D:\Work Space\VS_CODE\SPRING BOOT\facebook)
+2025-05-12T08:07:08.054-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-12T08:07:08.469-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-12T08:07:08.530-07:00  INFO 2132 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 59 ms. Found 13 JPA repository interfaces.
+2025-05-12T08:07:08.648-07:00  INFO 2132 --- [restartedMain] b.backend.config.ServerPortConfig        : Configuring server to use port: 8080
+2025-05-12T08:07:08.669-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-12T08:07:08.671-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-12T08:07:08.672-07:00  INFO 2132 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-12T08:07:08.697-07:00  INFO 2132 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-12T08:07:08.698-07:00  INFO 2132 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 639 ms
+2025-05-12T08:07:08.752-07:00  INFO 2132 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-12T08:07:08.756-07:00  INFO 2132 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-12T08:07:08.768-07:00  INFO 2132 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-12T08:07:08.769-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2025-05-12T08:07:08.774-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@698ab4ab
+2025-05-12T08:07:08.775-07:00  INFO 2132 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2025-05-12T08:07:08.776-07:00  WARN 2132 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-12T08:07:08.777-07:00  WARN 2132 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-12T08:07:08.780-07:00  INFO 2132 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-12T08:07:08.994-07:00  INFO 2132 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-12T08:07:09.158-07:00  INFO 2132 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-12T08:07:09.543-07:00  WARN 2132 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-12T08:07:09.548-07:00  WARN 2132 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e6eb0b00-f966-4817-96da-d42eb671684e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-12T08:07:09.550-07:00  INFO 2132 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-12T08:07:09.727-07:00  INFO 2132 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-12T08:07:09.733-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-05-12T08:07:09.734-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@65f9e7f4]]
+2025-05-12T08:07:09.734-07:00  INFO 2132 --- [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-05-12T08:07:09.750-07:00  INFO 2132 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-12T08:07:09.756-07:00  INFO 2132 --- [restartedMain] backend.backend.BackendApplication       : Started BackendApplication in 1.725 seconds (process running for 160.568)
+2025-05-12T08:07:09.761-07:00  INFO 2132 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-12T08:08:09.733-07:00  INFO 2132 --- [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-05-12T08:09:14.608-07:00  INFO 2132 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-12T08:09:14.609-07:00  INFO 2132 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-12T08:09:14.615-07:00  INFO 2132 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2025-05-12T08:09:17.149-07:00  WARN 2132 --- [http-nio-8080-exec-2] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-12T08:09:26.787-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:09:26.795-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:09:28.613-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:09:28.616-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:09:32.735-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:09:32.736-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:10:14.034-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /admin-avatar.png
+2025-05-12T08:10:14.038-07:00  WARN 2132 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar4.png
+2025-05-12T08:10:14.038-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /admin-avatar.png.
+2025-05-12T08:10:14.039-07:00  WARN 2132 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar4.png.
+2025-05-12T08:10:14.038-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:10:14.041-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:10:19.894-07:00  WARN 2132 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:10:19.895-07:00  WARN 2132 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:10:25.094-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:10:25.095-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:10:28.032-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
+2025-05-12T08:10:28.033-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
+2025-05-12T08:12:48.494-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:12:48.497-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:12:48.541-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:12:48.542-07:00  WARN 2132 --- [http-nio-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:12:53.508-07:00  WARN 2132 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:12:53.509-07:00  WARN 2132 --- [http-nio-8080-exec-1] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:12:59.380-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:12:59.381-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:13:08.184-07:00  WARN 2132 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:13:08.185-07:00  WARN 2132 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:13:08.707-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:13:08.708-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:13:17.284-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:13:17.285-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:13:22.238-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:13:22.238-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:15:17.888-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:15:17.890-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
+2025-05-12T08:15:17.910-07:00  WARN 2132 --- [http-nio-8080-exec-8] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
+2025-05-12T08:15:17.910-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:15:19.886-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:15:19.888-07:00  WARN 2132 --- [http-nio-8080-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:15:21.616-07:00  WARN 2132 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:15:21.617-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
+2025-05-12T08:15:21.617-07:00  WARN 2132 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.
+2025-05-12T08:15:21.618-07:00  WARN 2132 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
+2025-05-12T08:20:49.321-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar3.png
+2025-05-12T08:20:49.321-07:00  WARN 2132 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /avatar2.png
+2025-05-12T08:20:49.343-07:00  WARN 2132 --- [http-nio-8080-exec-5] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar3.png.
+2025-05-12T08:20:49.345-07:00  WARN 2132 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No endpoint GET /avatar2.png.

@@ -54,9 +54,18 @@ public class ChatRoomMessageController {
     @MessageMapping("/chat-rooms")
     public void handleChatRoomMessage(ChatRoomMessage message) {
         try {
-            // Lấy thông tin người gửi và phòng chat
             User sender = userService.getUserById(message.getSender().getId());
+            if (sender == null) {
+                System.err.println("[WebSocket] Sender not found: " + message.getSender().getId());
+                return;
+            }
+
             ChatRoom room = chatRoomService.getChatRoomById(message.getRoom().getId());
+            if (room == null) {
+                System.err.println("[WebSocket] Room not found: " + message.getRoom().getId());
+                return;
+            }
+            System.out.println("[WebSocket] Found room: " + room.getName());
 
             // Cập nhật thông tin đầy đủ cho tin nhắn
             message.setSender(sender);
@@ -68,8 +77,35 @@ public class ChatRoomMessageController {
             ChatRoomMessage savedMessage = messageService.saveMessage(message);
 
             // Gửi tin nhắn đến tất cả client trong phòng chat
-            messagingTemplate.convertAndSend("/topic/chat-rooms/" + room.getId(), savedMessage);
+            String destination = "/topic/chat-rooms/" + room.getId();
+
+            // Tạo một bản sao của tin nhắn với thông tin đầy đủ
+            ChatRoomMessage messageToSend = new ChatRoomMessage();
+            messageToSend.setId(savedMessage.getId());
+            messageToSend.setContent(savedMessage.getContent());
+            messageToSend.setMessageType(savedMessage.getMessageType());
+            messageToSend.setCreatedAt(savedMessage.getCreatedAt());
+            messageToSend.setDeleted(savedMessage.isDeleted());
+
+            // Set sender info
+            User senderInfo = new User();
+            senderInfo.setId(sender.getId());
+            senderInfo.setFirstName(sender.getFirstName());
+            senderInfo.setLastName(sender.getLastName());
+            senderInfo.setAvatar(sender.getAvatar());
+            messageToSend.setSender(senderInfo);
+
+            // Set room info
+            ChatRoom roomInfo = new ChatRoom();
+            roomInfo.setId(room.getId());
+            roomInfo.setName(room.getName());
+            roomInfo.setAvatar(room.getAvatar());
+            messageToSend.setRoom(roomInfo);
+
+            messagingTemplate.convertAndSend(destination, messageToSend);
+            System.out.println("[WebSocket] Message sent successfully");
         } catch (Exception e) {
+            System.err.println("[WebSocket] Error handling message: " + e.getMessage());
             e.printStackTrace();
         }
     }

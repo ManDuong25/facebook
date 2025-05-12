@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { getAvatarUrl, handleImageError } from '~/utils/avatarUtils';
 import { getCurrentUser } from '~/services/authService';
 import { sendMessage, getRoomMessagesPaginated } from '~/services/chatRoomMessageService';
+import { addMember } from '~/services/chatRoomMemberService';
 import websocketService from '../../services/websocketService';
+import AddMembersModal from '../Modals/AddMembersModal';
 
 const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
     const [messages, setMessages] = useState([]);
@@ -12,6 +14,7 @@ const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) 
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const [showAddMembersModal, setShowAddMembersModal] = useState(false);
     const messagesEndRef = useRef(null);
     const messagesContainerRef = useRef(null);
     const loggedInUser = getCurrentUser();
@@ -22,66 +25,93 @@ const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) 
     useEffect(() => {
         const connectWebSocket = async () => {
             try {
+                console.log('[WebSocket] Attempting to connect to WebSocket...');
                 await websocketService.connect(() => {
-                    console.log('WebSocket connected');
+                    console.log('[WebSocket] Successfully connected to WebSocket');
 
                     // Subscribe to room-specific topic
                     const roomTopic = `/topic/chat-rooms/${conversation.id}`;
-                    websocketService.subscribe(roomTopic, (message) => {
-                        console.log('Received room message:', message);
-                        setMessages((prevMessages) => {
-                            // Kiểm tra xem tin nhắn đã tồn tại chưa
-                            const messageExists = prevMessages.some(
-                                (msg) =>
-                                    msg.id === message.id ||
-                                    (msg.pending &&
-                                        msg.content === message.content &&
-                                        msg.senderId === message.senderId),
-                            );
+                    console.log('[WebSocket] Subscribing to topic:', roomTopic);
 
-                            if (messageExists) {
-                                // Cập nhật tin nhắn nếu đã tồn tại
-                                return prevMessages.map((msg) =>
-                                    msg.id === message.id ||
-                                    (msg.pending &&
-                                        msg.content === message.content &&
-                                        msg.senderId === message.senderId)
-                                        ? {
-                                              ...msg,
-                                              id: message.id,
-                                              pending: false,
-                                              timestamp: formatMessageTime(message.createdAt),
-                                              createdAt: message.createdAt,
-                                          }
-                                        : msg,
+                    // Unsubscribe from previous topic if exists
+                    websocketService.unsubscribe(roomTopic);
+
+                    // Add a small delay before subscribing to ensure unsubscribe is complete
+                    setTimeout(() => {
+                        websocketService.subscribe(roomTopic, (message) => {
+                            console.log('[WebSocket] Received message in room:', message);
+                            console.log('[WebSocket] Message type:', typeof message);
+                            console.log('[WebSocket] Message content:', message.content);
+                            console.log('[WebSocket] Message sender:', message.sender);
+                            console.log('[WebSocket] Message room:', message.room);
+
+                            setMessages((prevMessages) => {
+                                // Kiểm tra xem tin nhắn đã tồn tại chưa (dựa vào pending message)
+                                const existingMessageIndex = prevMessages.findIndex(
+                                    (msg) =>
+                                        (msg.pending &&
+                                            msg.content === message.content &&
+                                            msg.senderId === message.sender.id) ||
+                                        msg.id === message.id, // Thêm kiểm tra ID để tránh duplicate
                                 );
-                            } else {
-                                // Thêm tin nhắn mới
-                                return [
-                                    ...prevMessages,
-                                    {
+
+                                console.log('[WebSocket] Existing message index:', existingMessageIndex);
+
+                                if (existingMessageIndex !== -1) {
+                                    // Cập nhật tin nhắn pending thành tin nhắn thật
+                                    const updatedMessages = [...prevMessages];
+                                    updatedMessages[existingMessageIndex] = {
                                         id: message.id,
-                                        senderId: message.senderId,
-                                        senderName: message.senderName,
+                                        senderId: message.sender.id,
+                                        senderName: `${message.sender.firstName} ${message.sender.lastName}`,
+                                        senderAvatar: message.sender.avatar,
                                         content: message.content,
                                         messageType: message.messageType,
                                         timestamp: formatMessageTime(message.createdAt),
                                         createdAt: message.createdAt,
-                                    },
-                                ];
-                            }
+                                        pending: false,
+                                    };
+                                    console.log(
+                                        '[WebSocket] Updated pending message:',
+                                        updatedMessages[existingMessageIndex],
+                                    );
+                                    return updatedMessages;
+                                } else {
+                                    // Thêm tin nhắn mới từ người khác
+                                    const newMessage = {
+                                        id: message.id,
+                                        senderId: message.sender.id,
+                                        senderName: `${message.sender.firstName} ${message.sender.lastName}`,
+                                        senderAvatar: message.sender.avatar,
+                                        content: message.content,
+                                        messageType: message.messageType,
+                                        timestamp: formatMessageTime(message.createdAt),
+                                        createdAt: message.createdAt,
+                                        pending: false,
+                                    };
+                                    console.log('[WebSocket] Adding new message:', newMessage);
+                                    return [...prevMessages, newMessage];
+                                }
+                            });
                         });
-                    });
+                    }, 100);
                 });
             } catch (error) {
-                console.error('Failed to connect to WebSocket:', error);
+                console.error('[WebSocket] Failed to connect to WebSocket:', error);
             }
         };
 
-        connectWebSocket();
+        if (conversation && conversation.id) {
+            console.log('[WebSocket] Connecting to WebSocket for room:', conversation.id);
+            connectWebSocket();
+        }
 
         return () => {
-            websocketService.unsubscribe(`/topic/chat-rooms/${conversation.id}`);
+            if (conversation && conversation.id) {
+                const roomTopic = `/topic/chat-rooms/${conversation.id}`;
+                console.log('[WebSocket] Unsubscribing from topic:', roomTopic);
+                websocketService.unsubscribe(roomTopic);
+            }
         };
     }, [conversation.id]);
 
@@ -179,25 +209,39 @@ const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) 
 
         try {
             setIsSending(true);
-            // Gọi API để lưu tin nhắn vào database
-            const sentMessage = await sendMessage(conversation.id, loggedInUser.id, newMessage.trim(), 'TEXT');
+            console.log('[Chat] Sending message:', newMessage.trim());
 
-            // Thêm tin nhắn mới vào danh sách
-            const newMsg = {
-                id: sentMessage.id,
+            // Tạo tin nhắn tạm thời
+            const tempMessage = {
+                id: `temp-${Date.now()}`,
                 senderId: loggedInUser.id,
                 senderName: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
                 senderAvatar: loggedInUser.avatar,
                 content: newMessage.trim(),
                 messageType: 'TEXT',
-                timestamp: formatMessageTime(sentMessage.createdAt),
-                createdAt: sentMessage.createdAt,
+                timestamp: formatMessageTime(new Date().toISOString()),
+                createdAt: new Date().toISOString(),
+                pending: true,
             };
 
-            setMessages((prev) => [...prev, newMsg]);
+            console.log('[Chat] Created temporary message:', tempMessage);
+
+            // Thêm tin nhắn tạm thời vào danh sách
+            setMessages((prev) => [...prev, tempMessage]);
+
+            // Gửi tin nhắn qua WebSocket
+            const messageToSend = {
+                room: { id: conversation.id },
+                sender: { id: loggedInUser.id },
+                content: newMessage.trim(),
+                messageType: 'TEXT',
+            };
+            console.log('[WebSocket] Sending message:', messageToSend);
+            websocketService.send('/app/chat-rooms', messageToSend);
+
             setNewMessage('');
         } catch (error) {
-            console.error('Failed to send message:', error);
+            console.error('[Chat] Failed to send message:', error);
         } finally {
             setIsSending(false);
         }
@@ -205,6 +249,20 @@ const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) 
 
     const toggleMinimize = () => {
         setMinimized(!minimized);
+    };
+
+    const handleAddMembers = async (selectedUsers) => {
+        try {
+            console.log('Selected users to add:', selectedUsers);
+            // Thêm từng thành viên một vào phòng chat
+            for (const user of selectedUsers) {
+                await addMember(conversation.id, user.id);
+            }
+            setShowAddMembersModal(false);
+        } catch (error) {
+            console.error('Error adding members:', error);
+            // TODO: Hiển thị thông báo lỗi cho người dùng
+        }
     };
 
     return (
@@ -231,7 +289,10 @@ const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) 
                 <div className="flex items-center gap-2">
                     {!minimized && (
                         <>
-                            <i className="bi bi-people text-gray-600 cursor-pointer hover:text-gray-800"></i>
+                            <i
+                                className="bi bi-people text-gray-600 cursor-pointer hover:text-gray-800"
+                                onClick={() => setShowAddMembersModal(true)}
+                            ></i>
                             <i className="bi bi-info-circle text-gray-600 cursor-pointer hover:text-gray-800"></i>
                         </>
                     )}
@@ -276,7 +337,7 @@ const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) 
                                 )}
                                 {messages.map((message) => (
                                     <div
-                                        key={message.id}
+                                        key={message.id || `temp-${message.createdAt}`}
                                         className={`flex mb-2 ${
                                             message.senderId === loggedInUser.id ? 'justify-end' : 'justify-start'
                                         }`}
@@ -349,6 +410,14 @@ const ChatRoomWindow = ({ conversation, onClose, index = 0, isOldest = false }) 
                     </form>
                 </>
             )}
+
+            {/* Add Members Modal */}
+            <AddMembersModal
+                isOpen={showAddMembersModal}
+                onClose={() => setShowAddMembersModal(false)}
+                onComplete={handleAddMembers}
+                roomId={conversation.id}
+            />
         </div>
     );
 };

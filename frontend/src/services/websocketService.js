@@ -15,7 +15,8 @@ class WebSocketService {
 
     async connect(onConnect, onError) {
         if (this.connected) {
-            console.log('[WebSocket] Already connected');
+            console.log('[WebSocket] Already connected, reusing connection');
+            if (onConnect) onConnect();
             return;
         }
 
@@ -39,15 +40,35 @@ class WebSocketService {
                 reconnectDelay: 5000,
                 heartbeatIncoming: 4000,
                 heartbeatOutgoing: 4000,
+                connectHeaders: {
+                    // Add any headers if needed
+                },
+                onStompError: (frame) => {
+                    console.error('[WebSocket] STOMP error:', frame);
+                    this.connected = false;
+                    this.connectionPromise = null;
+                },
+                onWebSocketError: (event) => {
+                    console.error('[WebSocket] WebSocket error:', event);
+                    this.connected = false;
+                    this.connectionPromise = null;
+                },
+                onWebSocketClose: (event) => {
+                    console.log('[WebSocket] WebSocket closed:', event);
+                    this.connected = false;
+                    this.connectionPromise = null;
+                },
             });
 
-            this.client.onConnect = () => {
+            this.client.onConnect = (frame) => {
                 this.connected = true;
-                console.log('[WebSocket] Successfully connected to server');
+                console.log('[WebSocket] Successfully connected to server', frame);
 
                 // Process any pending subscriptions after a short delay
                 setTimeout(() => {
+                    console.log('[WebSocket] Processing pending subscriptions:', this.pendingSubscriptions.size);
                     this.pendingSubscriptions.forEach((callback, topic) => {
+                        console.log('[WebSocket] Processing subscription for topic:', topic);
                         this.subscribe(topic, callback);
                     });
                     this.pendingSubscriptions.clear();
@@ -60,12 +81,16 @@ class WebSocketService {
             this.client.onStompError = (frame) => {
                 console.error('[WebSocket] Broker reported error: ' + frame.headers['message']);
                 console.error('[WebSocket] Additional details: ' + frame.body);
+                this.connected = false;
+                this.connectionPromise = null;
                 if (onError) onError(frame);
                 reject(frame);
             };
 
             this.client.onWebSocketError = (event) => {
                 console.error('[WebSocket] WebSocket error:', event);
+                this.connected = false;
+                this.connectionPromise = null;
                 if (onError) onError(event);
                 reject(event);
             };
@@ -81,6 +106,8 @@ class WebSocketService {
                 this.client.activate();
             } catch (error) {
                 console.error('[WebSocket] Failed to activate client:', error);
+                this.connected = false;
+                this.connectionPromise = null;
                 if (onError) onError(error);
                 reject(error);
             }
@@ -104,8 +131,12 @@ class WebSocketService {
     }
 
     async subscribe(topic, callback) {
+        console.log('[WebSocket] Attempting to subscribe to topic:', topic);
+        console.log('[WebSocket] Current connection status:', this.connected);
+        console.log('[WebSocket] Current subscriptions:', Object.keys(this.subscriptions));
+
         if (!this.connected) {
-            console.warn('[WebSocket] Not connected yet, storing subscription for later');
+            console.warn('[WebSocket] Not connected yet, storing subscription for later:', topic);
             this.pendingSubscriptions.set(topic, callback);
             return;
         }
@@ -119,21 +150,28 @@ class WebSocketService {
             // Wait a bit to ensure STOMP connection is ready
             await new Promise((resolve) => setTimeout(resolve, 100));
 
+            console.log('[WebSocket] Creating subscription for topic:', topic);
             const subscription = this.client.subscribe(topic, (message) => {
+                console.log('[WebSocket] Received raw message on topic:', topic);
+                console.log('[WebSocket] Message headers:', message.headers);
+                console.log('[WebSocket] Message body:', message.body);
+
                 if (callback) {
                     try {
                         const parsedMessage = JSON.parse(message.body);
+                        console.log('[WebSocket] Successfully parsed message:', parsedMessage);
                         callback(parsedMessage);
                     } catch (error) {
                         console.error('[WebSocket] Error parsing message:', error);
+                        console.error('[WebSocket] Raw message body:', message.body);
                         callback(message.body);
                     }
                 }
             });
             this.subscriptions[topic] = subscription;
-            console.log('[WebSocket] Subscribed to:', topic);
+            console.log('[WebSocket] Successfully subscribed to:', topic);
         } catch (error) {
-            console.error('[WebSocket] Error subscribing to topic:', error);
+            console.error('[WebSocket] Error subscribing to topic:', topic, error);
             this.pendingSubscriptions.set(topic, callback);
         }
     }
@@ -144,14 +182,17 @@ class WebSocketService {
     }
 
     unsubscribe(topic) {
+        console.log('[WebSocket] Attempting to unsubscribe from topic:', topic);
         if (this.subscriptions[topic]) {
             try {
                 this.subscriptions[topic].unsubscribe();
                 delete this.subscriptions[topic];
-                console.log('[WebSocket] Unsubscribed from:', topic);
+                console.log('[WebSocket] Successfully unsubscribed from:', topic);
             } catch (error) {
-                console.error('[WebSocket] Error unsubscribing from topic:', error);
+                console.error('[WebSocket] Error unsubscribing from topic:', topic, error);
             }
+        } else {
+            console.log('[WebSocket] No active subscription found for topic:', topic);
         }
         this.pendingSubscriptions.delete(topic);
     }
@@ -159,16 +200,30 @@ class WebSocketService {
     send(destination, body) {
         if (this.client && this.connected) {
             try {
+                console.log('[WebSocket] Preparing to send message:', {
+                    destination,
+                    body,
+                });
+
+                const messageBody = JSON.stringify(body);
+                console.log('[WebSocket] Serialized message body:', messageBody);
+
                 this.client.publish({
                     destination,
-                    body: JSON.stringify(body),
+                    body: messageBody,
+                    headers: {
+                        'content-type': 'application/json',
+                    },
                 });
-                console.log('[WebSocket] Message sent to:', destination);
+                console.log('[WebSocket] Message sent successfully to:', destination);
             } catch (error) {
                 console.error('[WebSocket] Error sending message:', error);
+                throw error;
             }
         } else {
-            console.warn('[WebSocket] Cannot send message - not connected');
+            const error = new Error('[WebSocket] Cannot send message - not connected');
+            console.error(error);
+            throw error;
         }
     }
 }
