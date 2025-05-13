@@ -47,20 +47,14 @@ public class GeminiChatModel implements ChatLanguageModel {
     @Override
     public String generate(String prompt) {
         try {
-            System.out.println("DEBUG GeminiChatModel: generate được gọi với prompt: " + prompt);
-
             List<ChatMessage> messages = new ArrayList<>();
             messages.add(dev.langchain4j.data.message.UserMessage.from(prompt));
 
-            System.out.println("DEBUG GeminiChatModel: Gọi generate với messages");
             Response<AiMessage> response = generate(messages);
 
             String result = response.content().text();
-            System.out.println("DEBUG GeminiChatModel: Kết quả từ generate: [" + result + "]");
-
             return result;
         } catch (Exception e) {
-            System.out.println("DEBUG GeminiChatModel: Lỗi trong generate: " + e.getMessage());
             e.printStackTrace();
             return "Xin lỗi, đã xảy ra lỗi khi gọi API Gemini: " + e.getMessage();
         }
@@ -69,8 +63,6 @@ public class GeminiChatModel implements ChatLanguageModel {
     @Override
     public Response<AiMessage> generate(List<ChatMessage> messages) {
         try {
-            System.out.println("DEBUG GeminiChatModel: generate(messages) được gọi");
-
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectNode rootNode = objectMapper.createObjectNode();
 
@@ -130,11 +122,9 @@ public class GeminiChatModel implements ChatLanguageModel {
 
             // Chuyển đổi thành chuỗi JSON
             String requestBody = objectMapper.writeValueAsString(rootNode);
-            System.out.println("DEBUG GeminiChatModel: Request body: " + requestBody);
 
             // Tạo URL với API key
             String fullUrl = apiUrl + "?key=" + apiKey;
-            System.out.println("DEBUG GeminiChatModel: Gọi API URL: " + apiUrl);
 
             // Tạo HTTP request với timeout
             HttpRequest request = HttpRequest.newBuilder()
@@ -145,13 +135,10 @@ public class GeminiChatModel implements ChatLanguageModel {
                     .build();
 
             // Gửi request và nhận response
-            System.out.println("DEBUG GeminiChatModel: Gửi request đến Gemini API");
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("DEBUG GeminiChatModel: Nhận response từ Gemini API, status code: " + response.statusCode());
 
             // Xử lý response
             if (response.statusCode() == 200) {
-                System.out.println("DEBUG GeminiChatModel: Response body: " + response.body());
                 JsonNode responseNode = objectMapper.readTree(response.body());
 
                 String generatedText = responseNode
@@ -163,21 +150,17 @@ public class GeminiChatModel implements ChatLanguageModel {
                         .path("text")
                         .asText();
 
-                System.out.println("DEBUG GeminiChatModel: Generated text: [" + generatedText + "]");
-
                 // Tạo AiMessage từ văn bản được tạo
                 AiMessage aiMessage = AiMessage.from(generatedText);
 
                 // Trả về đối tượng Response chứa AiMessage
                 return Response.from(aiMessage);
             } else {
-                System.out.println("DEBUG GeminiChatModel: Error response: " + response.body());
                 String errorMessage = "Xin lỗi, đã xảy ra lỗi khi gọi API Gemini: " + response.statusCode() + " - " + response.body();
                 AiMessage errorAiMessage = AiMessage.from(errorMessage);
                 return Response.from(errorAiMessage);
             }
         } catch (Exception e) {
-            System.out.println("DEBUG GeminiChatModel: Exception: " + e.getMessage());
             e.printStackTrace();
             String errorMessage = "Xin lỗi, đã xảy ra lỗi khi gọi API Gemini: " + e.getMessage();
             AiMessage errorAiMessage = AiMessage.from(errorMessage);
@@ -358,8 +341,6 @@ public class GeminiChatModel implements ChatLanguageModel {
      */
     public Map<String, Object> generateWithFunctions(String prompt, List<Map<String, Object>> functionDeclarations) {
         try {
-            System.out.println("DEBUG GeminiChatModel: generateWithFunctions được gọi với prompt: " + prompt);
-            System.out.println("DEBUG GeminiChatModel: Số lượng function declarations: " + functionDeclarations.size());
 
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectNode rootNode = objectMapper.createObjectNode();
@@ -401,7 +382,7 @@ public class GeminiChatModel implements ChatLanguageModel {
                 for (Map<String, Object> functionDeclaration : functionDeclarations) {
                     ObjectNode functionNode = objectMapper.valueToTree(functionDeclaration);
                     functionsArray.add(functionNode);
-                    System.out.println("DEBUG GeminiChatModel: Thêm function: " + functionDeclaration.get("name"));
+
                 }
 
                 functionDeclarationsNode.set("function_declarations", functionsArray);
@@ -413,11 +394,9 @@ public class GeminiChatModel implements ChatLanguageModel {
 
             // Chuyển đổi thành chuỗi JSON
             String requestBody = objectMapper.writeValueAsString(rootNode);
-            System.out.println("DEBUG GeminiChatModel: Request body: " + requestBody);
 
             // Tạo URL với API key
             String fullUrl = apiUrl + "?key=" + apiKey;
-            System.out.println("DEBUG GeminiChatModel: Gọi API URL: " + apiUrl);
 
             // Tạo HTTP request với timeout
             HttpRequest request = HttpRequest.newBuilder()
@@ -428,13 +407,10 @@ public class GeminiChatModel implements ChatLanguageModel {
                     .build();
 
             // Gửi request và nhận response
-            System.out.println("DEBUG GeminiChatModel: Gửi request đến Gemini API");
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("DEBUG GeminiChatModel: Nhận response từ Gemini API, status code: " + response.statusCode());
 
             // Xử lý response
             if (response.statusCode() == 200) {
-                System.out.println("DEBUG GeminiChatModel: Response body: " + response.body());
                 JsonNode responseNode = objectMapper.readTree(response.body());
 
                 // Kiểm tra xem có function call không
@@ -451,9 +427,6 @@ public class GeminiChatModel implements ChatLanguageModel {
                         String functionName = functionCallNode.path("name").asText();
                         JsonNode argsNode = functionCallNode.path("args");
 
-                        System.out.println("DEBUG GeminiChatModel: Có function call, function: " + functionName);
-                        System.out.println("DEBUG GeminiChatModel: Args: " + argsNode);
-
                         Map<String, Object> result = new HashMap<>();
                         result.put("hasFunctionCall", true);
                         result.put("functionName", functionName);
@@ -464,7 +437,6 @@ public class GeminiChatModel implements ChatLanguageModel {
 
                 // Không có function call, trả về text
                 String generatedText = contentNode.path("parts").path(0).path("text").asText();
-                System.out.println("DEBUG GeminiChatModel: Không có function call, text: [" + generatedText + "]");
 
                 Map<String, Object> result = new HashMap<>();
                 result.put("hasFunctionCall", false);
@@ -472,7 +444,6 @@ public class GeminiChatModel implements ChatLanguageModel {
                 return result;
             } else {
                 // Xử lý lỗi
-                System.out.println("DEBUG GeminiChatModel: Error response: " + response.body());
                 Map<String, Object> errorResult = new HashMap<>();
                 errorResult.put("hasFunctionCall", false);
                 errorResult.put("error", true);
@@ -481,7 +452,6 @@ public class GeminiChatModel implements ChatLanguageModel {
             }
         } catch (Exception e) {
             // Xử lý exception
-            System.out.println("DEBUG GeminiChatModel: Exception: " + e.getMessage());
             e.printStackTrace();
             Map<String, Object> errorResult = new HashMap<>();
             errorResult.put("hasFunctionCall", false);

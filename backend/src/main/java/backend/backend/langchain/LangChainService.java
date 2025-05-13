@@ -239,9 +239,6 @@ public class LangChainService {
     }
 
     public String processQuery(Long userId, String query) {
-        System.out.println("\n\n========== LANGCHAIN SERVICE PROCESS QUERY START ==========");
-        System.out.println("userId: " + userId);
-        System.out.println("query: " + query);
 
         try {
          // Lấy thông tin người dùng
@@ -305,16 +302,11 @@ public class LangChainService {
                     "6. Hãy trả lời ngắn gọn, thân thiện và hữu ích.\n" +
                     "7. Không sử dụng ký tự Markdown như *, **, # trong phản hồi.";
 
-            // Gọi OpenAI API để tạo câu trả lời
-            System.out.println("Prompt sent to OpenAI API: " + prompt);
-            String response = callOpenAiApi(prompt);
-            System.out.println("Response from OpenAI API: " + response);
-            System.out.println("========== LANGCHAIN SERVICE PROCESS QUERY END ==========\n\n");
+            // Gọi Gemini API để tạo câu trả lời
+            String response = callGeminiApi(prompt);
             return response;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error in LangChainService.processQuery: " + e.getMessage());
-            System.out.println("========== LANGCHAIN SERVICE PROCESS QUERY END (ERROR) ==========\n\n");
             return "Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu của bạn: " + e.getMessage();
         }
     }
@@ -324,7 +316,7 @@ public class LangChainService {
      * @param prompt Prompt for Gemini
      * @return Response from Gemini
      */
-    private String callOpenAiApi(String prompt) {
+    private String callGeminiApi(String prompt) {
         try {
             // Khởi tạo Gemini model
             GeminiChatModel geminiChatModel = new GeminiChatModel(
@@ -335,12 +327,9 @@ public class LangChainService {
 
             // Sử dụng Gemini API để gọi API
             String response = geminiChatModel.generate(prompt);
-            System.out.println("DEBUG - Phản hồi từ Gemini API trong LangChainService: " + response);
 
             // Kiểm tra nếu phản hồi chứa lỗi API
             if (response.contains("Xin lỗi, đã xảy ra lỗi")) {
-                System.out.println("DEBUG - Phát hiện lỗi Gemini API trong LangChainService");
-
                 // Trả về phản hồi mặc định
                 return "Tôi đã tìm kiếm thông tin liên quan đến câu hỏi của bạn, nhưng hiện tại tôi không thể truy cập được dữ liệu. Vui lòng thử lại sau.";
             }
