@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import images from '../../../assets/images';
 import { getAvatarUrl, handleImageError } from '../../../utils/avatarUtils';
-import { useChat } from '../../../contexts/ChatContext';
+import { useChat, CHAT_TYPES } from '../../../contexts/ChatContext';
 import testConversations from '../../../data/testConversations';
 import { getFriends } from '~/services/friendService';
 import { getCurrentUser } from '~/services/authService';
+import { getUserChatRooms } from '~/services/chatRoomService';
 import websocketService from '~/services/websocketService';
+import CreateChatRoomModal from '~/components/Modals/CreateChatRoomModal';
 
 const ads = [
     {
@@ -61,10 +63,13 @@ const AdItem = ({ title, description, image }) => (
 const RightSidebar = () => {
     const { handleSelectConversation } = useChat();
     const [friends, setFriends] = useState([]);
+    const [chatRooms, setChatRooms] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isCreateRoomModalOpen, setIsCreateRoomModalOpen] = useState(false);
 
     useEffect(() => {
         fetchFriends();
+        fetchUserChatRooms();
         setupWebSocket();
 
         // Cleanup WebSocket subscription when component unmounts
@@ -72,6 +77,18 @@ const RightSidebar = () => {
             websocketService.unsubscribe(`/topic/friends/${getCurrentUser()?.id}`);
         };
     }, []);
+
+    const fetchUserChatRooms = async () => {
+        try {
+            const currentUser = getCurrentUser();
+            if (!currentUser?.id) return;
+
+            const rooms = await getUserChatRooms(currentUser.id);
+            setChatRooms(rooms);
+        } catch (error) {
+            console.error('Error fetching chat rooms:', error);
+        }
+    };
 
     const setupWebSocket = async () => {
         try {
@@ -128,17 +145,29 @@ const RightSidebar = () => {
         }
     };
 
-    const openChatWithFriend = (friend) => {
-        // Convert friend data to conversation format
-        // If friend from API doesn't have the required fields, adapt it
-        const conversation = {
+    const handleFriendClick = (friend) => {
+        handleSelectConversation({
             id: friend.id,
-            name: `${friend.firstName || ''} ${friend.lastName || ''}`.trim() || friend.name || 'Unknown',
+            name: `${friend.firstName} ${friend.lastName}`,
             avatar: friend.avatar,
-        };
+            type: CHAT_TYPES.PRIVATE,
+        });
+    };
 
-        // Open chat window
-        handleSelectConversation(conversation);
+    const handleChatRoomClick = (room) => {
+        handleSelectConversation({
+            id: room.id,
+            name: room.name,
+            avatar: room.avatar,
+            type: CHAT_TYPES.GROUP,
+        });
+    };
+
+    const handleCreateRoomSuccess = (success) => {
+        setIsCreateRoomModalOpen(false);
+        if (success) {
+            fetchUserChatRooms(); // Refresh danh sách phòng chat sau khi tạo mới
+        }
     };
 
     return (
@@ -163,8 +192,16 @@ const RightSidebar = () => {
             </div>
 
             {/* DANH SÁCH BẠN BÈ */}
-            <div className="flex flex-col">
-                <h4 className="text-base font-semibold text-[#65676B] mb-2">Danh sách bạn bè ({friends.length})</h4>
+            <div className="flex flex-col mb-4">
+                <div className="flex justify-between items-center mb-2">
+                    <h4 className="text-base font-semibold text-[#65676B]">Danh sách bạn bè ({friends.length})</h4>
+                    <button
+                        onClick={() => setIsCreateRoomModalOpen(true)}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                        Tạo nhóm
+                    </button>
+                </div>
                 <div className="space-y-3">
                     {loading ? (
                         <div className="text-center py-4">
@@ -173,7 +210,7 @@ const RightSidebar = () => {
                         </div>
                     ) : friends.length > 0 ? (
                         friends.map((friend) => (
-                            <FriendCanChat key={friend.id} friend={friend} onOpenChat={openChatWithFriend} />
+                            <FriendCanChat key={friend.id} friend={friend} onOpenChat={handleFriendClick} />
                         ))
                     ) : (
                         <div className="text-center py-4">
@@ -182,6 +219,42 @@ const RightSidebar = () => {
                     )}
                 </div>
             </div>
+
+            {/* DANH SÁCH NHÓM CHAT */}
+            <div className="flex flex-col">
+                <h4 className="text-base font-semibold text-[#65676B] mb-2">Các nhóm chat ({chatRooms.length})</h4>
+                <div className="space-y-3">
+                    {chatRooms.length > 0 ? (
+                        chatRooms.map((room) => (
+                            <div
+                                key={room.id}
+                                className="flex items-center p-2 hover:bg-gray-200 transition-colors rounded-lg cursor-pointer"
+                                onClick={() => handleChatRoomClick(room)}
+                            >
+                                <img
+                                    src={getAvatarUrl(room.avatar)}
+                                    alt={room.name}
+                                    className="w-10 h-10 rounded-full mr-3 object-cover"
+                                    onError={handleImageError}
+                                />
+                                <div className="flex flex-col">
+                                    <span className="text-gray-800 font-medium">{room.name}</span>
+                                    <span className="text-xs text-gray-500">
+                                        {room.role === 'ADMIN' ? 'Quản trị viên' : 'Thành viên'}
+                                    </span>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-center py-4">
+                            <p className="text-sm text-gray-500">Chưa tham gia nhóm chat nào</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Modal tạo nhóm chat */}
+            <CreateChatRoomModal isOpen={isCreateRoomModalOpen} onClose={handleCreateRoomSuccess} />
         </div>
     );
 };

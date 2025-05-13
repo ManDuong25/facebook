@@ -6,6 +6,8 @@ import backend.backend.model.Notification;
 import backend.backend.service.PostService;
 import backend.backend.service.UserService;
 import backend.backend.service.NotificationService;
+import backend.backend.service.FriendService;
+import backend.backend.controller.WebSocketController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,12 @@ public class PostController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private FriendService friendService;
+
+    @Autowired
+    private WebSocketController webSocketController;
+
     private static final String UPLOAD_DIR = "uploads/";
 
     @PostMapping
@@ -40,7 +48,6 @@ public class PostController {
             @RequestParam(value = "file", required = false) MultipartFile file,
             @RequestParam(value = "userId", required = false) Long userId) throws IOException {
 
-        // Nếu không có userId được gửi lên, báo lỗi
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -56,7 +63,6 @@ public class PostController {
 
         if (file != null && !file.isEmpty()) {
             String originalFileName = file.getOriginalFilename();
-            // Thay khoảng trắng bằng dấu gạch dưới (_)
             String safeFileName = originalFileName.replaceAll("\\s+", "_");
             String fileName = System.currentTimeMillis() + "_" + safeFileName;
             Path filePath = Paths.get(UPLOAD_DIR + fileName);
@@ -81,15 +87,25 @@ public class PostController {
 
         Post created = postService.createPost(post);
 
-        // Tạo thông báo cho bài viết mới
-        String notificationContent = user.getUsername() + " vừa tạo một bài viết";
-        notificationService.createNotification(
-                userId, // sender
-                userId, // receiver (trong trường hợp này là chính người đăng)
-                notificationContent,
-                created, // post
-                null // share
-        );
+        // Lấy danh sách bạn bè của người đăng bài
+        List<User> friends = friendService.getFriendsByUserId(userId);
+
+        // Gửi thông báo đến tất cả bạn bè
+        String notificationContent = "vừa đăng một bài viết mới";
+        for (User friend : friends) {
+            Notification notification = notificationService.createNotification(
+                    userId, // sender
+                    friend.getId(), // receiver
+                    notificationContent,
+                    created, // post
+                    null // share
+            );
+
+            // Gửi thông báo realtime qua WebSocket
+            if (notification != null) {
+                webSocketController.notifyNewPost(friend.getId(), notification);
+            }
+        }
 
         return ResponseEntity.ok(created);
     }
@@ -148,4 +164,19 @@ public class PostController {
         boolean deleted = postService.deletePost(id);
         return deleted ? ResponseEntity.ok("Post deleted successfully") : ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/user/{userId}/feed")
+    public ResponseEntity<List<Post>> getUserFeed(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        // Lấy danh sách bạn bè của người dùng
+        List<User> friends = friendService.getFriendsByUserId(userId);
+        // Thêm người dùng hiện tại vào danh sách để lấy cả bài viết của họ
+        friends.add(user);
+        // Lấy tất cả bài viết của người dùng và bạn bè
+        return ResponseEntity.ok(postService.getPostsByUsers(friends));
+    }
+
 }

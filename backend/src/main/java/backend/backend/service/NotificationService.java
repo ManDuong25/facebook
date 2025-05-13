@@ -31,7 +31,9 @@ public class NotificationService {
         }
 
         Notification notification = new Notification();
-        notification.setContent(content);
+        String senderName = sender.getFirstName() + " " + sender.getLastName();
+        String notificationContent = senderName + " " + content;
+        notification.setContent(notificationContent);
         notification.setSender(sender);
         notification.setReceiver(receiver);
         notification.setPost(post);
@@ -60,20 +62,25 @@ public class NotificationService {
         return notificationRepository.countByReceiverIdAndIsReadFalse(receiverId);
     }
 
-    public Notification markAsRead(Long notificationId) {
-        Notification notification = notificationRepository.findById(notificationId).orElse(null);
-        if (notification != null) {
-            notification.setIsRead(true);
-            return notificationRepository.save(notification);
-        }
-        return null;
+    public NotificationDTO markAsRead(Long notificationId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new RuntimeException("Notification not found"));
+        notification.setIsRead(true);
+        return convertToDTO(notificationRepository.save(notification));
     }
 
     public void markAllAsRead(Long receiverId) {
-        List<Notification> notifications = notificationRepository
-                .findByReceiverIdAndIsReadFalseOrderByCreatedAtDesc(receiverId);
+        List<Notification> notifications = notificationRepository.findByReceiverIdAndIsReadFalse(receiverId);
         notifications.forEach(notification -> notification.setIsRead(true));
         notificationRepository.saveAll(notifications);
+    }
+
+    public void deleteNotification(Long notificationId) {
+        notificationRepository.deleteById(notificationId);
+    }
+
+    public void deleteAllNotifications(Long receiverId) {
+        notificationRepository.deleteByReceiverId(receiverId);
     }
 
     private NotificationDTO convertToDTO(Notification notification) {
@@ -81,9 +88,9 @@ public class NotificationService {
         dto.setId(notification.getId());
         dto.setContent(notification.getContent());
         dto.setSenderId(notification.getSender().getId());
-        dto.setSenderName(notification.getSender().getUsername());
+        dto.setSenderName(notification.getSender().getFirstName() + " " + notification.getSender().getLastName());
         dto.setReceiverId(notification.getReceiver().getId());
-        dto.setReceiverName(notification.getReceiver().getUsername());
+        dto.setReceiverName(notification.getReceiver().getFirstName() + " " + notification.getReceiver().getLastName());
         dto.setIsRead(notification.getIsRead());
         dto.setCreatedAt(notification.getCreatedAt());
 

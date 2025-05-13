@@ -40,10 +40,10 @@ public class User {
 
     // Họ và Tên riêng biệt
     @Column(nullable = false)
-    private String firstName;  // Tên (Ví dụ: Văn A)
+    private String firstName; // Tên (Ví dụ: Văn A)
 
     @Column(nullable = false)
-    private String lastName;   // Họ (Ví dụ: Nguyễn)
+    private String lastName; // Họ (Ví dụ: Nguyễn)
 
     @Column(nullable = false)
     private LocalDate dateOfBirth; // Ngày sinh

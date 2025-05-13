@@ -334,4 +334,8 @@ public class PostService {
         Page<Post> postPage = postRepository.findByUserAndDeletedAtIsNull(user, pageable);
         return postPage.getContent();
     }
+
+    public List<Post> getPostsByUsers(List<User> users) {
+        return postRepository.findByUserInAndVisibleTrueAndDeletedAtIsNullOrderByCreatedAtDesc(users);
+    }
 }
