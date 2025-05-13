@@ -22,7 +22,8 @@ public class NotificationService {
     @Autowired
     private UserService userService;
 
-    public Notification createNotification(Long senderId, Long receiverId, String content, Post post, Share share) {
+    public Notification createNotification(Long senderId, Long receiverId, String content, Post post, Share share,
+            Notification.NotificationType type) {
         User sender = userService.getUserById(senderId);
         User receiver = userService.getUserById(receiverId);
 
@@ -31,13 +32,12 @@ public class NotificationService {
         }
 
         Notification notification = new Notification();
-        String senderName = sender.getFirstName() + " " + sender.getLastName();
-        String notificationContent = senderName + " " + content;
-        notification.setContent(notificationContent);
+        notification.setContent(content);
         notification.setSender(sender);
         notification.setReceiver(receiver);
         notification.setPost(post);
         notification.setShare(share);
+        notification.setType(type);
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
 
@@ -93,6 +93,7 @@ public class NotificationService {
         dto.setReceiverName(notification.getReceiver().getFirstName() + " " + notification.getReceiver().getLastName());
         dto.setIsRead(notification.getIsRead());
         dto.setCreatedAt(notification.getCreatedAt());
+        dto.setType(notification.getType());
 
         if (notification.getPost() != null) {
             dto.setPostId(notification.getPost().getId());

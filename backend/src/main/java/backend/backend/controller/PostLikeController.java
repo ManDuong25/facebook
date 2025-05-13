@@ -49,7 +49,7 @@ public class PostLikeController {
             notification.setReceiver(receiver);
             notification.setPost(postService.getPostById(postId).orElse(null));
             notificationService.createNotification(sender.getId(), receiver.getId(), contentNoti,
-                    postService.getPostById(postId).orElse(null), null);
+                    postService.getPostById(postId).orElse(null), null, Notification.NotificationType.POST);
             webSocketController.notifyNewLike(receiver.getId(), notification);
         }
         return ResponseEntity.ok(like);

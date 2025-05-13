@@ -23,6 +23,10 @@ public class Notification {
     @Column(nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NotificationType type;
+
     @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -47,4 +51,11 @@ public class Notification {
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public enum NotificationType {
+        COMMENT,
+        POST,
+        SHARE,
+        FRIEND_REQUEST
+    }
 }

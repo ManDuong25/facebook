@@ -14,6 +14,7 @@ import {
     getShares,
     getLikeStatus,
 } from '../../../services/api';
+import websocketService from '../../../services/websocketService';
 import PropTypes from 'prop-types';
 import ShareDialog from './ShareDialog';
 import { getAvatarUrl, getImageUrl, handleImageError } from '../../../utils/avatarUtils';
@@ -47,6 +48,60 @@ const PostItem = ({ post, isSharedPost = false }) => {
     const [editingContent, setEditingContent] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [showShareDialog, setShowShareDialog] = useState(false);
+
+    // Kết nối WebSocket khi component mount
+    useEffect(() => {
+        let isSubscribed = true; // Flag để kiểm tra component có còn mounted không
+
+        const connectWebSocket = async () => {
+            try {
+                await websocketService.connect();
+                const topic = `/topic/comments/${post.id}`;
+
+                // Kiểm tra xem đã đăng ký topic này chưa
+                if (!websocketService.isSubscribed(topic)) {
+                    // Đăng ký lắng nghe sự kiện comment mới
+                    await websocketService.subscribe(topic, (message) => {
+                        if (!isSubscribed) return; // Không xử lý nếu component đã unmount
+
+                        console.log('Received WebSocket message:', message);
+                        if (message.type === 'NEW_COMMENT') {
+                            setComments((prevComments) => {
+                                // Kiểm tra xem comment đã tồn tại chưa
+                                const exists = prevComments.some((c) => c.id === message.data.id);
+                                if (exists) return prevComments;
+                                return [...prevComments, message.data];
+                            });
+                        } else if (message.type === 'UPDATE_COMMENT') {
+                            setComments((prevComments) =>
+                                prevComments.map((comment) =>
+                                    comment.id === message.data.id ? message.data : comment,
+                                ),
+                            );
+                        } else if (message.type === 'DELETE_COMMENT') {
+                            setComments((prevComments) =>
+                                prevComments.filter((comment) => comment.id !== message.data),
+                            );
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error connecting to WebSocket:', error);
+            }
+        };
+
+        if (post?.id) {
+            connectWebSocket();
+        }
+
+        // Cleanup khi component unmount
+        return () => {
+            isSubscribed = false; // Đánh dấu component đã unmount
+            if (post?.id) {
+                websocketService.unsubscribe(`/topic/comments/${post.id}`);
+            }
+        };
+    }, [post?.id]);
 
     // Lấy dữ liệu ban đầu khi component mount
     useEffect(() => {
@@ -322,64 +377,72 @@ const PostItem = ({ post, isSharedPost = false }) => {
 
                     {/* Danh sách bình luận */}
                     <div className="space-y-2">
-                        {comments.map((comment) => (
-                            <div key={comment.id} className="flex items-start gap-2 mb-2">
-                                <img
-                                    src={getAvatarUrl(comment.user?.avatar)}
-                                    alt="avatar"
-                                    className="w-8 h-8 rounded-full"
-                                    onError={(e) => handleImageError(e)}
-                                />
-                                <div className="flex-grow">
-                                    {editingCommentId === comment.id ? (
-                                        <div className="flex items-center gap-2">
-                                            <input
-                                                type="text"
-                                                value={editingContent}
-                                                onChange={(e) => setEditingContent(e.target.value)}
-                                                className="flex-grow p-2 border rounded-lg text-sm outline-none"
-                                            />
-                                            <button
-                                                onClick={() => handleSaveEdit(comment.id)}
-                                                className="text-blue-500 font-semibold"
-                                                disabled={!editingContent.trim()}
-                                            >
-                                                Lưu
-                                            </button>
-                                            <button
-                                                onClick={() => setEditingCommentId(null)}
-                                                className="text-gray-500 font-semibold"
-                                            >
-                                                Hủy
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div className="bg-gray-100 p-2 rounded-lg">
-                                            <p className="text-sm font-semibold">
-                                                {comment.user?.firstName + ' ' + comment.user?.lastName || 'Người dùng'}
-                                            </p>
-                                            <p className="text-sm">{comment.content}</p>
-                                            {currentUser && comment.user?.id === currentUser.id && (
-                                                <div className="text-xs text-gray-500 mt-1">
+                        {comments.map(
+                            (comment) =>
+                                comment &&
+                                comment.id && (
+                                    <div key={comment.id} className="flex items-start gap-2 mb-2">
+                                        <img
+                                            src={getAvatarUrl(comment?.user?.avatar)}
+                                            alt="avatar"
+                                            className="w-8 h-8 rounded-full"
+                                            onError={(e) => handleImageError(e)}
+                                        />
+                                        <div className="flex-grow">
+                                            {editingCommentId === comment.id ? (
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="text"
+                                                        value={editingContent}
+                                                        onChange={(e) => setEditingContent(e.target.value)}
+                                                        className="flex-grow p-2 border rounded-lg text-sm outline-none"
+                                                    />
                                                     <button
-                                                        onClick={() => handleEditComment(comment)}
-                                                        className="mr-2 hover:text-blue-500"
+                                                        onClick={() => handleSaveEdit(comment.id)}
+                                                        className="text-blue-500 font-semibold"
+                                                        disabled={!editingContent.trim()}
                                                     >
-                                                        Chỉnh sửa
+                                                        Lưu
                                                     </button>
                                                     <button
-                                                        onClick={() => handleDeleteComment(comment.id)}
-                                                        className="hover:text-red-500"
+                                                        onClick={() => setEditingCommentId(null)}
+                                                        className="text-gray-500 font-semibold"
                                                     >
-                                                        Xóa
+                                                        Hủy
                                                     </button>
+                                                </div>
+                                            ) : (
+                                                <div className="bg-gray-100 p-2 rounded-lg">
+                                                    <p className="text-sm font-semibold">
+                                                        {comment?.user
+                                                            ? `${comment.user.firstName || ''} ${
+                                                                  comment.user.lastName || ''
+                                                              }`.trim() || 'Người dùng'
+                                                            : 'Người dùng'}
+                                                    </p>
+                                                    <p className="text-sm">{comment.content}</p>
+                                                    {currentUser && comment?.user?.id === currentUser.id && (
+                                                        <div className="text-xs text-gray-500 mt-1">
+                                                            <button
+                                                                onClick={() => handleEditComment(comment)}
+                                                                className="mr-2 hover:text-blue-500"
+                                                            >
+                                                                Chỉnh sửa
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDeleteComment(comment.id)}
+                                                                className="hover:text-red-500"
+                                                            >
+                                                                Xóa
+                                                            </button>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
+                                    </div>
+                                ),
+                        )}
                     </div>
                 </div>
             )}

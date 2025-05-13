@@ -188,6 +188,7 @@ CREATE TABLE notifications (
     receiver_id BIGINT NOT NULL,
     post_id BIGINT NULL,
     share_id BIGINT NULL,
+    type ENUM('COMMENT', 'POST', 'SHARE', 'FRIEND_REQUEST') NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_notifications_sender FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,

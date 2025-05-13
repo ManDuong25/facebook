@@ -98,8 +98,8 @@ public class PostController {
                     friend.getId(), // receiver
                     notificationContent,
                     created, // post
-                    null // share
-            );
+                    null, // share
+                    Notification.NotificationType.POST);
 
             // Gửi thông báo realtime qua WebSocket
             if (notification != null) {

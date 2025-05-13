@@ -53,7 +53,8 @@ public class ShareController {
             notification.setReceiver(receiver);
             notification.setPost(postService.getPostById(share.getPost().getId()).orElse(null));
             notificationService.createNotification(sender.getId(), receiver.getId(), contentNoti,
-                    postService.getPostById(share.getPost().getId()).orElse(null), share);
+                    postService.getPostById(share.getPost().getId()).orElse(null), share,
+                    Notification.NotificationType.SHARE);
             webSocketController.notifyNewPost(receiver.getId(), notification);
         }
 

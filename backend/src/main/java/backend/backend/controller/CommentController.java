@@ -10,6 +10,10 @@ import backend.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +34,12 @@ public class CommentController {
 
     @Autowired
     private NotificationService notificationService;
+
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     // Tạo bình luận mới
     @PostMapping
@@ -53,11 +61,21 @@ public class CommentController {
             notification.setReceiver(receiver);
             notification.setPost(postService.getPostById(postId).orElse(null));
             notificationService.createNotification(sender.getId(), receiver.getId(), contentNoti,
-                    postService.getPostById(postId).orElse(null), null);
-            webSocketController.notifyNewComment(receiver.getId(), notification);
+                    postService.getPostById(postId).orElse(null), null, Notification.NotificationType.COMMENT);
+            webSocketController.notifyNewPost(receiver.getId(), notification);
         }
 
+        // Gửi comment mới qua WebSocket
+        webSocketController.broadcastComment(postId, new CommentMessage("NEW_COMMENT", created));
+
         return ResponseEntity.ok(created);
+    }
+
+    // Message mapping cho WebSocket
+    @MessageMapping("/comment")
+    @SendTo("/topic/comments")
+    public CommentMessage handleComment(@Payload CommentMessage message) {
+        return message;
     }
 
     // Lấy bình luận theo bài viết
@@ -78,14 +96,27 @@ public class CommentController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateComment(@PathVariable Long id, @RequestBody Comment commentUpdate) {
         Comment updated = commentService.updateComment(id, commentUpdate);
-        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+        if (updated != null) {
+            // Gửi thông báo cập nhật comment qua WebSocket
+            webSocketController.broadcastComment(updated.getPost().getId(),
+                    new CommentMessage("UPDATE_COMMENT", updated));
+            return ResponseEntity.ok(updated);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     // Xoá bình luận
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+        Comment comment = commentService.getCommentById(id).orElse(null);
         boolean deleted = commentService.deleteComment(id);
-        return deleted ? ResponseEntity.ok("Comment deleted successfully") : ResponseEntity.notFound().build();
+        if (deleted && comment != null) {
+            // Gửi thông báo xóa comment qua WebSocket
+            webSocketController.broadcastComment(comment.getPost().getId(),
+                    new CommentMessage("DELETE_COMMENT", id));
+            return ResponseEntity.ok("Comment deleted successfully");
+        }
+        return ResponseEntity.notFound().build();
     }
 
     // Lấy số lượng comment của bài viết
@@ -99,6 +130,36 @@ public class CommentController {
             return ResponseEntity.ok(java.util.Map.of("count", count));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+
+    // Inner class để đóng gói message WebSocket
+    private static class CommentMessage {
+        private String type;
+        private Object data;
+
+        public CommentMessage() {
+        }
+
+        public CommentMessage(String type, Object data) {
+            this.type = type;
+            this.data = data;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public Object getData() {
+            return data;
+        }
+
+        public void setData(Object data) {
+            this.data = data;
         }
     }
 }

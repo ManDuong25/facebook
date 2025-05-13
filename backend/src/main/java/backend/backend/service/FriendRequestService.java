@@ -8,6 +8,7 @@ import backend.backend.model.User;
 import backend.backend.repository.CommentRepository;
 import backend.backend.repository.FriendRequestRepository;
 import backend.backend.repository.UserRepository;
+import backend.backend.controller.WebSocketController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,9 @@ public class FriendRequestService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private WebSocketController webSocketController;
 
     /**
      * Gửi yêu cầu kết bạn
@@ -57,15 +61,19 @@ public class FriendRequestService {
 
         FriendRequest savedRequest = friendRequestRepository.save(request);
 
-        // Tạo thông báo cho người nhận với tham số content
-        String notificationContent = "Bạn có một lời mời kết bạn mới từ " + sender.getUsername();
-        notificationService.createNotification(
-                senderId, // sender
-                receiverId, // receiver
+        // Tạo thông báo cho người nhận
+        String notificationContent = sender.getFirstName() + " " + sender.getLastName()
+                + " đã gửi lời mời kết bạn cho bạn";
+        Notification notification = notificationService.createNotification(
+                senderId,
+                receiverId,
                 notificationContent,
-                null, // post
-                null // share
-        );
+                null,
+                null,
+                Notification.NotificationType.FRIEND_REQUEST);
+
+        // Gửi thông báo realtime
+        webSocketController.notifyNewPost(receiverId, notification);
 
         return savedRequest;
     }
