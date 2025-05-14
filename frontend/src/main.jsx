@@ -6,6 +6,18 @@ import App from './App.jsx';
 import GlobalStyle from '~/components/GlobalStyle';
 import './index.css'; // Import CSS để ngăn chặn swipe navigation
 
+// Thêm xử lý lỗi Promise không được bắt
+window.addEventListener('unhandledrejection', (event) => {
+    console.error('Unhandled Promise Rejection:', event.reason);
+
+    // Xử lý lỗi SOURCE_LANG_VI
+    if (event.reason && event.reason.error === 'SOURCE_LANG_VI') {
+        console.log('Đã bắt được lỗi SOURCE_LANG_VI ở mức global');
+        // Ngăn chặn lỗi hiển thị trong console
+        event.preventDefault();
+    }
+});
+
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <Provider store={store}>

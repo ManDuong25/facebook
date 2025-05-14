@@ -10,19 +10,26 @@ import { getCurrentUser } from './authService';
 const removeMarkdown = (text) => {
   if (!text) return '';
 
-  // Loại bỏ dấu sao dùng cho in đậm và in nghiêng
-  let cleaned = text.replace(/\*\*|\*/g, '');
+  try {
+    // Loại bỏ dấu sao dùng cho in đậm và in nghiêng
+    let cleaned = text.replace(/\*\*|\*/g, '');
 
-  // Loại bỏ dấu gạch dưới dùng cho in nghiêng
-  cleaned = cleaned.replace(/__|_/g, '');
+    // Loại bỏ dấu gạch dưới dùng cho in nghiêng
+    cleaned = cleaned.replace(/__|_/g, '');
 
-  // Loại bỏ dấu backtick dùng cho code
-  cleaned = cleaned.replace(/`/g, '');
+    // Loại bỏ dấu backtick dùng cho code
+    cleaned = cleaned.replace(/`/g, '');
 
-  // Loại bỏ khoảng trắng thừa
-  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+    // Xử lý cẩn thận khoảng trắng để tránh vấn đề với tiếng Việt
+    // Chỉ thay thế 2+ khoảng trắng liên tiếp thành 1 khoảng trắng
+    cleaned = cleaned.replace(/[ \t]{2,}/g, ' ').trim();
 
-  return cleaned;
+    return cleaned;
+  } catch (error) {
+    console.error('Error in removeMarkdown:', error);
+    // Nếu có lỗi xảy ra trong quá trình xử lý, trả về văn bản gốc
+    return text;
+  }
 };
 
 // API cho backend
@@ -68,9 +75,18 @@ export const sendMessage = async (message) => {
     }
   } catch (error) {
     console.error('Error in sendMessage (backend API):', error);
+
+    // Xử lý lỗi SOURCE_LANG_VI
+    if (error && error.error === 'SOURCE_LANG_VI') {
+      console.log('Đã bắt được lỗi SOURCE_LANG_VI');
+      return 'Xin lỗi, hiện tại hệ thống đang gặp vấn đề khi xử lý tiếng Việt. Vui lòng thử lại sau.';
+    }
+
+    // Xử lý lỗi từ response
     if (error.response && error.response.data && error.response.data.message) {
       return `Lỗi từ server: ${error.response.data.message}`;
     }
+
     return 'Xin lỗi, đã xảy ra lỗi khi kết nối với dịch vụ AI qua backend. Vui lòng thử lại sau.';
   }
 };

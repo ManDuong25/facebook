@@ -352,6 +352,28 @@ public class GeminiChatModel implements ChatLanguageModel {
             // Tạo mảng parts
             ArrayNode partsArray = objectMapper.createArrayNode();
 
+            // Thêm hướng dẫn system trước prompt của người dùng
+            ObjectNode systemPart = objectMapper.createObjectNode();
+            String systemInstruction = "System: Bạn là trợ lý AI của ứng dụng Facebook Clone. " +
+                "Khi người dùng hỏi, hãy phân tích câu hỏi cẩn thận và chọn đúng tool phù hợp:\n\n" +
+                "1. LUÔN LUÔN sử dụng tool 'searchWithRAG' cho BẤT KỲ câu hỏi nào liên quan đến thông tin cá nhân của người dùng hiện tại, bao gồm:\n" +
+                "   - Tên người dùng, email, họ tên (first name, last name)\n" +
+                "   - Ngày tham gia, công việc, học vấn, thành phố hiện tại, quê quán, tiểu sử\n" +
+                "   - Số lượng bài viết, số lượng bạn bè, số lượng bình luận\n" +
+                "   - Bài viết gần đây, danh sách bạn bè\n" +
+                "   - Bất kỳ thông tin cá nhân nào khác\n\n" +
+                "2. Nếu câu hỏi chứa các từ như 'tôi', 'tao', 'mình', 'tui', 'của tôi', 'của tao', 'của mình', 'của tui', thì đó LUÔN LUÔN là câu hỏi về người dùng và PHẢI sử dụng tool 'searchWithRAG'.\n\n" +
+                "3. Ví dụ các câu hỏi PHẢI dùng 'searchWithRAG':\n" +
+                "   - 'Tôi tên gì?', 'Email của tôi là gì?'\n" +
+                "   - 'Tôi có bao nhiêu bạn bè?', 'Tôi có bao nhiêu bài viết?'\n" +
+                "   - 'Tôi làm việc ở đâu?', 'Tôi học ở đâu?'\n" +
+                "   - 'Tôi sống ở thành phố nào?', 'Quê tôi ở đâu?'\n" +
+                "   - 'Những bài viết gần đây của tôi là gì?', 'Ai là bạn của tôi?'\n\n" +
+                "4. Chỉ sử dụng tool 'answerGeneralQuestion' cho các câu hỏi kiến thức chung KHÔNG liên quan đến người dùng hiện tại.\n\n" +
+                "QUAN TRỌNG: Không bao giờ từ chối trả lời với lý do thiếu thông tin. Luôn sử dụng tool phù hợp. Nếu không chắc chắn, hãy ưu tiên sử dụng 'searchWithRAG'.";
+            systemPart.put("text", systemInstruction);
+            partsArray.add(systemPart);
+
             // Thêm prompt của người dùng
             ObjectNode userPart = objectMapper.createObjectNode();
             userPart.put("text", "User: " + prompt);
@@ -367,7 +389,7 @@ public class GeminiChatModel implements ChatLanguageModel {
             // Thêm các tham số khác
             ObjectNode generationConfig = objectMapper.createObjectNode();
             generationConfig.put("temperature", 0.3);
-            generationConfig.put("maxOutputTokens", 2048); // Tăng số token để đảm bảo có đủ token cho output
+            generationConfig.put("maxOutputTokens", 2048);
             rootNode.set("generationConfig", generationConfig);
 
             // Thêm tools nếu có
@@ -461,111 +483,5 @@ public class GeminiChatModel implements ChatLanguageModel {
         }
     }
 
-    /**
-     * Gửi kết quả của function call trở lại Gemini API để tiếp tục cuộc hội thoại
-     *
-     * @param prompt Câu hỏi ban đầu của người dùng
-     * @param functionName Tên function đã được gọi
-     * @param functionArgs Tham số của function
-     * @param functionResult Kết quả của function
-     * @return Phản hồi cuối cùng từ Gemini
-     */
-    public String generateWithFunctionResponse(String prompt, String functionName, Map<String, Object> functionArgs, Object functionResult) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ObjectNode rootNode = objectMapper.createObjectNode();
 
-            // Tạo mảng contents
-            ArrayNode contentsArray = objectMapper.createArrayNode();
-
-            // Tin nhắn người dùng
-            ObjectNode userContent = objectMapper.createObjectNode();
-            ArrayNode userPartsArray = objectMapper.createArrayNode();
-            ObjectNode userPart = objectMapper.createObjectNode();
-            userPart.put("text", "User: " + prompt);
-            userPartsArray.add(userPart);
-            userContent.set("parts", userPartsArray);
-            userContent.put("role", "user");
-            contentsArray.add(userContent);
-
-            // Tin nhắn model với function call
-            ObjectNode modelContent = objectMapper.createObjectNode();
-            ArrayNode modelPartsArray = objectMapper.createArrayNode();
-            ObjectNode modelPart = objectMapper.createObjectNode();
-
-            // Tạo function call
-            ObjectNode functionCallNode = objectMapper.createObjectNode();
-            functionCallNode.put("name", functionName);
-            ObjectNode argsNode = objectMapper.valueToTree(functionArgs);
-            functionCallNode.set("args", argsNode);
-            modelPart.set("functionCall", functionCallNode);
-
-            modelPartsArray.add(modelPart);
-            modelContent.set("parts", modelPartsArray);
-            modelContent.put("role", "model");
-            contentsArray.add(modelContent);
-
-            // Tin nhắn người dùng với function response
-            ObjectNode functionResponseContent = objectMapper.createObjectNode();
-            ArrayNode functionResponsePartsArray = objectMapper.createArrayNode();
-            ObjectNode functionResponsePart = objectMapper.createObjectNode();
-
-            // Tạo function response
-            ObjectNode functionResponseNode = objectMapper.createObjectNode();
-            functionResponseNode.put("name", functionName);
-            ObjectNode responseNode = objectMapper.valueToTree(functionResult);
-            functionResponseNode.set("response", responseNode);
-            functionResponsePart.set("functionResponse", functionResponseNode);
-
-            functionResponsePartsArray.add(functionResponsePart);
-            functionResponseContent.set("parts", functionResponsePartsArray);
-            functionResponseContent.put("role", "user");
-            contentsArray.add(functionResponseContent);
-
-            // Thêm contents vào root
-            rootNode.set("contents", contentsArray);
-
-            // Thêm các tham số khác
-            ObjectNode generationConfig = objectMapper.createObjectNode();
-            generationConfig.put("temperature", 0.3);
-            generationConfig.put("maxOutputTokens", 2048); // Tăng số token để đảm bảo có đủ token cho output
-            rootNode.set("generationConfig", generationConfig);
-
-            // Chuyển đổi thành chuỗi JSON
-            String requestBody = objectMapper.writeValueAsString(rootNode);
-
-            // Tạo URL với API key
-            String fullUrl = apiUrl + "?key=" + apiKey;
-
-            // Tạo HTTP request với timeout
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(fullUrl))
-                    .header("Content-Type", "application/json")
-                    .timeout(java.time.Duration.ofSeconds(15))
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .build();
-
-            // Gửi request và nhận response
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // Xử lý response
-            if (response.statusCode() == 200) {
-                JsonNode responseJson = objectMapper.readTree(response.body());
-                String generatedText = responseJson
-                        .path("candidates")
-                        .path(0)
-                        .path("content")
-                        .path("parts")
-                        .path(0)
-                        .path("text")
-                        .asText();
-
-                return generatedText;
-            } else {
-                return "Xin lỗi, đã xảy ra lỗi khi gọi API Gemini: " + response.statusCode() + " - " + response.body();
-            }
-        } catch (Exception e) {
-            return "Xin lỗi, đã xảy ra lỗi khi gọi API Gemini: " + e.getMessage();
-        }
-    }
 }
