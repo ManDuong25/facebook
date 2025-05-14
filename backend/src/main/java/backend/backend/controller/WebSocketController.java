@@ -5,6 +5,10 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import backend.backend.dto.VideoCallEnd;
+import backend.backend.dto.VideoCallRequest;
+import backend.backend.dto.VideoCallResponse;
 import backend.backend.model.Friend;
 import backend.backend.model.User;
 import backend.backend.service.FriendService;
@@ -76,5 +80,42 @@ public class WebSocketController {
 
     public void notifyNewShare(Long receiverId, Notification notification) {
         messagingTemplate.convertAndSend("/topic/notifications/" + receiverId, notification);
+    }
+
+    // Handle video call request
+    @MessageMapping("/video/call")
+    public void handleVideoCall(VideoCallRequest request) {
+        // Send call request to the receiver
+        messagingTemplate.convertAndSend(
+                "/topic/video/call/" + request.getReceiverId(),
+                request);
+    }
+
+    // Handle video call response
+    @MessageMapping("/video/response")
+    public void handleVideoCallResponse(VideoCallResponse response) {
+        // Send response back to the caller
+        messagingTemplate.convertAndSend(
+                "/topic/video/response/" + response.getCallerId(),
+                response);
+
+        // If call is accepted, notify the caller that receiver has picked up
+        if (response.isAccepted()) {
+            messagingTemplate.convertAndSend(
+                    "/topic/video/pickup/" + response.getCallerId(),
+                    response);
+        }
+    }
+
+    // Handle video call end
+    @MessageMapping("/video/end")
+    public void handleVideoCallEnd(VideoCallEnd request) {
+        // Notify both parties that the call has ended
+        messagingTemplate.convertAndSend(
+                "/topic/video/end/" + request.getCallerId(),
+                request);
+        messagingTemplate.convertAndSend(
+                "/topic/video/end/" + request.getReceiverId(),
+                request);
     }
 }
