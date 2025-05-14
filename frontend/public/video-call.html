@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto p-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Call Information -->
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <h1 class="text-2xl font-bold mb-4">Thông tin cuộc gọi</h1>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-400">ID người gọi:</p>
+                        <p class="font-semibold" id="callerId">-</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">ID người nghe máy:</p>
+                        <p class="font-semibold" id="receiverId">-</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Room ID:</p>
+                        <p class="font-semibold" id="roomId">-</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Trạng thái:</p>
+                        <p class="font-semibold text-green-500" id="callStatus">Đang kết nối...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Containers -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <h2 class="text-lg font-semibold mb-2">Video của bạn</h2>
+                    <div class="aspect-video bg-gray-700 rounded-lg" id="localVideo">
+                        <div class="flex items-center justify-center h-full">
+                            <i class="bi bi-camera-video text-4xl text-gray-500"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <h2 class="text-lg font-semibold mb-2">Video người gọi</h2>
+                    <div class="aspect-video bg-gray-700 rounded-lg" id="remoteVideo">
+                        <div class="flex items-center justify-center h-full">
+                            <i class="bi bi-camera-video text-4xl text-gray-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call Controls -->
+            <div class="flex justify-center gap-4 mt-6">
+                <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full transition-colors" id="endCallBtn">
+                    <i class="bi bi-telephone-x-fill mr-2"></i>
+                    Kết thúc cuộc gọi
+                </button>
+                <button class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-full transition-colors" id="toggleMicBtn">
+                    <i class="bi bi-mic-fill mr-2"></i>
+                    Tắt mic
+                </button>
+                <button class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-full transition-colors" id="toggleVideoBtn">
+                    <i class="bi bi-camera-video-fill mr-2"></i>
+                    Tắt camera
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const callerId = urlParams.get('callerId');
+        const receiverId = urlParams.get('receiverId');
+        const roomId = urlParams.get('roomId');
+        const isCaller = urlParams.get('isCaller') === 'true';
+
+        // Update UI with call information
+        document.getElementById('callerId').textContent = callerId;
+        document.getElementById('receiverId').textContent = receiverId;
+        document.getElementById('roomId').textContent = roomId;
+
+        // Handle end call button
+        document.getElementById('endCallBtn').addEventListener('click', () => {
+            // Send end call message via WebSocket
+            if (window.opener && window.opener.websocketService) {
+                window.opener.websocketService.send('/app/video/end', {
+                    callerId: callerId,
+                    receiverId: receiverId,
+                    roomId: roomId
+                });
+            }
+            window.close();
+        });
+
+        // Handle toggle mic button
+        document.getElementById('toggleMicBtn').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('bi-mic-fill')) {
+                icon.classList.replace('bi-mic-fill', 'bi-mic-mute-fill');
+            } else {
+                icon.classList.replace('bi-mic-mute-fill', 'bi-mic-fill');
+            }
+        });
+
+        // Handle toggle video button
+        document.getElementById('toggleVideoBtn').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('bi-camera-video-fill')) {
+                icon.classList.replace('bi-camera-video-fill', 'bi-camera-video-off-fill');
+            } else {
+                icon.classList.replace('bi-camera-video-off-fill', 'bi-camera-video-fill');
+            }
+        });
+    </script>
+</body>
+</html> 

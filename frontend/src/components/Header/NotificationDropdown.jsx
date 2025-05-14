@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getAvatarUrl, handleImageError } from '../../utils/avatarUtils';
 import {
     getNotifications,
@@ -14,11 +15,13 @@ const NotificationDropdown = ({ onClose, onNotificationCountChange }) => {
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
     const user = useSelector((state) => state.auth.user);
+    const navigate = useNavigate();
 
     const fetchNotifications = async () => {
         try {
             const data = await getNotifications(user.id);
             setNotifications(data);
+            console.log('Thong bao la: ', data);
             // Cập nhật số lượng thông báo chưa đọc từ API
             const count = await getUnreadNotificationCount(user.id);
             setUnreadCount(count);
@@ -64,19 +67,47 @@ const NotificationDropdown = ({ onClose, onNotificationCountChange }) => {
     }, [user?.id, onNotificationCountChange]);
 
     const handleNotificationClick = async (notification) => {
+        console.log('Notification clicked:', notification); // Debug log
+
         if (!notification.isRead) {
             try {
                 await markNotificationAsRead(notification.id);
-                // Cập nhật trạng thái đã đọc trong state
                 setNotifications((prev) => prev.map((n) => (n.id === notification.id ? { ...n, isRead: true } : n)));
-                // Giảm số lượng thông báo chưa đọc
                 const newCount = unreadCount - 1;
                 setUnreadCount(newCount);
-                // Cập nhật số lượng ở Header
                 onNotificationCountChange?.(newCount);
             } catch (error) {
                 console.error('Error marking notification as read:', error);
             }
+        }
+
+        // Xử lý click dựa vào type
+        console.log('Notification type:', notification.type); // Debug log
+        switch (notification.type) {
+            case 'COMMENT':
+            case 'POST':
+            case 'SHARE':
+                // if (notification.postId) {
+                //     navigate(`/post/${notification.postId}`);
+                // }
+                break;
+            case 'FRIEND_REQUEST':
+                console.log('Handling FRIEND_REQUEST notification'); // Debug log
+                // Kiểm tra nếu đang ở trang friends với tab requests
+                if (
+                    window.location.pathname === '/friends' &&
+                    new URLSearchParams(window.location.search).get('tab') === 'requests'
+                ) {
+                    console.log('Refreshing current page'); // Debug log
+                    window.location.reload();
+                } else {
+                    console.log('Navigating to friends page'); // Debug log
+                    navigate('/friends?tab=requests', { replace: true });
+                }
+                break;
+            default:
+                console.log('Unknown notification type:', notification.type); // Debug log
+                break;
         }
     };
 

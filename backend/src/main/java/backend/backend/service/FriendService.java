@@ -194,8 +194,8 @@ public class FriendService {
                 request.getSender().getId(), // receiver
                 notificationContent,
                 null, // post
-                null // share
-        );
+                null, // share
+                Notification.NotificationType.FRIEND_REQUEST);
 
         // Tạo mối quan hệ bạn bè
         return createFriendship(request.getSender().getId(), request.getReceiver().getId());

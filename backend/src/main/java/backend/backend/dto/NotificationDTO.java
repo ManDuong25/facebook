@@ -1,5 +1,6 @@
 package backend.backend.dto;
 
+import backend.backend.model.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,5 @@ public class NotificationDTO {
     private Long shareId;
     private Boolean isRead;
     private LocalDateTime createdAt;
+    private Notification.NotificationType type;
 }

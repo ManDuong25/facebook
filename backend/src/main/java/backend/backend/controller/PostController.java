@@ -91,15 +91,15 @@ public class PostController {
         List<User> friends = friendService.getFriendsByUserId(userId);
 
         // Gửi thông báo đến tất cả bạn bè
-        String notificationContent = "vừa đăng một bài viết mới";
+        String notificationContent = user.getFirstName() + " " + user.getLastName() + " vừa đăng một bài viết mới";
         for (User friend : friends) {
             Notification notification = notificationService.createNotification(
                     userId, // sender
                     friend.getId(), // receiver
                     notificationContent,
                     created, // post
-                    null // share
-            );
+                    null, // share
+                    Notification.NotificationType.POST);
 
             // Gửi thông báo realtime qua WebSocket
             if (notification != null) {
