@@ -106,14 +106,30 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
                     // Subscribe to video call pickup notification
                     const videoPickupTopic = `/topic/video/pickup/${loggedInUserId}`;
                     websocketService.subscribe(videoPickupTopic, (response) => {
-                        console.log('Call pickup notification:', response);
-                        // Open video call window with response information
-                        openVideoCallWindow(
-                            response.callerId,
-                            response.receiverId,
-                            response.roomId,
-                            loggedInUserId === response.callerId,
+                        console.log(
+                            'Call pickup notification received:',
+                            response,
+                            'Current loggedInUserId:',
+                            loggedInUserId,
                         );
+
+                        const amIReceiver = loggedInUserId === response.receiverId;
+
+                        if (amIReceiver) {
+                            console.log('[Pickup] I am the receiver. Opening video call window.');
+                            openVideoCallWindow(
+                                response.callerId,
+                                response.receiverId, // This will be loggedInUserId
+                                response.roomId,
+                                false, // Receiver is not the initial caller
+                            );
+                        } else {
+                            console.log(
+                                '[Pickup] I am the caller. Window should already be open. No action needed here.',
+                            );
+                            // Optionally, could try to focus the window if a reference was kept,
+                            // but for now, doing nothing is safer to avoid reloads.
+                        }
                     });
                 });
             } catch (error) {
@@ -267,6 +283,14 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
         };
 
         websocketService.send('/app/video/call', callRequest);
+
+        // Mở video call window cho người gọi ngay lập tức
+        openVideoCallWindow(
+            loggedInUserId, // callerId
+            conversation.id, // receiverId
+            roomId, // roomId
+            true, // isCaller
+        );
     };
 
     const handleAcceptCall = () => {
@@ -280,8 +304,9 @@ const ChatWindow = ({ conversation, onClose, index = 0, isOldest = false }) => {
         websocketService.send('/app/video/response', response);
         setIncomingCall(null);
 
-        // Open video call window for receiver
-        openVideoCallWindow(incomingCall.callerId, loggedInUserId, incomingCall.roomId, false);
+        // DO NOT open video call window here anymore for the receiver.
+        // It will be opened by the 'videoPickupTopic' subscription.
+        // openVideoCallWindow(incomingCall.callerId, loggedInUserId, incomingCall.roomId, false);
     };
 
     const handleRejectCall = () => {

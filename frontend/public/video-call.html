@@ -6,6 +6,9 @@
     <title>Video Call</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use local ZEGOCLOUD SDK -->
+    <script src="./ZegoExpressWebRTC-3.9.0.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body class="bg-gray-900 text-white">
     <div class="container mx-auto p-4">
@@ -72,49 +75,392 @@
     </div>
 
     <script>
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const callerId = urlParams.get('callerId');
-        const receiverId = urlParams.get('receiverId');
-        const roomId = urlParams.get('roomId');
-        const isCaller = urlParams.get('isCaller') === 'true';
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const callerId = urlParams.get('callerId');
+            const receiverId = urlParams.get('receiverId');
+            const roomId = urlParams.get('roomId');
+            const isCaller = urlParams.get('isCaller') === 'true';
 
-        // Update UI with call information
-        document.getElementById('callerId').textContent = callerId;
-        document.getElementById('receiverId').textContent = receiverId;
-        document.getElementById('roomId').textContent = roomId;
+            document.getElementById('callerId').textContent = callerId;
+            document.getElementById('receiverId').textContent = receiverId;
+            document.getElementById('roomId').textContent = roomId;
+            console.log('Call info:', { callerId, receiverId, roomId, isCaller });
 
-        // Handle end call button
-        document.getElementById('endCallBtn').addEventListener('click', () => {
-            // Send end call message via WebSocket
-            if (window.opener && window.opener.websocketService) {
-                window.opener.websocketService.send('/app/video/end', {
-                    callerId: callerId,
-                    receiverId: receiverId,
-                    roomId: roomId
-                });
+            function generateToken(appID, serverSecret, userID) {
+                console.log('[Token] Generating for userID:', userID);
+                const expirationInSeconds = 3600;
+                const effectiveTime = Math.floor(Date.now() / 1000) + expirationInSeconds;
+                const payload = {
+                    app_id: parseInt(appID),
+                    user_id: userID,
+                    nonce: Math.floor(Math.random() * 1000000),
+                    ctime: Math.floor(Date.now() / 1000),
+                    expire: effectiveTime,
+                };
+                const header = { alg: 'HS256', typ: 'JWT' };
+                function base64UrlEncode(obj) {
+                    return btoa(JSON.stringify(obj)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                }
+                const encodedHeader = base64UrlEncode(header);
+                const encodedPayload = base64UrlEncode(payload);
+                const unsignedToken = `${encodedHeader}.${encodedPayload}`;
+                const signature = CryptoJS.HmacSHA256(unsignedToken, serverSecret).toString(CryptoJS.enc.Base64).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                const generatedToken = `${unsignedToken}.${signature}`;
+                console.log('[Token] Generated:', generatedToken);
+                return generatedToken;
             }
-            window.close();
-        });
 
-        // Handle toggle mic button
-        document.getElementById('toggleMicBtn').addEventListener('click', function() {
-            const icon = this.querySelector('i');
-            if (icon.classList.contains('bi-mic-fill')) {
-                icon.classList.replace('bi-mic-fill', 'bi-mic-mute-fill');
-            } else {
-                icon.classList.replace('bi-mic-mute-fill', 'bi-mic-fill');
-            }
-        });
+            let localStream;
+            let zg;
+            let micEnabled = true;
+            let videoEnabled = true;
+            const userID = isCaller ? callerId.toString() : receiverId.toString();
 
-        // Handle toggle video button
-        document.getElementById('toggleVideoBtn').addEventListener('click', function() {
-            const icon = this.querySelector('i');
-            if (icon.classList.contains('bi-camera-video-fill')) {
-                icon.classList.replace('bi-camera-video-fill', 'bi-camera-video-off-fill');
-            } else {
-                icon.classList.replace('bi-camera-video-off-fill', 'bi-camera-video-fill');
+            // Function to generate token (CURRENTLY LIKELY INCORRECT for ZEGOCLOUD v3.x token04)
+            function generateClientSideToken_OLD(appID, serverSecret, localUserID) {
+                console.warn('[Token] Using OLD client-side token generation. This is likely incompatible with ZEGOCLOUD SDK v3.x and token04. For testing, use a console-generated token.');
+                const expirationInSeconds = 3600;
+                const effectiveTime = Math.floor(Date.now() / 1000) + expirationInSeconds;
+                const payloadContent = { // This structure is not token04
+                    app_id: parseInt(appID),
+                    user_id: localUserID,
+                    nonce: Math.floor(Math.random() * 10000000),
+                    ctime: Math.floor(Date.now() / 1000),
+                    expire: effectiveTime,
+                };
+                const header = { alg: 'HS256', typ: 'JWT' };
+                function base64UrlEncode(obj) {
+                    return btoa(JSON.stringify(obj)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                }
+                const encodedHeader = base64UrlEncode(header);
+                const encodedPayload = base64UrlEncode(payloadContent);
+                const unsignedToken = `${encodedHeader}.${encodedPayload}`;
+                const signature = CryptoJS.HmacSHA256(unsignedToken, serverSecret).toString(CryptoJS.enc.Base64).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                const generatedToken = `${unsignedToken}.${signature}`;
+                console.log('[Token-OLD] Generated (likely incorrect format):', generatedToken);
+                return generatedToken;
             }
+
+            async function initializeZegoCloud() {
+                console.log('[ZEGO] Initializing ZEGOCLOUD...');
+                document.getElementById('callStatus').textContent = 'Đang khởi tạo SDK...';
+                const appID = 939055121;
+                const serverURL = 'wss://webliveroom939055121-api.coolzcloud.com/ws'; 
+                const serverSecret = '4a32955f804af655a8d68000f86af88c'; // Needed if generating token client-side
+                const userName = userID;
+                let token;
+
+                // ====================================================================================
+                // TEMPORARY TOKENS FOR TESTING USER 2 and USER 3:
+                // 1. Generate a token for UserID '2' from your ZEGOCLOUD Admin Console for room 'room_2_3'.
+                // 2. Paste it into tempTokenForUser2.
+                // 3. Generate a token for UserID '3' from your ZEGOCLOUD Admin Console for room 'room_2_3'.
+                // 4. Paste it into tempTokenForUser3.
+                //
+                // If these work, the issue is with client-side token generation.
+                // You should then implement token generation on your backend.
+                // ====================================================================================
+                const tempTokenForUser2 = "04AAAAAGgmFzYADGusFV3mV4JRmdvuFACrLWqxxoHB+oyDDXBsWV+J9m16hJOltdkEIMSdenmupH7SAOPfrdgwEAGbGb3uUXtx0zKysMwXQzqzRkP2vobFEUxrGb9T5Fye6Plk/5a1Fp21rufkPWocG9sB0Br4UI9l9PPaNCBuYA0GMMBUplal5FIk6VdOHgF2CVb30Ev1BsEnFyR75UNnJhqt5rY0718nbX7yvmjwr+se15ZdooojRq/8fplkkso2NuFnAQ=="; // <--- PASTE TOKEN FOR USERID 2 HERE
+                const tempTokenForUser3 = "04AAAAAGgmGAIADOjNOGhljKU/5IDPbQCqDjb4YvuwFUGSVhazngS8UiirTTaXwQvFcRGRaBwk7VCwEeG72Z7sP+LpYc2amjdqhddO1YcEM16vDbCnL4exq/Di47eBFc+2Lr+GL96JzuSxVhOEF/kqbd+mjp/+9Vd+78SK4Nb0DS5W9ESxAPj+RQUP9OHi/GgZZydAKuZ2iurNm46OVrNQlYy0WZMr/hP4TGsqeNGxrToNEFvMhSkbTvcJhZFSkvhzGa4B"; // <--- PASTE TOKEN FOR USERID 3 HERE
+
+                if (userID === '2' && tempTokenForUser2) {
+                    console.log("[ZEGO] Using temporary token for User 2:", tempTokenForUser2);
+                    token = tempTokenForUser2;
+                } else if (userID === '3' && tempTokenForUser3) {
+                    console.log("[ZEGO] Using temporary token for User 3:", tempTokenForUser3);
+                    token = tempTokenForUser3;
+                } else {
+                    console.warn(`[ZEGO] No specific temporary token found for userID '${userID}' or token is empty. Please provide tokens for User 2 and User 3.`);
+                    let specificErrorMsg = 'LỖI TOKEN: ';
+                    if (userID === '2') {
+                        specificErrorMsg += 'Vui lòng cung cấp token cho UserID 2 vào biến tempTokenForUser2.';
+                    } else if (userID === '3') {
+                        specificErrorMsg += 'Vui lòng cung cấp token cho UserID 3 vào biến tempTokenForUser3.';
+                    } else {
+                        specificErrorMsg += 'UserID không xác định (' + userID + ') hoặc không có token phù hợp. Hãy kiểm tra URL và cung cấp token trong code.';
+                    }
+                    
+                    document.getElementById('callStatus').textContent = specificErrorMsg;
+                    document.getElementById('callStatus').classList.replace('text-green-500', 'text-red-500');
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.style.color = 'red';
+                    errorDiv.style.padding = '10px';
+                    errorDiv.style.backgroundColor = '#330000';
+                    errorDiv.style.border = '1px solid red';
+                    errorDiv.style.textAlign = 'center';
+                    errorDiv.style.marginTop = '20px';
+                    errorDiv.textContent = specificErrorMsg + ' Bạn cần tạo token từ ZEGOCLOUD Console hoặc triển khai tạo token ở backend.';
+                    document.querySelector('.max-w-4xl').appendChild(errorDiv);
+                    return;
+                }
+
+                console.log('[ZEGO] AppID:', appID, 'UserID:', userID, 'RoomID:', roomId, 'Token being used:', token);
+
+                try {
+                    zg = new window.ZegoExpressEngine(appID, serverURL);
+                    console.log('[ZEGO] ZegoExpressEngine instance created (zg object):', zg);
+                    document.getElementById('callStatus').textContent = 'Đang kiểm tra hệ thống...';
+
+                    // Register roomStreamUpdate listener EARLIER - right after engine creation and system check
+                    // This is to catch any streams that might already be in the room when we join,
+                    // or if the ADD event comes very quickly after login.
+                    console.log('[ZEGO] Setting up roomStreamUpdate listener (early setup)...');
+                    zg.on('roomStreamUpdate', async (roomID, updateType, streamList, extendedData) => {
+                        console.log('[ZEGO] roomStreamUpdate event received. RoomID:', roomID, 'UpdateType:', updateType, 'StreamList:', JSON.stringify(streamList), 'ExtendedData:', JSON.stringify(extendedData));
+                        
+                        if (updateType === 'ADD') {
+                            document.getElementById('callStatus').textContent = 'Đang nhận remote stream...';
+                            for (const stream of streamList) {
+                                const streamID = stream.streamID;
+                                if (streamID === userID + '_stream') {
+                                    console.log('[ZEGO] roomStreamUpdate: ADD event for my own stream, skipping play.', streamID);
+                                    continue;
+                                }
+                                console.log('[ZEGO] roomStreamUpdate: ADD event for remote stream. Playing remote stream:', streamID, 'Full stream object:', JSON.stringify(stream));
+                                try {
+                                    const remoteStream = await zg.startPlayingStream(streamID);
+                                    console.log('[ZEGO] Remote stream object after startPlayingStream:', remoteStream, 'for streamID:', streamID);
+                                    
+                                    const remoteVideoContainer = document.getElementById('remoteVideo');
+                                    remoteVideoContainer.innerHTML = ''; 
+                                    
+                                    const remoteVideoElement = document.createElement('video');
+                                    remoteVideoElement.autoplay = true;
+                                    remoteVideoElement.srcObject = remoteStream;
+                                    remoteVideoElement.playsInline = true;
+                                    remoteVideoElement.id = 'remote_video_' + streamID;
+                                    remoteVideoContainer.appendChild(remoteVideoElement);
+                                    
+                                    console.log('[ZEGO] Remote video element appended for stream:', streamID);
+                                    document.getElementById('callStatus').textContent = 'Đã kết nối';
+                                    document.getElementById('callStatus').classList.remove('text-green-500', 'text-red-500', 'text-blue-500'); // Clear all colors
+                                    document.getElementById('callStatus').classList.add('text-green-500'); // Green for fully connected
+                                } catch (playError) {
+                                    console.error('[ZEGO] Error playing remote stream:', streamID, playError);
+                                    document.getElementById('callStatus').textContent = 'Lỗi khi phát stream từ xa';
+                                    document.getElementById('callStatus').classList.remove('text-green-500', 'text-blue-500');
+                                    document.getElementById('callStatus').classList.add('text-red-500');
+                                }
+                            }
+                        } else if (updateType === 'DELETE') {
+                            for (const stream of streamList) {
+                                const streamID = stream.streamID;
+                                console.log('[ZEGO] roomStreamUpdate: DELETE event for remote stream:', streamID, 'Full stream object:', JSON.stringify(stream));
+                                const videoElementToRemove = document.getElementById('remote_video_' + streamID);
+                                if (videoElementToRemove) {
+                                    videoElementToRemove.remove();
+                                    console.log('[ZEGO] Removed remote video element for stream:', streamID);
+                                } else {
+                                    document.getElementById('remoteVideo').innerHTML = '<div class="flex items-center justify-center h-full"><i class="bi bi-camera-video-off text-4xl text-gray-500"></i><p>Remote stream ended</p></div>';
+                                }
+                            }
+                            if (document.getElementById('remoteVideo').childElementCount === 0) {
+                                document.getElementById('remoteVideo').innerHTML = '<div class="flex items-center justify-center h-full"><i class="bi bi-camera-video-off text-4xl text-gray-500"></i></div>';
+                                document.getElementById('callStatus').textContent = 'Người kia đã rời đi hoặc dừng stream';
+                                document.getElementById('callStatus').classList.remove('text-green-500', 'text-red-500');
+                                document.getElementById('callStatus').classList.add('text-blue-500'); 
+                            }
+                        }
+                    });
+
+                    const systemCheckResult = await zg.checkSystemRequirements();
+                    console.log('[ZEGO] System check result:', systemCheckResult);
+                    if (!systemCheckResult.webRTC) {
+                        console.error('[ZEGO] Browser does not support WebRTC.');
+                        document.getElementById('callStatus').textContent = 'Lỗi: Trình duyệt không hỗ trợ WebRTC.';
+                        document.getElementById('callStatus').classList.replace('text-green-500', 'text-red-500');
+                        return;
+                    }
+                    console.log('[ZEGO] System check passed.');
+
+                    document.getElementById('callStatus').textContent = 'Đang yêu cầu stream...';
+                    console.log('[ZEGO] Requesting local stream...');
+                    localStream = await zg.createStream({
+                        camera: { video: true, audio: true }
+                    });
+                    console.log('[ZEGO] Local stream created:', localStream);
+                    document.getElementById('callStatus').textContent = 'Đang hiển thị local video...';
+                    const localVideo = document.getElementById('localVideo');
+                    localVideo.innerHTML = '';
+                    const localVideoElement = document.createElement('video');
+                    localVideoElement.autoplay = true;
+                    localVideoElement.muted = true;
+                    localVideoElement.srcObject = localStream;
+                    localVideoElement.playsInline = true;
+                    localVideo.appendChild(localVideoElement);
+                    console.log('[ZEGO] Local video element appended.');
+                    document.getElementById('callStatus').textContent = 'Đang đăng nhập room...';
+                    console.log('[ZEGO] Logging into room...', { roomId, token, userID, userName });
+                    const loginResult = await zg.loginRoom(roomId, token, { userID, userName });
+                    console.log('[ZEGO] Logged into room result:', loginResult);
+                    
+                    // Handle different possible shapes of loginResult
+                    // Successful login might return true or an object with errorCode 0
+                    let loginSuccess = false;
+                    if (typeof loginResult === 'boolean' && loginResult === true) {
+                        loginSuccess = true;
+                    } else if (typeof loginResult === 'object' && loginResult !== null && loginResult.errorCode === 0) {
+                        loginSuccess = true;
+                    }
+
+                    if (!loginSuccess) {
+                        const errorCode = (typeof loginResult === 'object' && loginResult !== null) ? loginResult.errorCode : 'N/A';
+                        console.error('[ZEGO] Login room failed. Result:', loginResult, 'Error Code:', errorCode);
+                        throw new Error(`Login room failed with code: ${errorCode}. Full result: ${JSON.stringify(loginResult)}`);
+                    }
+
+                    console.log('[ZEGO] Successfully logged into room.');
+                    // Log current streams in room right after login, if SDK provides such a method (illustrative)
+                    // if (typeof zg.getRoomStreams === 'function') { // This is a hypothetical function
+                    //     const currentStreams = zg.getRoomStreams(roomId);
+                    //     console.log('[ZEGO] Streams in room immediately after login (hypothetical):', currentStreams);
+                    // }
+
+                    document.getElementById('callStatus').textContent = 'Đang publish stream của bạn...';
+                    console.log('[ZEGO] Publishing my stream:', userID + '_stream');
+                    const publishResult = await zg.startPublishingStream(userID + '_stream', localStream);
+                    console.log('[ZEGO] My stream publish result:', publishResult);
+                    
+                    let publishSuccess = false;
+                    if (typeof publishResult === 'boolean' && publishResult === true) {
+                        publishSuccess = true;
+                    } else if (typeof publishResult === 'object' && publishResult !== null && publishResult.errorCode === 0) {
+                        publishSuccess = true;
+                    } else if (publishResult === undefined || publishResult === null) {
+                        console.warn('[ZEGO] My publishResult is undefined/null, assuming success based on no error thrown by SDK.');
+                        publishSuccess = true; 
+                    }
+
+                    if (!publishSuccess) {
+                        const errorCode = (typeof publishResult === 'object' && publishResult !== null) ? publishResult.errorCode : 'N/A';
+                        console.error('[ZEGO] My stream publish failed. Result:', publishResult, 'Error Code:', errorCode);
+                        throw new Error(`My stream publish failed with code: ${errorCode}. Full result: ${JSON.stringify(publishResult)}`);
+                    }
+                    console.log('[ZEGO] Successfully published my stream.');
+                    
+                    setTimeout(() => {
+                        const remoteVideoElement = document.getElementById('remoteVideo').querySelector('video');
+                        if (remoteVideoElement && remoteVideoElement.srcObject && remoteVideoElement.srcObject.active) {
+                            if(document.getElementById('callStatus').textContent !== 'Đã kết nối') {
+                                document.getElementById('callStatus').textContent = 'Đã kết nối';
+                                document.getElementById('callStatus').classList.remove('text-green-500', 'text-red-500', 'text-blue-500');
+                                document.getElementById('callStatus').classList.add('text-green-500');
+                            }
+                        } else if (document.getElementById('callStatus').textContent !== 'Lỗi: Trình duyệt không hỗ trợ WebRTC.' && 
+                                   !document.getElementById('callStatus').textContent.startsWith('Lỗi') && 
+                                   !document.getElementById('callStatus').textContent.startsWith('LỖI TOKEN') &&
+                                   document.getElementById('callStatus').textContent !== 'Đã kết nối') {
+                            document.getElementById('callStatus').textContent = 'Đã kết nối, chờ người kia...';
+                            document.getElementById('callStatus').classList.remove('text-red-500', 'text-green-500');
+                            document.getElementById('callStatus').classList.add('text-blue-500');
+                        }
+                    }, 1000); // Keep your 1000ms delay
+
+                } catch (error) {
+                    console.error('[ZEGO] Error during ZEGOCLOUD operation:', error);
+                    document.getElementById('callStatus').textContent = 'Lỗi: ' + error.message;
+                    document.getElementById('callStatus').classList.replace('text-green-500', 'text-red-500');
+                }
+            }
+
+            function attemptZegoInit(retries = 5, delay = 500) {
+                console.log('[ZEGO] Attempting to initialize, checking for ZegoExpressEngine. Retries left:', retries);
+                if (typeof window.ZegoExpressEngine === 'function') {
+                    console.log('[ZEGO] ZegoExpressEngine is ready.');
+                    initializeZegoCloud();
+                } else if (retries > 0) {
+                    console.warn('[ZEGO] ZegoExpressEngine not ready yet, retrying in', delay, 'ms');
+                    setTimeout(() => attemptZegoInit(retries - 1, delay), delay);
+                } else {
+                    console.error('[ZEGO] ZegoExpressEngine failed to load after multiple retries.');
+                    document.getElementById('callStatus').textContent = 'Lỗi tải SDK ZEGOCLOUD';
+                    document.getElementById('callStatus').classList.replace('text-green-500', 'text-red-500');
+                }
+            }
+            attemptZegoInit();
+
+            document.getElementById('endCallBtn').addEventListener('click', () => {
+                console.log('[ZEGO] End call clicked.');
+                if (window.opener && window.opener.websocketService) {
+                    window.opener.websocketService.send('/app/video/end', {
+                        callerId: callerId,
+                        receiverId: receiverId,
+                        roomId: roomId
+                    });
+                }
+                if (localStream) {
+                    try {
+                        if (zg) zg.stopPublishingStream(userID + '_stream');
+                        if (zg) zg.destroyStream(localStream);
+                    } catch (e) { console.error('[ZEGO] Error stopping/destroying local stream:', e); }
+                    localStream = null;
+                }
+                if (zg) {
+                    try {
+                        zg.logoutRoom(roomId);
+                    } catch (e) { console.error('[ZEGO] Error logging out from room:', e); }
+                    try {
+                        zg.destroyEngine();
+                        console.log('[ZEGO] Engine destroyed.');
+                    } catch (e) { console.error('[ZEGO] Error destroying engine:', e); }
+                    zg = null;
+                }
+                window.close();
+            });
+
+            document.getElementById('toggleMicBtn').addEventListener('click', function() {
+                if (!localStream || !zg) {
+                    console.warn('[ZEGO] Toggle Mic: localStream or zg not available.');
+                    return;
+                }
+                const icon = this.querySelector('i');
+                micEnabled = !micEnabled; // Toggle the state first
+
+                try {
+                    // Use engine method to mute/unmute the published audio stream
+                    // The 'mute' parameter is true to mute, false to unmute.
+                    // So, if micEnabled is now true (want mic ON), then !micEnabled is false (unmute).
+                    // If micEnabled is now false (want mic OFF), then !micEnabled is true (mute).
+                    console.log(`[ZEGO] Attempting to set mic mute state to: ${!micEnabled} for stream ${userID + '_stream'}`);
+                    zg.mutePublishStreamAudio(userID + '_stream', !micEnabled); 
+                    
+                    icon.classList.toggle('bi-mic-fill', micEnabled);
+                    icon.classList.toggle('bi-mic-mute-fill', !micEnabled);
+                    this.childNodes[1].textContent = micEnabled ? ' Tắt mic' : ' Bật mic';
+                    console.log('[ZEGO] Mic toggled via engine. New micEnabled state:', micEnabled);
+                } catch (error) {
+                    console.error('[ZEGO] Error toggling mic via engine:', error);
+                    // Revert state if SDK call fails
+                    micEnabled = !micEnabled;
+                }
+            });
+
+            document.getElementById('toggleVideoBtn').addEventListener('click', function() {
+                if (!localStream || !zg) {
+                    console.warn('[ZEGO] Toggle Video: localStream or zg not available.');
+                    return;
+                }
+                const icon = this.querySelector('i');
+                videoEnabled = !videoEnabled; // Toggle the state first
+
+                try {
+                    // Use engine method to mute/unmute the published video stream
+                    // The 'mute' parameter is true to mute, false to unmute.
+                    console.log(`[ZEGO] Attempting to set video mute state to: ${!videoEnabled} for stream ${userID + '_stream'}`);
+                    zg.mutePublishStreamVideo(userID + '_stream', !videoEnabled);
+
+                    icon.classList.toggle('bi-camera-video-fill', videoEnabled);
+                    icon.classList.toggle('bi-camera-video-off-fill', !videoEnabled);
+                    this.childNodes[1].textContent = videoEnabled ? ' Tắt camera' : ' Bật camera';
+                    console.log('[ZEGO] Video toggled via engine. New videoEnabled state:', videoEnabled);
+                } catch (error) {
+                    console.error('[ZEGO] Error toggling video via engine:', error);
+                    // Revert state if SDK call fails
+                    videoEnabled = !videoEnabled;
+                }
+            });
         });
     </script>
 </body>

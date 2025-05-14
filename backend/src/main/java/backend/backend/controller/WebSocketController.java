@@ -94,16 +94,22 @@ public class WebSocketController {
     // Handle video call response
     @MessageMapping("/video/response")
     public void handleVideoCallResponse(VideoCallResponse response) {
-        // Send response back to the caller
+        // Send response back to the caller about acceptance/rejection
         messagingTemplate.convertAndSend(
                 "/topic/video/response/" + response.getCallerId(),
                 response);
 
-        // If call is accepted, notify the caller that receiver has picked up
+        // If call is accepted, notify BOTH parties that the call is officially starting
         if (response.isAccepted()) {
+            // Notify the caller
             messagingTemplate.convertAndSend(
                     "/topic/video/pickup/" + response.getCallerId(),
-                    response);
+                    response); // response contains callerId, receiverId, roomId
+
+            // Notify the receiver
+            messagingTemplate.convertAndSend(
+                    "/topic/video/pickup/" + response.getReceiverId(),
+                    response); // response contains callerId, receiverId, roomId
         }
     }
 
