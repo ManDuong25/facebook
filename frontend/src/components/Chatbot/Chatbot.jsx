@@ -88,9 +88,19 @@ const Chatbot = () => {
     } catch (error) {
       console.error('Error sending message:', error);
 
+      let errorMessage = 'Xin lỗi, đã xảy ra lỗi. Vui lòng thử lại sau.';
+
+      // Xử lý lỗi SOURCE_LANG_VI
+      if (error && error.error === 'SOURCE_LANG_VI') {
+        errorMessage = 'Xin lỗi, hiện tại hệ thống đang gặp vấn đề khi xử lý tiếng Việt. Vui lòng thử lại sau.';
+      } else if (typeof error === 'string') {
+        // Nếu error là string (có thể là message từ chatbotService)
+        errorMessage = error;
+      }
+
       // Thêm tin nhắn lỗi
       dispatch(addMessage({
-        text: 'Xin lỗi, đã xảy ra lỗi. Vui lòng thử lại sau.',
+        text: errorMessage,
         sender: 'bot',
       }));
     } finally {

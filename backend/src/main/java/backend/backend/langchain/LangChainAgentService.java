@@ -60,56 +60,51 @@ public class LangChainAgentService {
 
     public String processQuery(Long userId, String query) {
         try {
-            // Kiểm tra người dùng tồn tại
             if (!userRepository.existsById(userId)) {
                 throw new RuntimeException("User not found with id: " + userId);
             }
-
-            // Lưu userId vào ThreadLocal để các công cụ có thể truy cập
             currentUserId.set(userId);
             this.originalQuery = query;
 
             try {
-                // Tạo danh sách function declarations
                 List<Map<String, Object>> functionDeclarations = createFunctionDeclarations();
 
-                // Gọi Gemini API với function calling
                 Map<String, Object> response = geminiChatModel.generateWithFunctions(query, functionDeclarations);
-
-                // Kiểm tra xem có function call không
                 if (response.containsKey("hasFunctionCall") && (boolean) response.get("hasFunctionCall")) {
-                    // Lấy thông tin function call
                     String functionName = (String) response.get("functionName");
                     Map<String, Object> args = (Map<String, Object>) response.get("args");
 
                     // Thực thi function
                     Object functionResult = executeFunctionByName(functionName, args);
+                    if (functionResult instanceof Map) {
+                        Map<?, ?> resultMap = (Map<?, ?>) functionResult;
+                        if (resultMap.containsKey("result")) {
+                            Object result = resultMap.get("result");
+                            return result != null ? result.toString() : "Không có kết quả";
+                        }
+                    }
 
-                    // Gửi kết quả function trở lại Gemini để tạo phản hồi cuối cùng
-                    String finalResponse = geminiChatModel.generateWithFunctionResponse(
-                        query, functionName, args, functionResult);
-
-                    return finalResponse;
+                    return functionResult.toString();
                 } else {
-                    // Không có function call, trả về text trực tiếp
-                    System.out.println("DEBUG: Không có function call, response: " + response);
+                    // Nếu không có function call hoặc có lỗi, ưu tiên sử dụng RAG
                     if (response.containsKey("error") && (boolean) response.get("error")) {
-                        // Có lỗi, sử dụng searchWithRAG như phương án dự phòng
-                        System.out.println("DEBUG: Có lỗi, sử dụng searchWithRAG");
                         return searchWithRAG(userId, query);
                     } else {
                         String text = (String) response.get("text");
-                        System.out.println("DEBUG: Text từ Gemini: [" + text + "]");
-                        // Kiểm tra nếu text rỗng hoặc null, gọi answerGeneralQuestion trực tiếp
+
+                        // Kiểm tra nếu câu hỏi có thể liên quan đến thông tin cá nhân
+                        if (isLikelyPersonalQuestion(query)) {
+                            return searchWithRAG(userId, query);
+                        }
+
                         if (text == null || text.trim().isEmpty()) {
-                            System.out.println("DEBUG: Text rỗng, gọi answerGeneralQuestion");
                             return answerGeneralQuestion(query);
                         }
+
                         return text;
                     }
                 }
             } catch (Exception e) {
-                // Nếu có lỗi, sử dụng searchWithRAG như phương án dự phòng
                 try {
                     return searchWithRAG(userId, query);
                 } catch (Exception ex) {
@@ -134,7 +129,7 @@ public class LangChainAgentService {
         // Thêm searchWithRAG function
         Map<String, Object> searchWithRAGFunction = new HashMap<>();
         searchWithRAGFunction.put("name", "searchWithRAG");
-        searchWithRAGFunction.put("description", "Search for information using RAG when the question is directly related to specific user data");
+        searchWithRAGFunction.put("description", "ALWAYS use this tool for ANY questions about the current user's personal information. This includes: username, email, full name (first name, last name), join date, work, education, current city, hometown, bio, post count, friend count, comment count, recent posts, friend list, or ANY other user-specific data. Examples: 'What is my name?', 'How many friends do I have?', 'What are my recent posts?', 'Who are my friends?', 'What is in my profile?', 'What is my email?', 'Where do I work?', 'Where am I from?', 'How many posts do I have?', 'How many comments have I made?', etc. IMPORTANT: If the question contains words like 'tôi', 'tao', 'mình', 'tui', 'của tôi', 'của tao', 'của mình', 'của tui', it's ALWAYS about the user and should use this tool.");
 
         Map<String, Object> searchWithRAGParameters = new HashMap<>();
         searchWithRAGParameters.put("type", "object");
@@ -142,7 +137,7 @@ public class LangChainAgentService {
         Map<String, Object> searchWithRAGProperties = new HashMap<>();
         Map<String, Object> queryProperty = new HashMap<>();
         queryProperty.put("type", "string");
-        queryProperty.put("description", "The query to search for information");
+        queryProperty.put("description", "The query to search for information about the user");
         searchWithRAGProperties.put("query", queryProperty);
 
         searchWithRAGParameters.put("properties", searchWithRAGProperties);
@@ -157,7 +152,7 @@ public class LangChainAgentService {
         // Thêm answerGeneralQuestion function
         Map<String, Object> answerGeneralQuestionFunction = new HashMap<>();
         answerGeneralQuestionFunction.put("name", "answerGeneralQuestion");
-        answerGeneralQuestionFunction.put("description", "Answer general questions not related to user data, including subjective questions and general knowledge");
+        answerGeneralQuestionFunction.put("description", "Use this tool ONLY for general knowledge questions that have NOTHING to do with the current user's personal information. Examples: 'What is the capital of France?', 'How does photosynthesis work?', 'Who invented the telephone?', 'What is the weather like today?', 'Tell me about history of Vietnam', etc. NEVER use this tool for ANY questions containing words like 'tôi', 'tao', 'mình', 'tui' or ANY questions about user profile, friends, posts, or personal data. If there is ANY doubt whether a question is about the user or general knowledge, DO NOT use this tool - use searchWithRAG instead.");
 
         Map<String, Object> answerGeneralQuestionParameters = new HashMap<>();
         answerGeneralQuestionParameters.put("type", "object");
@@ -165,7 +160,7 @@ public class LangChainAgentService {
         Map<String, Object> answerGeneralQuestionProperties = new HashMap<>();
         Map<String, Object> questionProperty = new HashMap<>();
         questionProperty.put("type", "string");
-        questionProperty.put("description", "The general question to answer");
+        questionProperty.put("description", "The general knowledge question to answer");
         answerGeneralQuestionProperties.put("question", questionProperty);
 
         answerGeneralQuestionParameters.put("properties", answerGeneralQuestionProperties);
@@ -326,8 +321,6 @@ public class LangChainAgentService {
     @Tool("Answer general questions not related to user data")
     public String answerGeneralQuestion(String question) {
         try {
-            System.out.println("DEBUG: answerGeneralQuestion được gọi với câu hỏi: " + question);
-
             // Tạo prompt để hướng dẫn mô hình trả lời câu hỏi chung - đơn giản hóa để giảm số token
             String prompt = "Hãy trả lời câu hỏi sau một cách thân thiện, hữu ích và đầy đủ:\n\n" +
                     "Câu hỏi: " + question + "\n\n" +
@@ -338,25 +331,88 @@ public class LangChainAgentService {
                     "- QUAN TRỌNG: KHÔNG sử dụng markdown hoặc định dạng đặc biệt nào. Viết văn bản thuần túy.\n" +
                     "- KHÔNG sử dụng dấu sao (*) hoặc dấu gạch dưới (_) để nhấn mạnh hoặc định dạng văn bản.";
 
-            System.out.println("DEBUG: Prompt gửi đến Gemini: " + prompt);
-
             // Gọi Gemini API để lấy câu trả lời
             String response = geminiChatModel.generate(prompt);
 
-            System.out.println("DEBUG: Phản hồi từ Gemini: [" + response + "]");
-
-
-            System.out.println("DEBUG: Phản hồi sau khi xử lý: [" + response + "]");
-
-            // Trả về câu trả lời đã xử lý
+            // Trả về câu trả lời
             return response;
         } catch (Exception e) {
-            System.out.println("DEBUG: Lỗi trong answerGeneralQuestion: " + e.getMessage());
             e.printStackTrace();
             // Trả về câu trả lời mặc định nếu có lỗi
             return "Tôi có thể trả lời câu hỏi chung này dựa trên kiến thức của mình. Tôi là trợ lý AI của ứng dụng Facebook Clone, tôi có thể giúp bạn với các câu hỏi về ứng dụng hoặc các chủ đề chung.";
         }
     }
 
+    /**
+     * Kiểm tra xem câu hỏi có khả năng liên quan đến thông tin cá nhân không
+     * @param query Câu hỏi cần kiểm tra
+     * @return true nếu câu hỏi có vẻ liên quan đến thông tin cá nhân
+     */
+    private boolean isLikelyPersonalQuestion(String query) {
+        if (query == null) return false;
 
+        String lowerQuery = query.toLowerCase();
+
+        // Các từ khóa đại từ nhân xưng - nếu có các từ này, gần như chắc chắn là câu hỏi cá nhân
+        String[] personalPronouns = {
+            "tôi", "tao", "mình", "tui", "của tôi", "của tao", "của mình", "của tui",
+            "tớ", "của tớ", "bản thân", "của bản thân", "cá nhân tôi", "cá nhân mình"
+        };
+
+        // Kiểm tra đại từ nhân xưng trước
+        for (String pronoun : personalPronouns) {
+            if (lowerQuery.contains(pronoun)) {
+                return true;
+            }
+        }
+
+        // Các từ khóa liên quan đến thông tin cá nhân từ LangChainService
+        String[] personalInfoKeywords = {
+            // Thông tin cơ bản
+            "tên", "username", "họ tên", "first name", "last name", "email", "mail",
+            "ngày tham gia", "join date", "ngày đăng ký", "register date",
+
+            // Thông tin profile
+            "profile", "hồ sơ", "tiểu sử", "bio", "công việc", "work", "job", "nghề nghiệp",
+            "học vấn", "education", "trường học", "school", "đại học", "university", "college",
+            "thành phố", "city", "sống ở đâu", "đang ở", "quê quán", "hometown", "quê", "sinh ra",
+
+            // Thống kê
+            "bài viết", "post", "số bài viết", "post count", "đăng bao nhiêu",
+            "bạn bè", "friend", "số bạn bè", "friend count", "bao nhiêu bạn", "kết bạn",
+            "bình luận", "comment", "số bình luận", "comment count", "bao nhiêu bình luận",
+
+            // Danh sách
+            "danh sách", "list", "gần đây", "recent", "bài gần đây", "recent post",
+            "ai là bạn", "bạn của", "friend of", "kết bạn với", "connected with",
+
+            // Từ khóa khác
+            "thông tin", "information", "cá nhân", "personal", "user", "người dùng",
+            "account", "tài khoản", "profile", "hồ sơ", "id", "số điện thoại", "phone",
+            "địa chỉ", "address", "ngày sinh", "birthday", "sinh nhật"
+        };
+
+        // Kiểm tra từ khóa thông tin cá nhân
+        for (String keyword : personalInfoKeywords) {
+            if (lowerQuery.contains(keyword)) {
+                return true;
+            }
+        }
+
+        // Các mẫu câu hỏi cá nhân phổ biến
+        String[] personalQuestionPatterns = {
+            "là ai", "là gì", "bao nhiêu", "mấy", "ở đâu", "khi nào",
+            "có những", "có mấy", "có bao nhiêu", "làm gì"
+        };
+
+        // Kiểm tra mẫu câu hỏi
+        for (String pattern : personalQuestionPatterns) {
+            if (lowerQuery.contains(pattern)) {
+                // Nếu có mẫu câu hỏi nhưng không rõ ràng, ưu tiên coi là câu hỏi cá nhân
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
